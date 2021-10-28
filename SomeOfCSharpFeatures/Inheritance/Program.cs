@@ -16,9 +16,8 @@ namespace Inheritance
       Console.WriteLine("car model = " + car.Model);
       Console.WriteLine("car horse power = " + car.HorsePower);
       Console.WriteLine("car number of doors = " + car.Doors);
-      if (car is ElectricCar)
-      {
-        var electric = (ElectricCar)car;
+      if (car is ElectricCar electric)
+      {        
         Console.WriteLine("car battery = " + electric.BatteryCapacity);        
         if (electric.Range.HasValue)
         {
