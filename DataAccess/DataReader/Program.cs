@@ -35,7 +35,7 @@ namespace DataReader
               while (reader.Read())
               {
                 object productCode = reader["SifArtikla"];
-                object productName = reader.GetString("NazArtikla");
+                string productName = reader.GetString("NazArtikla");
                 decimal price = reader.GetDecimal("CijArtikla");
                 Console.WriteLine($"{productCode} - {productName} {price:C2}");
               }
