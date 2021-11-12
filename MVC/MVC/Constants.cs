@@ -2,14 +2,8 @@
 {
   public static class Constants
   {
-    public static string Message
-    {
-      get { return "Message"; }
-    }
+    public static string Message => "Message";
 
-    public static string ErrorOccurred
-    {
-      get { return "ErrorOccurred"; }
-    }
+    public static string ErrorOccurred => "ErrorOccurred";
   }
 }
