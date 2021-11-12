@@ -147,7 +147,7 @@ namespace MVC.Controllers
       {
         drzave.Insert(0, hr);
       }      
-      ViewBag.Drzave = new SelectList(drzave, nameof(Drzava.OznDrzave), nameof(Drzava.NazDrzave));
+      ViewBag.Drzave = new SelectList(drzave, nameof(hr.OznDrzave), nameof(hr.NazDrzave));
     }
 
     [HttpGet]
