@@ -12,6 +12,9 @@ using System.Threading.Tasks;
 using Microsoft.Extensions.Logging;
 using MVC.Extensions.Selectors;
 using MVC.Util;
+using Microsoft.Net.Http.Headers;
+using Microsoft.Extensions.Primitives;
+using System.Net;
 
 namespace MVC.Controllers
 {
@@ -120,22 +123,32 @@ namespace MVC.Controllers
       {
         return View(artikl);
       }
-    }    
+    }
 
-    public async Task<FileContentResult> GetImage(int id)
+    public async Task<IActionResult> GetImage(int id)
     {
-      byte[] image = await ctx.Artikl
-                              .Where(a => a.SifArtikla == id)
-                              .Select(a => a.SlikaArtikla)
-                              .SingleOrDefaultAsync();
-      if (image != null)
-      {        
-        return File(image, "image/jpeg");
-      }
-      else
+      
+      int? checksum = await ctx.Artikl
+                               .Where(a => a.SifArtikla == id)
+                               .Select(a => a.SlikaChecksum)
+                               .SingleOrDefaultAsync();
+      if (checksum == null)
       {
-        return null;
+        return NotFound();
       }
+      
+      string responseETag = "\"" + checksum.Value + "\"";
+      if (Request.Headers.TryGetValue(HeaderNames.IfNoneMatch, out var requestETag) && requestETag == responseETag)
+      {
+        return StatusCode((int)HttpStatusCode.NotModified);
+      }
+
+      byte[] image = await ctx.Artikl
+                            .Where(a => a.SifArtikla == id)
+                            .Select(a => a.SlikaArtikla)
+                            .SingleOrDefaultAsync();
+
+      return File(image, "image/jpeg", lastModified: DateTime.Now, entityTag: new EntityTagHeaderValue(responseETag));
     }
 
     [HttpGet]
