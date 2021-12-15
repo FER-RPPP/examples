@@ -9,6 +9,8 @@ Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Tests", "Tests", "{61970577
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "MVC.UnitTests", "MVC.UnitTests\MVC.UnitTests.csproj", "{165EEAC4-8075-441D-AEF1-226AF08BFAE3}"
 EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "MVC.IntegrationTests", "MVC.IntegrationTests\MVC.IntegrationTests.csproj", "{47EB7CAA-C33D-4115-8036-12CB0AE50755}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -23,12 +25,17 @@ Global
 		{165EEAC4-8075-441D-AEF1-226AF08BFAE3}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{165EEAC4-8075-441D-AEF1-226AF08BFAE3}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{165EEAC4-8075-441D-AEF1-226AF08BFAE3}.Release|Any CPU.Build.0 = Release|Any CPU
+		{47EB7CAA-C33D-4115-8036-12CB0AE50755}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{47EB7CAA-C33D-4115-8036-12CB0AE50755}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{47EB7CAA-C33D-4115-8036-12CB0AE50755}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{47EB7CAA-C33D-4115-8036-12CB0AE50755}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
 	EndGlobalSection
 	GlobalSection(NestedProjects) = preSolution
 		{165EEAC4-8075-441D-AEF1-226AF08BFAE3} = {61970577-6C61-47E3-BEC8-48E6B2D68968}
+		{47EB7CAA-C33D-4115-8036-12CB0AE50755} = {61970577-6C61-47E3-BEC8-48E6B2D68968}
 	EndGlobalSection
 	GlobalSection(ExtensibilityGlobals) = postSolution
 		SolutionGuid = {50674DA2-4387-4053-9555-F1BBA873C115}
