@@ -140,7 +140,8 @@ namespace MVC.Controllers
       string responseETag = "\"" + checksum.Value + "\"";
       if (Request.Headers.TryGetValue(HeaderNames.IfNoneMatch, out var requestETag) && requestETag == responseETag)
       {
-        return StatusCode((int)HttpStatusCode.NotModified);
+        //return StatusCode((int)HttpStatusCode.NotModified);
+        return StatusCode(StatusCodes.Status304NotModified);
       }
 
       byte[] image = await ctx.Artikl
