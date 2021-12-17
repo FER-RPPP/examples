@@ -1,4 +1,5 @@
 ﻿using FluentAssertions;
+using Microsoft.AspNetCore.Mvc.Testing;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -9,11 +10,11 @@ using Xunit;
 
 namespace MVC.IntegrationTests
 {
-  public class HomeControllerShould : IClassFixture<CustomWebApplicationFactory<HomeControllerShould>>
+  public class HomeControllerShould : IClassFixture<WebApplicationFactory<Startup>>
   {
-    private readonly CustomWebApplicationFactory<HomeControllerShould> factory;
+    private readonly WebApplicationFactory<Startup> factory;
 
-    public HomeControllerShould(CustomWebApplicationFactory<HomeControllerShould> factory) 
+    public HomeControllerShould(WebApplicationFactory<Startup> factory) 
     {
       this.factory = factory;
     }
