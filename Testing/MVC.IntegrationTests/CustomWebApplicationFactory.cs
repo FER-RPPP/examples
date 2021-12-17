@@ -34,7 +34,8 @@ namespace MVC.IntegrationTests
         {
           var scopedServices = scope.ServiceProvider;
           var db = scopedServices.GetRequiredService<FirmaContext>();          
-          db.Database.EnsureCreated();         
+          db.Database.EnsureCreated();    
+          //TO DO: Fill db with common data
         }
         #endregion        
       });
