@@ -23,7 +23,7 @@
   </ItemGroup>
 
   <ItemGroup>
-    <ProjectReference Include="..\..\..\MVC\MVC\MVC.csproj" />
+    <ProjectReference Include="..\..\MVC\MVC\MVC.csproj" />
   </ItemGroup>
 
 </Project>

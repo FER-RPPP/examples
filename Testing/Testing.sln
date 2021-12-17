@@ -3,7 +3,7 @@ Microsoft Visual Studio Solution File, Format Version 12.00
 # Visual Studio Version 16
 VisualStudioVersion = 16.0.31911.196
 MinimumVisualStudioVersion = 10.0.40219.1
-Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "MVC", "..\..\MVC\MVC\MVC.csproj", "{6D350FB2-028C-4FF9-8651-AFD4753E6A60}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "MVC", "..\MVC\MVC\MVC.csproj", "{6D350FB2-028C-4FF9-8651-AFD4753E6A60}"
 EndProject
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Tests", "Tests", "{61970577-6C61-47E3-BEC8-48E6B2D68968}"
 EndProject
