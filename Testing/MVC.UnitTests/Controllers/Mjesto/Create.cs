@@ -63,7 +63,39 @@ namespace MVC.UnitTests.Controllers.Mjesto
                .And.BeOfType<SelectList>()
                .Which.Count().Should().Be(totalNumber);      
     }
-    
+
+    //Think about why this test fails!!
+    [Fact]
+    [Trait("Category", "CitiesController")]
+    public async Task CauseValidationErrorForEmptyCity()
+    {      
+      // Arrange            
+      var dbOptions = new DbContextOptionsBuilder<FirmaContext>()
+                          .UseInMemoryDatabase(databaseName: nameof(CauseValidationErrorForEmptyCity))
+                          .Options;
+
+      using var context = new FirmaContext(dbOptions);      
+      var controller = new MjestoController(context, options);
+
+      // Act
+      var result = controller.Create(new Models.Mjesto());
+
+      // Assert
+      context.Mjesto.Count().Should().Be(0, because: "city without data should not be added in a database");
+      var task = Assert.IsType<Task<IActionResult>>(result);
+      IActionResult actionResult = await task;
+
+      actionResult.Should().BeOfType<ViewResult>()
+                  .Which.Model.Should().NotBeNull();
+
+      controller.ModelState.Should().NotBeNull(because: "city without data should have validation errors")
+                .And.ContainKeys(
+                  nameof(Models.Mjesto.PostBrMjesta),
+                  nameof(Models.Mjesto.NazMjesta),
+                  nameof(Models.Mjesto.OznDrzave)
+                );      
+    }
+
     private async Task AddCountries(FirmaContext context, int count)
     {
       for (int i = 0; i < count; i++)
