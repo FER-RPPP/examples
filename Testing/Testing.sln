@@ -7,9 +7,11 @@ Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "MVC", "..\MVC\MVC\MVC.cspro
 EndProject
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Tests", "Tests", "{61970577-6C61-47E3-BEC8-48E6B2D68968}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "MVC.UnitTests", "MVC.UnitTests\MVC.UnitTests.csproj", "{165EEAC4-8075-441D-AEF1-226AF08BFAE3}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "MVC.UnitTests", "MVC.UnitTests\MVC.UnitTests.csproj", "{165EEAC4-8075-441D-AEF1-226AF08BFAE3}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "MVC.IntegrationTests", "MVC.IntegrationTests\MVC.IntegrationTests.csproj", "{47EB7CAA-C33D-4115-8036-12CB0AE50755}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "MVC.IntegrationTests", "MVC.IntegrationTests\MVC.IntegrationTests.csproj", "{47EB7CAA-C33D-4115-8036-12CB0AE50755}"
+EndProject
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "MVC.UITests", "MVC.UITests\MVC.UITests.csproj", "{9CB551FD-D22D-4B70-83B2-678F5A2223BF}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
@@ -29,6 +31,10 @@ Global
 		{47EB7CAA-C33D-4115-8036-12CB0AE50755}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{47EB7CAA-C33D-4115-8036-12CB0AE50755}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{47EB7CAA-C33D-4115-8036-12CB0AE50755}.Release|Any CPU.Build.0 = Release|Any CPU
+		{9CB551FD-D22D-4B70-83B2-678F5A2223BF}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{9CB551FD-D22D-4B70-83B2-678F5A2223BF}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{9CB551FD-D22D-4B70-83B2-678F5A2223BF}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{9CB551FD-D22D-4B70-83B2-678F5A2223BF}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
@@ -36,6 +42,7 @@ Global
 	GlobalSection(NestedProjects) = preSolution
 		{165EEAC4-8075-441D-AEF1-226AF08BFAE3} = {61970577-6C61-47E3-BEC8-48E6B2D68968}
 		{47EB7CAA-C33D-4115-8036-12CB0AE50755} = {61970577-6C61-47E3-BEC8-48E6B2D68968}
+		{9CB551FD-D22D-4B70-83B2-678F5A2223BF} = {61970577-6C61-47E3-BEC8-48E6B2D68968}
 	EndGlobalSection
 	GlobalSection(ExtensibilityGlobals) = postSolution
 		SolutionGuid = {50674DA2-4387-4053-9555-F1BBA873C115}
