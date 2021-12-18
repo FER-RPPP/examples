@@ -8,10 +8,10 @@ namespace LottoImplementation
   {
     private int ballsToBeDrawn, numberOfBalls;
     public string SomeProperty { get; set; }
-    public Lotto(int ballsToBeDrawn, int brojKuglica)
+    public Lotto(int ballsToBeDrawn, int numberOfBalls)
     {
       this.ballsToBeDrawn = ballsToBeDrawn;
-      numberOfBalls = brojKuglica;
+      this.numberOfBalls = numberOfBalls;
     }
 
     public List<int> DrawNumbers(bool sort)
