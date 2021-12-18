@@ -29,7 +29,8 @@ namespace MVC.UnitTests.Controllers.Mjesto
       {
         PageSize = 10
       };
-      mockOptions.SetupGet(appsettings => appsettings.Value).Returns(appSettings);
+      mockOptions.SetupGet(options => options.Value)
+                 .Returns(appSettings);
       options = mockOptions.Object;
     }
 

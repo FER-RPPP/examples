@@ -32,7 +32,8 @@ namespace MVC.UnitTests.Controllers.Drzava
       {
         PageSize = PageSize
       };
-      mockOptions.SetupGet(appsettings => appsettings.Value).Returns(appSettings);
+      mockOptions.SetupGet(options => options.Value)
+                 .Returns(appSettings);
       options = mockOptions.Object;
     }
 

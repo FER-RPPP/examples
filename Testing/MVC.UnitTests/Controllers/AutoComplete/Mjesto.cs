@@ -33,7 +33,8 @@ namespace MVC.UnitTests.Controllers.AutoComplete
       {
         AutoCompleteCount = 10
       };
-      mockOptions.SetupGet(appsettings => appsettings.Value).Returns(appSettings);
+      mockOptions.SetupGet(options => options.Value)
+                 .Returns(appSettings);
       options = mockOptions.Object;
     }
 
@@ -68,8 +69,9 @@ namespace MVC.UnitTests.Controllers.AutoComplete
       {
         AutoCompleteCount = count
       };
-      mockOptions.SetupGet(appsettings => appsettings.Value).Returns(appSettings);
-      
+      mockOptions.SetupGet(options => options.Value)
+                 .Returns(appSettings);
+
       //Act
       using var ctx = new FirmaContext(dbContextBuilder.Options);
       var controller = new AutoCompleteController(ctx, mockOptions.Object);
