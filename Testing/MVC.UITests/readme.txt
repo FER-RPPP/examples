@@ -1,6 +1,8 @@
-﻿Install command line tools with...
+﻿1. Install command line tools with...
   dotnet tool install --global Microsoft.Playwright.CLI
+2. Go to project folder and run
+  playwright install
 
-Run the (test) site before using playwrite
+3. Run the site (that is tested) before using playwrite
 
-Using with care!
+Run tests, and use with care!
