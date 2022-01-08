@@ -27,8 +27,7 @@ namespace GraphQLServer
       services.AddDbContext<FirmaContext>(options => options.UseSqlServer(Configuration.GetConnectionString("Firma")));
       services.AddGraphQLServer()
               .SetPagingOptions(new PagingOptions
-              {
-                InferConnectionNameFromField = true,
+              {                
                 DefaultPageSize = 20,
                 MaxPageSize = 1000,
                 IncludeTotalCount = true                

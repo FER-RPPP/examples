@@ -2,18 +2,14 @@ using EFModel;
 using FluentValidation.AspNetCore;
 using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Hosting;
-using Microsoft.AspNetCore.Http;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Hosting;
 using Microsoft.OpenApi.Models;
 using System;
-using System.Collections.Generic;
 using System.IO;
-using System.Linq;
 using System.Reflection;
-using System.Threading.Tasks;
 using WebApi.Controllers;
 
 namespace WebApi
@@ -47,7 +43,7 @@ namespace WebApi
         var xmlPath = Path.Combine(AppContext.BaseDirectory, xmlFile);
         c.IncludeXmlComments(xmlPath);
 
-        //include comment from EFModel
+        //e.g. include comment from EFModel (not needed, bust just for demonstration)
         xmlFile = $"{typeof(EFModel.Artikl).Assembly.GetName().Name}.xml";
         xmlPath = Path.Combine(AppContext.BaseDirectory, xmlFile);
         c.IncludeXmlComments(xmlPath);
