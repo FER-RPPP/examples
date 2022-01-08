@@ -3,10 +3,12 @@ using System.Threading.Tasks;
 using WebApi.Util.Extensions;
 using WebApi.Models;
 using WebApi.Models.JTable;
+using WebServices.Util.ExceptionFilters;
 
 namespace WebApi.Controllers.JTable
 {
   [ApiExplorerSettings(IgnoreApi = true)]
+  [TypeFilter(typeof(ErrorStatusTo200WithErrorMessage))]
   public abstract class JTableController<TController, TKey, TModel> : ControllerBase where TController : ICustomController<TKey, TModel> 
   {    
     private readonly TController controller;

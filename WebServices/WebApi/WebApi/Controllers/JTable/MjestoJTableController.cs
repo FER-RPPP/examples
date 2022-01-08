@@ -2,12 +2,10 @@
 using System.Threading.Tasks;
 using WebApi.Models;
 using WebApi.Models.JTable;
-using WebServices.Util.ExceptionFilters;
 
 namespace WebApi.Controllers.JTable
 {
-  [Route("jtable/mjesto/[action]")]
-  [TypeFilter(typeof(ErrorStatusTo200WithErrorMessage))]
+  [Route("jtable/mjesto/[action]")]  
   public class MjestoJTableController : JTableController<MjestoController, int, MjestoViewModel>
   {
     public MjestoJTableController(MjestoController controller) : base(controller)
