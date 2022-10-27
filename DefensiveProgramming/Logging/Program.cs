@@ -1,6 +1,7 @@
 ﻿using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Logging;
+using NLog.Config;
 using NLog.Extensions.Logging;
 using System;
 using System.IO;
@@ -37,7 +38,7 @@ namespace Logging
       var provider = services.AddLogging(configure => {
                                   configure.AddConfiguration(configuration.GetSection("Logging"));
                                   configure.AddConsole();
-                                  configure.AddNLog();
+                                  configure.AddNLog(new NLogProviderOptions { RemoveLoggerFactoryFilter = false });
                               })
                              .AddTransient<IDataLoader, DataLoader>()
                              .BuildServiceProvider();
