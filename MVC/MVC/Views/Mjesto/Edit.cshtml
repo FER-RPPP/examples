@@ -1,46 +1,32 @@
 ﻿@model Mjesto
 
-@{
-  ViewBag.Title = "Ažuriranje mjesta";
-}
 
-<form asp-route-page="@ViewBag.Page"
-      asp-route-sort="@ViewBag.Sort"
-      asp-route-ascending="@ViewBag.Ascending"
-      method="post">
-  <div asp-validation-summary="All"></div>
-  <input type="hidden" asp-for="IdMjesta" />
-  <div class="form-group">
-    <label asp-for="PostBrMjesta"></label>
-    <div><span asp-validation-for="PostBrMjesta" class="text-danger"></span></div>
+<tr hx-target="this" hx-swap="outerHTML">  
+  <td class="text-start">    
     <input asp-for="PostBrMjesta" class="form-control" />
-  </div>
-  <div class="form-group">
-    <label asp-for="NazMjesta"></label>
-    <div><span asp-validation-for="NazMjesta" class="text-danger"></span></div>
-    <textarea asp-for="NazMjesta" class="form-control"></textarea>
-  </div>
-  <div class="form-group">
-    <label asp-for="PostNazMjesta"></label>
-    <div><span asp-validation-for="PostNazMjesta" class="text-danger"></span></div>
+  </td>
+  <td class="text-start">
+    <input asp-for="NazMjesta" class="form-control" />
+  </td>
+  <td class="text-start">
     <input asp-for="PostNazMjesta" class="form-control" />
-  </div>
-  <div class="form-group">
-    <label asp-for="OznDrzave"></label>
-    <div><span asp-validation-for="OznDrzave" class="text-danger"></span></div>
-    <select class="form-control" asp-for="OznDrzave" asp-items="ViewBag.Drzave">      
+  </td>
+  <td class="text-start">
+    <select class="form-select" asp-for="OznDrzave" asp-items="ViewBag.Drzave">
     </select>
-  </div>
-  <div class="text-center">
-    <button class="btn btn-primary" type="submit">Spremi</button>
-    <a asp-action="Index"
-       asp-route-page="@ViewBag.Page"
-       asp-route-sort="@ViewBag.Sort"
-       asp-route-ascending="@ViewBag.Ascending"
-       class="btn btn-secondary">Odustani</a>
-  </div>
-</form>
-
-@section scripts {
-  <partial name="IncludeValidation" />
-}
+  </td>
+  <td>
+    <input type="hidden" asp-for="IdMjesta" />
+    <button hx-include="closest tr"
+            hx-post="@Url.Action(nameof(MjestoController.Edit))"
+            class="btn btn-sm btn-primary" title="Spremi"><i class="fas fa-save"></i></button>
+  </td>
+  <td>
+    <button class="btn btn-sm cancel" 
+            hx-get="@Url.Action(nameof(MjestoController.Get), new { id = Model.IdMjesta })"            
+            title="Odustani"><i class="fas fa-undo-alt"></i></button>
+  </td>
+  <td>
+    <div asp-validation-summary="All"></div>
+  </td>
+</tr>

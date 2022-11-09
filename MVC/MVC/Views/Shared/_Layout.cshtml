@@ -6,6 +6,7 @@
   <title>@ViewData["Title"] (RPPP)</title>
   <link rel="stylesheet" href="~/lib/bootstrap/css/bootstrap.min.css" />
   <link rel="stylesheet" href="~/lib/font-awesome/css/all.css" />
+  <link rel="stylesheet" href="~/lib/toastr.js/toastr.min.css" />
   <link rel="stylesheet" href="~/css/site.css" />
   @RenderSection("styles", required: false)
 </head>
@@ -46,6 +47,7 @@
 
   <script src="~/lib/jquery/jquery.min.js"></script>
   <script src="~/lib/bootstrap/js/bootstrap.bundle.min.js"></script>
+  <script src="~/lib/toastr.js/toastr.min.js" asp-append-version="true"></script>
   @*<script src="~/lib/font-awesome/js/all.js"></script>*@ @*using css instead of js - see https://fontawesome.com/how-to-use/on-the-web/other-topics/performance*@
   <script src="~/js/site.js" asp-append-version="true"></script>
   @RenderSection("Scripts", required: false)

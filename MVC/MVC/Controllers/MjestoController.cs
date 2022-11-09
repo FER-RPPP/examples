@@ -8,6 +8,7 @@ using MVC.Models;
 using MVC.ViewModels;
 using System;
 using System.Linq;
+using System.Text.Json;
 using System.Threading.Tasks;
 
 namespace MVC.Controllers
@@ -40,7 +41,7 @@ namespace MVC.Controllers
       };
       if (page < 1 || page > pagingInfo.TotalPages)
       {
-        return RedirectToAction(nameof(Index), new { page = 1, sort = sort, ascending = ascending });
+        return RedirectToAction(nameof(Index), new { page = 1, sort, ascending });
       }
 
       query = query.ApplySort(sort, ascending);
@@ -103,35 +104,6 @@ namespace MVC.Controllers
       }
     }
 
-    [HttpPost]
-    [ValidateAntiForgeryToken]
-    public async Task<IActionResult> Delete(int id, int page = 1, int sort = 1, bool ascending = true)
-    {
-      var mjesto = await ctx.Mjesto.FindAsync(id);                       
-      if (mjesto != null)
-      {
-        try
-        {
-          string naziv = mjesto.NazMjesta;
-          ctx.Remove(mjesto);          
-          await ctx.SaveChangesAsync();
-          TempData[Constants.Message] = $"Mjesto {naziv} sa šifrom {id} obrisano.";
-          TempData[Constants.ErrorOccurred] = false;        
-        }
-        catch (Exception exc)
-        {
-          TempData[Constants.Message] = "Pogreška prilikom brisanja mjesta: " + exc.CompleteExceptionMessage();
-          TempData[Constants.ErrorOccurred] = true;         
-        }
-      }
-      else
-      {
-        TempData[Constants.Message] = $"Ne postoji mjesto sa šifrom: {id}";
-        TempData[Constants.ErrorOccurred] = true;
-      }
-      return RedirectToAction(nameof(Index), new { page, sort, ascending });
-    }
-
     private async Task PrepareDropDownLists()
     {
       var hr = await ctx.Drzava                  
@@ -149,72 +121,14 @@ namespace MVC.Controllers
       }      
       ViewBag.Drzave = new SelectList(drzave, nameof(hr.OznDrzave), nameof(hr.NazDrzave));
     }
-
-    [HttpGet]
-    public async Task<IActionResult> Edit(int id, int page = 1, int sort = 1, bool ascending = true)
-    {
-      var mjesto = await ctx.Mjesto
-                            .AsNoTracking()
-                            .Where(m => m.IdMjesta == id)
-                            .SingleOrDefaultAsync();
-      if (mjesto != null)
-      {
-        ViewBag.Page = page;
-        ViewBag.Sort = sort;
-        ViewBag.Ascending = ascending;
-        await PrepareDropDownLists();
-        return View(mjesto);
-      }
-      else
-      {
-        return NotFound($"Neispravan id mjesta: {id}");
-      }
-    }
-
-    [HttpPost]
-    [ValidateAntiForgeryToken]
-    public async Task<IActionResult> Edit(Mjesto mjesto, int page = 1, int sort = 1, bool ascending = true)
-    {
-      if (mjesto == null)
-      {
-        return NotFound("Nema poslanih podataka");
-      }
-      bool checkId = await ctx.Mjesto.AnyAsync(m => m.IdMjesta == mjesto.IdMjesta);
-      if (!checkId)
-      {
-        return NotFound($"Neispravan id mjesta: {mjesto?.IdMjesta}");
-      }
-      
-      if (ModelState.IsValid)
-      {
-        try
-        {
-          ctx.Update(mjesto);
-          await ctx.SaveChangesAsync();
-          TempData[Constants.Message] = "Mjesto ažurirano.";
-          TempData[Constants.ErrorOccurred] = false;
-          return RedirectToAction(nameof(Index), new { page, sort, ascending });
-        }
-        catch (Exception exc)
-        {
-          ModelState.AddModelError(string.Empty, exc.CompleteExceptionMessage());
-          await PrepareDropDownLists();
-          return View(mjesto);
-        }
-      }
-      else
-      {
-        await PrepareDropDownLists();
-        return View(mjesto);
-      }
-    }
+    
 
     #region Metode za dinamičko brisanje i ažuriranje
-    [HttpPost]
-    [ValidateAntiForgeryToken]
-    public async Task<IActionResult> DeleteAjax(int id)
+    [HttpDelete]
+    public async Task<IActionResult> Delete(int id)
     {
-      var mjesto = await ctx.Mjesto.FindAsync(id);                      
+      ActionResponseMessage responseMessage;
+      var mjesto = await ctx.Mjesto.FindAsync(id);          
       if (mjesto != null)
       {
         try
@@ -222,31 +136,24 @@ namespace MVC.Controllers
           string naziv = mjesto.NazMjesta;
           ctx.Remove(mjesto);
           await ctx.SaveChangesAsync();
-          var result = new
-          {
-            message = $"Mjesto {naziv} sa šifrom {id} obrisano.",
-            successful = true
-          };
-          return Json(result);
+          responseMessage = new ActionResponseMessage(MessageType.Success, $"Mjesto {naziv} sa šifrom {id} uspješno obrisano.");          
         }
         catch (Exception exc)
-        {
-          var result = new
-          {
-            message = "Pogreška prilikom brisanja mjesta: " + exc.CompleteExceptionMessage(),
-            successful = false
-          };
-          return Json(result);
+        {          
+          responseMessage = new ActionResponseMessage(MessageType.Error, $"Pogreška prilikom brisanja mjesta: {exc.CompleteExceptionMessage()}");          
         }
       }
       else
       {
-        return NotFound($"Mjesto sa šifrom {id} ne postoji");
+        responseMessage = new ActionResponseMessage(MessageType.Error, $"Mjesto sa šifrom {id} ne postoji");        
       }
+
+      Response.Headers["HX-Trigger"] = JsonSerializer.Serialize(new { showMessage = responseMessage });
+      return new EmptyResult();
     }
 
     [HttpGet]
-    public async Task<IActionResult> EditAjax(int id)
+    public async Task<IActionResult> Edit(int id)
     {
       var mjesto = await ctx.Mjesto
                             .AsNoTracking()
@@ -263,9 +170,8 @@ namespace MVC.Controllers
       }
     }
 
-    [HttpPost]
-    [ValidateAntiForgeryToken]
-    public async Task<IActionResult> EditAjax(int id, Mjesto mjesto)
+    [HttpPost]    
+    public async Task<IActionResult> Edit(Mjesto mjesto)
     {
       if (mjesto == null)
       {
@@ -283,7 +189,7 @@ namespace MVC.Controllers
         {
           ctx.Update(mjesto);
           await ctx.SaveChangesAsync();
-          return NoContent();
+          return RedirectToAction(nameof(Get), new { id = mjesto.IdMjesta });
         }
         catch (Exception exc)
         {
@@ -300,7 +206,7 @@ namespace MVC.Controllers
     }
 
     [HttpGet]
-    public async Task<IActionResult> GetAjax(int id)
+    public async Task<IActionResult> Get(int id)
     {
       var mjesto = await ctx.Mjesto                            
                             .Where(m => m.IdMjesta == id)

@@ -25,8 +25,9 @@ namespace MVC
 
       services.AddDbContext<FirmaContext>(options => options.UseSqlServer(Configuration.GetConnectionString("Firma")));
 
-      services.AddControllersWithViews()
-              .AddFluentValidation(fv => fv.RegisterValidatorsFromAssemblyContaining<Startup>());              
+      services.AddControllersWithViews();
+
+      services.AddFluentValidationAutoValidation().AddFluentValidationClientsideAdapters();
     }
     
     public void Configure(IApplicationBuilder app, IWebHostEnvironment env)

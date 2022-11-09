@@ -1,0 +1,22 @@
+﻿@model MjestoViewModel
+
+<tr hx-target="this" hx-swap="outerHTML">
+  <td class="text-left">@Model.PostBrojMjesta</td>
+  <td class="text-left">@Model.NazivMjesta</td>
+  <td class="text-left">@Model.PostNazivMjesta</td>
+  <td class="text-left">@Model.NazivDrzave</td>
+  <td>
+    <a class="btn btn-sm edit"
+       hx-get="@Url.Action(nameof(MjestoController.Edit), new { id = Model.IdMjesta })"
+       title="Ažuriraj"><i class="fas fa-edit"></i></a>
+  </td>
+  <td>   
+      <button class="btn btn-sm btn-danger"
+              hx-confirm="Obrisati mjesto?"
+              hx-delete="@Url.Action(nameof(MjestoController.Delete), new { id = Model.IdMjesta })"
+              title="Obriši">
+        <i class="fas fa-trash-alt"></i>
+      </button> 
+  </td>
+</tr>
+  
