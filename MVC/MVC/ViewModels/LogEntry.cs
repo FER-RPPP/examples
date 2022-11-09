@@ -18,8 +18,8 @@ namespace MVC.ViewModels
       LogEntry entry = new LogEntry();
       entry.Time = DateTime.ParseExact(arr[0], "yyyy-MM-dd HH:mm:ss.ffff",System.Globalization.CultureInfo.InvariantCulture);      
       entry.Id = string.IsNullOrWhiteSpace(arr[1]) ? 0 : int.Parse(arr[1]);
-      entry.Controller = arr[2];
-      entry.Level = arr[3];
+      entry.Level = arr[2];
+      entry.Controller = arr[3];      
       entry.Message = arr[4];
       entry.Url = arr[5].Substring(5); //url: 
       entry.Action = arr[6].Substring(8); //action: 

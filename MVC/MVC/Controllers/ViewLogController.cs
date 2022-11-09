@@ -23,7 +23,7 @@ namespace MVC.Controllers
       if (System.IO.File.Exists(filename))
       {
         String previousEntry = string.Empty;
-        using (FileStream fileStream = new FileStream(filename, FileMode.Open, FileAccess.Read))
+        using (FileStream fileStream = new FileStream(filename, FileMode.Open, FileAccess.Read, FileShare.ReadWrite))
         {          
           using (StreamReader reader = new StreamReader(fileStream))
           {
