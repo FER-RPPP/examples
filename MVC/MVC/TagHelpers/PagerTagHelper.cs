@@ -16,7 +16,7 @@ namespace MVC.TagHelpers
   /// <example>
   /// Primjer upotrebe
   /// ```
-  /// <pager page-info="@Model.PagingInfo" page-action="Index" page-title="Unesite željenu stranicu" class="float-right">
+  /// <pager page-info="@Model.PagingInfo" page-action="Index" page-title="Unesite željenu stranicu" class="float-end">
   /// </pager>
   /// ```
   /// U datoteku *_ViewImports.cshtml* potrebno dodati `@addTagHelper *, Microsoft.AspNetCore.Mvc.TagHelpers`  
