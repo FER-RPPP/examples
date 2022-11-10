@@ -1,6 +1,5 @@
 ﻿using MVC.Models;
-using System;
-using System.Linq;
+using System.Linq.Expressions;
 
 namespace MVC.Extensions.Selectors
 {
@@ -8,22 +7,15 @@ namespace MVC.Extensions.Selectors
   {
     public static IQueryable<Drzava> ApplySort(this IQueryable<Drzava> query, int sort, bool ascending)
     {
-      System.Linq.Expressions.Expression<Func<Drzava, object>> orderSelector = null;
-      switch (sort)
+      Expression<Func<Drzava, object>> orderSelector = sort switch
       {
-        case 1:
-          orderSelector = d => d.OznDrzave;
-          break;
-        case 2:
-          orderSelector = d => d.NazDrzave;
-          break;
-        case 3:
-          orderSelector = d => d.Iso3drzave;
-          break;
-        case 4:
-          orderSelector = d => d.SifDrzave;
-          break;
-      }
+        1 => d => d.OznDrzave,
+        2 => d => d.NazDrzave,
+        3 => d => d.Iso3drzave,
+        4 => d => d.SifDrzave,
+        _ => null
+      };
+      
       if (orderSelector != null)
       {
         query = ascending ?
