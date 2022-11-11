@@ -5,6 +5,8 @@ using NLog;
 using NLog.Web;
 using FluentValidation.AspNetCore;
 using Microsoft.EntityFrameworkCore;
+using FluentValidation;
+using MVC.ModelsValidation;
 
 var logger = NLog.LogManager.Setup().GetCurrentClassLogger();
 logger.Debug("init main");
@@ -21,7 +23,10 @@ try
 
   builder.Services.AddControllersWithViews();
 
-  builder.Services.AddFluentValidationAutoValidation().AddFluentValidationClientsideAdapters();
+  builder.Services
+          .AddFluentValidationAutoValidation()
+          .AddFluentValidationClientsideAdapters()
+          .AddValidatorsFromAssemblyContaining<DrzavaValidator>();
   #endregion
 
   var app = builder.Build();
