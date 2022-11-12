@@ -1,13 +1,15 @@
 ﻿
 Microsoft Visual Studio Solution File, Format Version 12.00
-# Visual Studio Version 16
-VisualStudioVersion = 16.0.30611.23
+# Visual Studio Version 17
+VisualStudioVersion = 17.3.32929.385
 MinimumVisualStudioVersion = 10.0.40219.1
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "DataReader", "DataReader\DataReader.csproj", "{DAB7BD41-ECBD-4637-8E56-3A251CFB6F98}"
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "ParamsAndProcs", "ParamsAndProcs\ParamsAndProcs.csproj", "{BE60E821-E1AF-40B3-B763-3D02FFEB0752}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "EF", "EF\EF.csproj", "{9961D7D0-87D2-451B-8313-FE37F19D5EAD}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "EF", "EF\EF.csproj", "{9961D7D0-87D2-451B-8313-FE37F19D5EAD}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "EF-EN", "EF-EN\EF-EN.csproj", "{26C4670D-F5D0-420C-8730-F76E53BAA639}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
@@ -27,6 +29,10 @@ Global
 		{9961D7D0-87D2-451B-8313-FE37F19D5EAD}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{9961D7D0-87D2-451B-8313-FE37F19D5EAD}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{9961D7D0-87D2-451B-8313-FE37F19D5EAD}.Release|Any CPU.Build.0 = Release|Any CPU
+		{26C4670D-F5D0-420C-8730-F76E53BAA639}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{26C4670D-F5D0-420C-8730-F76E53BAA639}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{26C4670D-F5D0-420C-8730-F76E53BAA639}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{26C4670D-F5D0-420C-8730-F76E53BAA639}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
