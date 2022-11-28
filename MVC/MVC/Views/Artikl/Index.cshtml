@@ -56,5 +56,8 @@
     document.body.addEventListener("showMessage", function (evt) {
         toastr[evt.detail.messageType](evt.detail.message);
     })
+    document.body.addEventListener("htmx:responseError", function (evt) {     
+        toastr["error"](evt.detail.error);
+    })
   </script>
 }

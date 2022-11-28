@@ -258,8 +258,8 @@ namespace MVC.Controllers
         return NotFound($"Neispravna šifra artikla: {id}");
       }
     }
-
-    [HttpPost]
+   
+    [HttpDelete]
     public async Task<IActionResult> Delete(int id)
     {
       ActionResponseMessage responseMessage;
