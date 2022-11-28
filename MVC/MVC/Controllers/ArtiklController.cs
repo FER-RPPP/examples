@@ -15,6 +15,7 @@ using MVC.Util;
 using Microsoft.Net.Http.Headers;
 using Microsoft.Extensions.Primitives;
 using System.Net;
+using System.Text.Json;
 
 namespace MVC.Controllers
 {
@@ -178,8 +179,7 @@ namespace MVC.Controllers
       }
     }
 
-    [HttpPost]
-    [ValidateAntiForgeryToken]
+    [HttpPost]   
     public async Task<IActionResult> Edit(Artikl artikl, IFormFile slika, bool obrisiSliku)
     {
       if (artikl == null)
@@ -219,7 +219,7 @@ namespace MVC.Controllers
           }
 
           await ctx.SaveChangesAsync();
-          return NoContent();
+          return RedirectToAction(nameof(Get), new { id = artikl.SifArtikla });
         }
         catch (Exception exc)
         {
@@ -235,8 +235,7 @@ namespace MVC.Controllers
 
     public async Task<IActionResult> Get(int id)
     {
-      var artikl = await ctx.Artikl
-                            .AsNoTracking()
+      var artikl = await ctx.Artikl                            
                             .Where(a => a.SifArtikla == id)
                             .Select(a => new ArtiklViewModel
                             {
@@ -261,9 +260,9 @@ namespace MVC.Controllers
     }
 
     [HttpPost]
-    [ValidateAntiForgeryToken]
     public async Task<IActionResult> Delete(int id)
     {
+      ActionResponseMessage responseMessage;
       var artikl = await ctx.Artikl.FindAsync(id);
       if (artikl != null)
       {
@@ -272,27 +271,20 @@ namespace MVC.Controllers
           string naziv = artikl.NazArtikla;
           ctx.Remove(artikl);
           await ctx.SaveChangesAsync();
-          var result = new
-          {
-            message = $"Artikl {naziv} sa šifrom {id} uspješno obrisan.",
-            successful = true
-          };
-          return Json(result);
+          responseMessage = new ActionResponseMessage(MessageType.Success, $"Artikl {naziv} sa šifrom {id} uspješno obrisan.");
         }
         catch (Exception exc)
         {
-          var result = new
-          {
-            message = "Pogreška prilikom brisanja artikla: " + exc.CompleteExceptionMessage(),
-            successful = false
-          };
-          return Json(result);
+          responseMessage = new ActionResponseMessage(MessageType.Error, $"Pogreška prilikom brisanja artikla: {exc.CompleteExceptionMessage()}");
         }
       }
       else
       {
-        return NotFound($"Artikl sa šifrom {id} ne postoji");
+        responseMessage = new ActionResponseMessage(MessageType.Error, $"Artikl sa šifrom {id} ne postoji");        
       }
+
+      Response.Headers["HX-Trigger"] = JsonSerializer.Serialize(new { showMessage = responseMessage });
+      return new EmptyResult();
     }
 
     public async Task<bool> ProvjeriSifruArtikla(int SifArtikla)

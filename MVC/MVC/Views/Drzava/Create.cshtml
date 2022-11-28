@@ -8,25 +8,25 @@
 
 <form asp-action="Create" method="post">
   <div asp-validation-summary="All"></div>
-  <div class="form-group">
-    <label asp-for="OznDrzave"></label>
-    <div><span asp-validation-for="OznDrzave" class="text-danger" /></div>
+  <div class="mb-3">
+    <label asp-for="OznDrzave" class="form-label"></label>
     <input asp-for="OznDrzave" class="form-control" />
+    <div class="form-text"><span asp-validation-for="OznDrzave" class="text-danger"></span></div>
   </div>
-  <div class="form-group">
-    <label asp-for="NazDrzave"></label>
-    <div><span asp-validation-for="NazDrzave" class="text-danger" /></div>
+  <div class="mb-3">
+    <label asp-for="NazDrzave" class="form-label"></label>
     <input asp-for="NazDrzave" class="form-control" />
+    <div class="form-text"><span asp-validation-for="NazDrzave" class="text-danger"></span></div>
   </div>
-  <div class="form-group">
-    <label asp-for="Iso3drzave"></label>
-    <div><span asp-validation-for="Iso3drzave" class="text-danger" /></div>
+  <div class="mb-3">
+    <label asp-for="Iso3drzave" class="form-label"></label>
     <input maxlength="3" asp-for="Iso3drzave" class="form-control" />
+    <div class="form-text"><span asp-validation-for="Iso3drzave" class="text-danger"></span></div>
   </div>
-  <div class="form-group">
-    <label asp-for="SifDrzave"></label>
-    <div><span asp-validation-for="SifDrzave" class="text-danger" /></div>
+  <div class="mb-3">
+    <label asp-for="SifDrzave" class="form-label"></label>
     <input asp-for="SifDrzave" class="form-control" />
+    <div class="form-text"><span asp-validation-for="SifDrzave" class="text-danger"></span></div>
   </div>
   <div class="text-center">
     <button class="btn btn-primary" type="submit">Dodaj</button>

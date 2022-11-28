@@ -6,7 +6,7 @@
   <td class="text-left">@Model.PostNazivMjesta</td>
   <td class="text-left">@Model.NazivDrzave</td>
   <td>
-    <a class="btn btn-sm edit"
+    <a class="btn btn-sm"
        hx-get="@Url.Action(nameof(MjestoController.Edit), new { id = Model.IdMjesta })"
        title="Ažuriraj"><i class="fas fa-edit"></i></a>
   </td>

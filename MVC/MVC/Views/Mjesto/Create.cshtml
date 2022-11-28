@@ -8,27 +8,27 @@
 
 <form asp-action="Create" method="post">
   <div asp-validation-summary="All"></div>
-  <div class="form-group">
-    <label asp-for="PostBrMjesta"></label>
-    <div><span asp-validation-for="PostBrMjesta" class="text-danger"></span></div>
+  <div class="mb-3">
+    <label asp-for="PostBrMjesta" class="form-label"></label>
     <input asp-for="PostBrMjesta" class="form-control" />
+    <div class="form-text"><span asp-validation-for="PostBrMjesta" class="text-danger"></span></div>
   </div>
-  <div class="form-group">
-    <label asp-for="NazMjesta"></label>
-    <div><span asp-validation-for="NazMjesta" class="text-danger"></span></div>
+  <div class="mb-3">
+    <label asp-for="NazMjesta" class="form-label"></label>
     <input asp-for="NazMjesta" class="form-control" />
+    <div class="form-text"><span asp-validation-for="NazMjesta" class="text-danger"></span></div>
   </div>
-  <div class="form-group">
-    <label asp-for="PostNazMjesta"></label>
-    <div><span asp-validation-for="PostNazMjesta" class="text-danger"></span></div>
+  <div class="mb-3">
+    <label asp-for="PostNazMjesta" class="form-label"></label>
     <input asp-for="PostNazMjesta" class="form-control" />
+    <div class="form-text"><span asp-validation-for="PostNazMjesta" class="text-danger"></span></div>
   </div>
-  <div class="form-group">
-    <label asp-for="OznDrzave"></label>
-    <div><span asp-validation-for="OznDrzave" class="text-danger"></span></div>
+  <div class="mb-3">
+    <label asp-for="OznDrzave" class="form-label"></label>
     <select class="form-control" asp-for="OznDrzave" asp-items="ViewBag.Drzave">
       <option disabled selected value="">Odaberite državu</option>
     </select>
+    <div class="form-text"><span asp-validation-for="OznDrzave" class="text-danger"></span></div>
   </div>
   <div class="text-center">
     <button class="btn btn-primary" type="submit">Dodaj</button>
