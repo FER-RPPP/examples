@@ -8,6 +8,7 @@ using MVC.Models;
 using MVC.ViewModels;
 using System;
 using System.Linq;
+using System.Text.Json;
 using System.Threading.Tasks;
 
 namespace MVC.Controllers
@@ -101,10 +102,10 @@ namespace MVC.Controllers
       }
     }
 
-    [HttpPost]
-    [ValidateAntiForgeryToken]
-    public async Task<IActionResult> Delete(int id, int page = 1, int sort = 1, bool ascending = true)
+    [HttpDelete]
+    public async Task<IActionResult> Delete(int id)
     {
+      ActionResponseMessage responseMessage;
       var partner = await ctx.Partner.FindAsync(id);
       if (partner != null)
       {
@@ -112,21 +113,21 @@ namespace MVC.Controllers
         {
           ctx.Remove(partner);
           await ctx.SaveChangesAsync();
-          TempData[Constants.Message] = $"Partner {partner.IdPartnera} uspješno obrisan.";
-          TempData[Constants.ErrorOccurred] = false;
+          responseMessage = new ActionResponseMessage(MessageType.Success, $"Partner {partner.IdPartnera} uspješno obrisan.");        
         }
         catch (Exception exc)
         {
-          TempData[Constants.Message] = "Pogreška prilikom brisanja partnera: " + exc.CompleteExceptionMessage();
-          TempData[Constants.ErrorOccurred] = true;
+          responseMessage = new ActionResponseMessage(MessageType.Error, "Pogreška prilikom brisanja partnera: " + exc.CompleteExceptionMessage());          
         }
       }
       else
       {
-        TempData[Constants.Message] = "Ne postoji partner s id-om: " + id;
-        TempData[Constants.ErrorOccurred] = true;
+        responseMessage = new ActionResponseMessage(MessageType.Error, "Ne postoji partner s id-om: " + id);
       }
-      return RedirectToAction(nameof(Index), new { page = page, sort = sort, ascending = ascending });
+
+      Response.Headers["HX-Trigger"] = JsonSerializer.Serialize(new { showMessage = responseMessage });
+      return responseMessage.MessageType == MessageType.Success ?
+        new EmptyResult() : await Get(id);
     }
 
     [HttpGet]
@@ -185,6 +186,7 @@ namespace MVC.Controllers
       {
         return NotFound("Nema poslanih podataka");
       }
+
       var partner = await ctx.Partner.FindAsync(model.IdPartnera);
       if (partner == null)
       {
@@ -201,7 +203,7 @@ namespace MVC.Controllers
         {
           CopyValues(partner, model);
 
-          //vezani dio je stvoren s new Osoba() ili new Tvrtka() pa je entity stated Added što bi proizvelo Insert pa ne update
+          //vezani dio je stvoren s new Osoba() ili new Tvrtka() pa je entity stated Added što bi proizvelo Insert, a ne update
           if (partner.Osoba != null)
           {
             partner.Osoba.IdOsobe = partner.IdPartnera;
@@ -231,6 +233,32 @@ namespace MVC.Controllers
       }
     }
 
+    [HttpGet]
+    public async Task<IActionResult> Get(int id)
+    {
+      var mjesto = await ctx.Partner
+                            .Where(p => p.IdPartnera == id)
+                            .Select(p => new PartnerViewModel
+                            {
+                              IdPartnera = p.IdPartnera,
+                              IdMjestaIsporuke = p.IdMjestaIsporuke,
+                              IdMjestaPartnera = p.IdMjestaPartnera,
+                              AdrIsporuke = p.AdrIsporuke,
+                              AdrPartnera = p.AdrPartnera,
+                              Oib = p.Oib,
+                              TipPartnera = p.TipPartnera
+                            })
+                            .SingleOrDefaultAsync();
+      if (mjesto != null)
+      {
+        return PartialView(mjesto);
+      }
+      else
+      {
+        return NotFound($"Neispravan id partnera: {id}");
+      }
+    }
+
 
     #region Private methods
     private void CopyValues(Partner partner, PartnerViewModel model)
@@ -252,7 +280,6 @@ namespace MVC.Controllers
         partner.Tvrtka.MatBrTvrtke = model.MatBrTvrtke;
         partner.Tvrtka.NazivTvrtke = model.NazivTvrtke;
       }
-
     }
 
     private async Task DohvatiNaziveMjesta(PartnerViewModel model)

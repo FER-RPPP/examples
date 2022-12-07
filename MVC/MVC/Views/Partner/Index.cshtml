@@ -2,6 +2,8 @@
 
 @{
   ViewBag.Title = "Partneri";
+  //zadrži postojeće stvari iz ViewData ako ih ima i još dodaj PagingInfo
+  var viewdata = new ViewDataDictionary(ViewData) { { "PagingInfo", Model.PagingInfo } };
 }
 
 <h2>Popis partnera</h2>
@@ -36,33 +38,22 @@
   <tbody>
     @foreach (var partner in Model.Partneri)
     {
-      <tr>
-        <td class="text-left">@partner.IdPartnera</td>
-        <td class="text-left">@partner.TipPartneraText</td>
-        <td class="text-left">@partner.OIB</td>
-        <td class="text-left">@partner.Naziv</td>
-        <td>
-          <a asp-action="Edit"
-             asp-route-id="@partner.IdPartnera"
-             asp-route-page="@Model.PagingInfo.CurrentPage"
-             asp-route-sort="@Model.PagingInfo.Sort"
-             asp-route-ascending="@Model.PagingInfo.Ascending"
-             class="btn btn-warning btn-sm" title="Ažuriraj"><i class="fas fa-edit"></i></a>
-        </td>
-        <td>
-          <form asp-action="Delete" method="post"
-                asp-route-id="@partner.IdPartnera"
-                asp-route-page="@Model.PagingInfo.CurrentPage"
-                asp-route-sort="@Model.PagingInfo.Sort"
-                asp-route-ascending="@Model.PagingInfo.Ascending">
-            <button type="submit" class="btn btn-sm btn-danger delete" title="Obriši"><i class="fas fa-trash-alt"></i></button>
-          </form>
-        </td>
-      </tr>
+      <partial name="Get" model="partner" view-data="viewdata" />
     }
   </tbody>
 </table>
 
 @section scripts {
   <script src="~/js/pager.js" asp-append-version="true"></script>
+  <script src="~/lib/htmx/htmx.min.js" asp-append-version="true"></script> 
+  <partial name="IncludeValidation" />
+
+  <script>
+    document.body.addEventListener("showMessage", function(evt){     
+       toastr[evt.detail.messageType](evt.detail.message);
+    })
+    document.body.addEventListener("htmx:responseError", function (evt) {
+        toastr["error"](evt.detail.error);
+    })
+  </script>
 }
