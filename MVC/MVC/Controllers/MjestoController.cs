@@ -6,10 +6,7 @@ using MVC.Extensions;
 using MVC.Extensions.Selectors;
 using MVC.Models;
 using MVC.ViewModels;
-using System;
-using System.Linq;
 using System.Text.Json;
-using System.Threading.Tasks;
 
 namespace MVC.Controllers
 {
@@ -140,16 +137,17 @@ namespace MVC.Controllers
         }
         catch (Exception exc)
         {          
-          responseMessage = new ActionResponseMessage(MessageType.Error, $"Pogreška prilikom brisanja mjesta: {exc.CompleteExceptionMessage()}");          
+          responseMessage = new ActionResponseMessage(MessageType.Error, $"Pogreška prilikom brisanja mjesta: {exc.CompleteExceptionMessage()}");
         }
       }
       else
       {
-        responseMessage = new ActionResponseMessage(MessageType.Error, $"Mjesto sa šifrom {id} ne postoji");        
+        responseMessage = new ActionResponseMessage(MessageType.Error, $"Mjesto sa šifrom {id} ne postoji");
       }
 
       Response.Headers["HX-Trigger"] = JsonSerializer.Serialize(new { showMessage = responseMessage });
-      return new EmptyResult();
+      return responseMessage.MessageType == MessageType.Success ?
+        new EmptyResult() : await Get(id);
     }
 
     [HttpGet]

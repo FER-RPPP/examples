@@ -1,20 +1,12 @@
-﻿using System;
-using System.Linq;
-using Microsoft.AspNetCore.Mvc;
-using System.IO;
+﻿using Microsoft.AspNetCore.Mvc;
 using MVC.Extensions;
 using MVC.Models;
-using Microsoft.AspNetCore.Http;
 using Microsoft.Extensions.Options;
 using Microsoft.EntityFrameworkCore;
 using MVC.ViewModels;
-using System.Threading.Tasks;
-using Microsoft.Extensions.Logging;
 using MVC.Extensions.Selectors;
 using MVC.Util;
 using Microsoft.Net.Http.Headers;
-using Microsoft.Extensions.Primitives;
-using System.Net;
 using System.Text.Json;
 
 namespace MVC.Controllers
@@ -284,7 +276,8 @@ namespace MVC.Controllers
       }
 
       Response.Headers["HX-Trigger"] = JsonSerializer.Serialize(new { showMessage = responseMessage });
-      return new EmptyResult();
+      return responseMessage.MessageType == MessageType.Success ?
+       new EmptyResult() : await Get(id);
     }
 
     public async Task<bool> ProvjeriSifruArtikla(int SifArtikla)
