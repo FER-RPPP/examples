@@ -71,7 +71,7 @@ namespace EF_EN
                      {
                        c.CityName,
                        c.PostalCode,
-                       Country = c.CountryCodeNavigation.CoutryName
+                       Country = c.CountryCodeNavigation.CountryName
                      });
       foreach (var c in query) {
         Console.WriteLine($"{c.PostalCode} {c.CityName} ({c.Country})");

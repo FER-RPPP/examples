@@ -13,7 +13,7 @@ namespace EF_EN.Model
         }
 
         public string CountryCode { get; set; }
-        public string CoutryName { get; set; }
+        public string CountryName { get; set; }
         public string CountryIso3 { get; set; }
 
         public virtual ICollection<City> Cities { get; set; }

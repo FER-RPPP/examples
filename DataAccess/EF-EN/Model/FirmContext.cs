@@ -86,14 +86,14 @@ namespace EF_EN.Model
 
                 entity.ToTable("Country");
 
-                entity.HasIndex(e => e.CoutryName, "UIX_Country_Name")
+                entity.HasIndex(e => e.CountryName, "UIX_Country_Name")
                     .IsUnique();
 
                 entity.Property(e => e.CountryCode).HasMaxLength(2);
 
                 entity.Property(e => e.CountryIso3).HasMaxLength(3);
 
-                entity.Property(e => e.CoutryName)
+                entity.Property(e => e.CountryName)
                     .IsRequired()
                     .HasMaxLength(255);
             });
