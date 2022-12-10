@@ -121,9 +121,9 @@ namespace EF_EN.Model
                     .OnDelete(DeleteBehavior.ClientSetNull)
                     .HasConstraintName("FK_Document_Partner");
 
-                entity.HasOne(d => d.PreviousDocumentNavigation)
-                    .WithMany(p => p.InversePreviousDocumentNavigation)
-                    .HasForeignKey(d => d.PreviousDocument)
+                entity.HasOne(d => d.PreviousDocument)
+                    .WithMany(p => p.InversePreviousDocument)
+                    .HasForeignKey(d => d.PreviousDocumentId)
                     .HasConstraintName("FK_Document_Document");
             });
 

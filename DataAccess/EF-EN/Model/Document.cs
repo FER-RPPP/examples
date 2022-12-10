@@ -9,7 +9,7 @@ namespace EF_EN.Model
     {
         public Document()
         {
-            InversePreviousDocumentNavigation = new HashSet<Document>();
+            InversePreviousDocument = new HashSet<Document>();
             Items = new HashSet<Item>();
         }
 
@@ -18,13 +18,13 @@ namespace EF_EN.Model
         public int DocumentNo { get; set; }
         public DateTime DocumentDate { get; set; }
         public int PartnerId { get; set; }
-        public int? PreviousDocument { get; set; }
+        public int? PreviousDocumentId { get; set; }
         public decimal Vat { get; set; }
         public decimal Amount { get; set; }
 
         public virtual Partner Partner { get; set; }
-        public virtual Document PreviousDocumentNavigation { get; set; }
-        public virtual ICollection<Document> InversePreviousDocumentNavigation { get; set; }
+        public virtual Document PreviousDocument { get; set; }
+        public virtual ICollection<Document> InversePreviousDocument { get; set; }
         public virtual ICollection<Item> Items { get; set; }
     }
 }
