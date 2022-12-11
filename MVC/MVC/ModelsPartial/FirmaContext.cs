@@ -1,4 +1,5 @@
-﻿using Microsoft.EntityFrameworkCore;
+﻿using Microsoft.AspNetCore.Mvc.ViewFeatures;
+using Microsoft.EntityFrameworkCore;
 
 namespace MVC.Models
 {
@@ -6,7 +7,11 @@ namespace MVC.Models
   {
     public virtual DbSet<ViewPartner> vw_Partner { get; set; }
     public virtual DbSet<ViewDokumentInfo> vw_Dokumenti { get; set; }
-    public virtual DbSet<StavkaDenorm> StavkaDenorm { get; set; }
+
+    //The FromExpression call in the CLR function body allows for the function to be used instead of a regular DbSet.
+    public IQueryable<StavkaDenorm> NajveceKupnje(int count) =>
+      FromExpression(() => NajveceKupnje(count));
+
     partial void OnModelCreatingPartial(ModelBuilder modelBuilder)
     {
       modelBuilder.Entity<ViewPartner>(entity => {
@@ -19,10 +24,13 @@ namespace MVC.Models
         //entity.ToView("vw_Dokumenti"); //u slučaju da se DbSet svojstvo zove drugačije
       });
 
-      modelBuilder.Entity<StavkaDenorm>(entity =>
-      {
-        entity.HasNoKey();        
+      modelBuilder.Entity<StavkaDenorm>(entity => {
+        entity.HasNoKey();       
       });
+
+      modelBuilder.HasDbFunction(typeof(FirmaContext).GetMethod(nameof(NajveceKupnje), new[] { typeof(int) }))
+                  .HasName("fn_NajveceKupnje");
+                  
     }
   }
 }
