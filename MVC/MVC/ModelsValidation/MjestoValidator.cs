@@ -15,10 +15,7 @@ namespace MVC.ModelsValidation
 
       RuleFor(m => m.PostBrMjesta)
         .NotEmpty().WithMessage("Potrebno je unijeti poštanski broj mjesta (10-60000)")
-        .GreaterThanOrEqualTo(10).WithMessage("Dozvoljeni raspon: 10-60000")
-        .LessThanOrEqualTo(60000).WithMessage("Dozvoljeni raspon: 10-60000");
-
-
+        .InclusiveBetween(10, 60000).WithMessage("Dozvoljeni raspon: 10-60000");
     }
   }
 }
