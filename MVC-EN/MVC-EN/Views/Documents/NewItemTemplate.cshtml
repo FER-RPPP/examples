@@ -1,0 +1,24 @@
+﻿<table id="template" style="visibility:hidden">
+  <tr>
+    <td class="text-left col-sm-4">
+      <input type="hidden" name="Items.Index" value="--number--" />
+      <input type="hidden" name="Items[--number--].ProductNumber" value="--number--" />
+      <input type="hidden" name="Items[--number--].ProductName" value="--name--" />
+      --name--
+    </td>
+    <td class="text-center col-sm-1">
+      <input name="Items[--number--].Quantity" class="form-control" value="--quantity--" />
+    </td>
+    <td class="text-center col-sm-1">
+      <input name="Items[--number--].Discount" class="form-control" value="--discount--" />
+    </td>
+    <td class="text-right col-sm-3">
+      <input type="hidden" name="Items[--number--].UnitPrice" value="--price--" />
+      --price_formatted--
+    </td>
+    <td class="text-right col-sm-2">--amount--</td>
+    <td>
+      <button class="btn btn-sm btn-danger deleterow" title="Izbaci"><i class="fas fa-minus"></i></button>
+    </td>
+  </tr>
+</table>

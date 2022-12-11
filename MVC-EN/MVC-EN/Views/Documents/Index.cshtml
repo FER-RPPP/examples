@@ -1,0 +1,103 @@
+﻿@model DocumentsViewModel
+
+@{
+  ViewBag.Title = "Documents";
+}
+
+<div class="container">
+  <div class="form-group row">
+    <div class="col-sm-4">
+      <h2>Documents</h2>
+      <br />
+      <a asp-action="Create">Create a new document</a>
+    </div>
+    <div class="col-sm-7">
+      <partial name="SearchCriteria" model="Model.Filter" />
+    </div>
+  </div>
+</div>
+
+<pager page-info="@Model.PagingInfo" page-filter="@Model.Filter" page-action="Index" page-title="Enter page number"
+       class="float-end">
+</pager>
+
+
+<table class="table table-striped">
+  <thead>
+    <tr>
+      <th>
+        <a asp-route-sort="1" asp-route-page="@Model.PagingInfo.CurrentPage" asp-route-ascending="@(Model.PagingInfo.Sort == 1 ? !Model.PagingInfo.Ascending : true)" asp-route-filter="@Model.Filter">
+          Document Id
+        </a>
+      </th>
+      <th>
+        <a asp-route-sort="2" asp-route-page="@Model.PagingInfo.CurrentPage" asp-route-ascending="@(Model.PagingInfo.Sort == 2 ? !Model.PagingInfo.Ascending : true)" asp-route-filter="@Model.Filter">
+          Partner
+        </a>
+      </th>
+      <th>
+        <a asp-route-sort="3" asp-route-page="@Model.PagingInfo.CurrentPage" asp-route-ascending="@(Model.PagingInfo.Sort == 3 ? !Model.PagingInfo.Ascending : true)" asp-route-filter="@Model.Filter">
+          Document Date
+        </a>
+      </th>
+      <th>
+        <a asp-route-sort="4" asp-route-page="@Model.PagingInfo.CurrentPage" asp-route-ascending="@(Model.PagingInfo.Sort == 4 ? !Model.PagingInfo.Ascending : true)" asp-route-filter="@Model.Filter">
+          Amount
+        </a>
+      </th>
+      <th></th>
+      <th></th>
+    </tr>
+  </thead>
+  <tbody>
+    @foreach (var document in Model.Documents)
+    {
+      <tr>
+        <td class="text-left">
+          <a asp-action="Show"
+             asp-route-id="@document.DocumentId"
+             asp-route-page="@Model.PagingInfo.CurrentPage"
+             asp-route-sort="@Model.PagingInfo.Sort"
+             asp-route-ascending="@Model.PagingInfo.Ascending"
+             asp-route-filter="@Model.Filter"
+             asp-route-position="@document.Position">
+            @document.DocumentId
+          </a>
+        </td>
+        <td class="text-left">@document.PartnerName</td>
+        <td class="text-left">@document.DocumentDate.ToString("dd.MM.yyyy.")</td>
+        <td class="text-center">@document.Amount.ToString("C2")</td>
+        <td>
+          <a asp-action="Edit"
+             asp-route-id="@document.DocumentId"
+             asp-route-page="@Model.PagingInfo.CurrentPage"
+             asp-route-sort="@Model.PagingInfo.Sort"
+             asp-route-ascending="@Model.PagingInfo.Ascending"
+             asp-route-filter="@Model.Filter"
+           asp-route-position="@document.Position"
+             class="btn btn-warning btn-sm" title="Ažuriraj"><i class="fas fa-edit"></i></a>
+        </td>
+        <td>
+          <form asp-action="Delete" method="post"
+                asp-route-page="@Model.PagingInfo.CurrentPage"
+                asp-route-sort="@Model.PagingInfo.Sort"
+                asp-route-ascending="@Model.PagingInfo.Ascending"
+                asp-route-filter="@Model.Filter">
+            <input type="hidden" name="id" value="@document.DocumentId" />
+            <button type="submit" class="btn btn-sm btn-danger delete" title="Delete"><i class="fas fa-trash-alt"></i></button>
+          </form>
+        </td>
+      </tr>
+    }
+  </tbody>
+</table>
+
+@section styles{
+  <link rel="stylesheet" href="~/lib/jqueryui/themes/base/jquery-ui.css" />
+}
+
+@section scripts{
+   <script src="~/js/pager.js" asp-append-version="true"></script>
+  <script src="~/lib/jqueryui/jquery-ui.js"></script>
+  <script src="~/js/autocomplete.js" asp-append-version="true"></script>
+}

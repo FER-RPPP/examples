@@ -1,0 +1,20 @@
+﻿<script>
+
+  @if (TempData[Constants.Message] != null)
+  {
+    bool error = false;
+    var obj = TempData[Constants.ErrorOccurred];
+    if (obj != null)
+    {
+      error = (bool)obj;
+    }
+    if (error)
+    {
+      <text>toastr.error(`@TempData[Constants.Message]`, 'Error', {timeOut : 0, tapToDismiss : false, closeButton : true})</text>
+    }
+    else
+    {
+      <text>toastr.success(`@TempData[Constants.Message]`)</text>
+    }
+  }
+</script>

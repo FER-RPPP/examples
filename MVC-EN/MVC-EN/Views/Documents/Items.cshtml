@@ -1,0 +1,64 @@
+﻿@model IEnumerable<ItemViewModel>
+<table class="table table-striped" id="table-items">
+    <thead>
+        <tr>
+            @{
+                string[] headers = { "Product", "Quantity", "Discount [0-1]", "Unit price", "Item(s) price" };
+                for (int i = 0; i < headers.Length; i++)
+                {
+                    <th class="text-center">
+                        @headers[i]                        
+                    </th>
+                }
+            }
+            <th></th>           
+        </tr>
+    </thead>
+    <tbody>      
+        @foreach(var item in Model)
+        {           
+            <tr>
+                <td class="text-left col-sm-4">
+                    <input type="hidden" name="Items.Index" value="@item.ProductNumber"/>
+                    <input type="hidden" name="Items[@item.ProductNumber].ItemId" value="@item.ItemId" />
+                    <input type="hidden" name="Items[@item.ProductNumber].ProductNumber" value="@item.ProductNumber" /> 
+                    <input type="hidden" name="Items[@item.ProductNumber].ProductName" value="@item.ProductName" />
+                    @item.ProductName                                 
+                </td>
+                <td class="text-center col-sm-1">
+                    <input name="Items[@item.ProductNumber].Quantity" class="form-control" value="@item.Quantity"/>
+                </td>
+                <td class="text-center col-sm-1">
+                    <input name="Items[@item.ProductNumber].Discount" class="form-control" value="@item.Discount" />
+                </td>
+                <td class="text-right col-sm-3">
+                    <input type="hidden" name="Items[@item.ProductNumber].UnitPrice" value="@item.UnitPrice" />
+                    @item.UnitPrice.ToString("C2")
+                </td>               
+                <td class="text-right col-sm-2">@item.ItemPrice.ToString("C2")</td>
+                <td>
+                    <button class="btn btn-sm btn-danger deleterow" title="Remove"><i class="fa fa-minus"></i></button>
+                </td>               
+            </tr>
+        }        
+        <tr>
+            <td >
+                <input id="product-number" type="hidden" data-autocomplete-placeholder="products" readonly="readonly" />
+                <input id="product-name" type="text" data-autocomplete="products" />                
+            </td>
+            <td class="text-center col-sm-1">
+                <input id="product-quantity" type="text" /> 
+            </td>
+            <td class="text-center col-sm-1">
+                <input id="product-discount" type="text" />
+            </td>
+            <td class="text-right col-sm-2">
+                <input id="product-price"  type="text" data-autocomplete-placeholder-price="products" readonly="readonly" />
+            </td>
+            <td class="text-left" colspan="3">
+                <button id="product-add" class="btn btn-sm btn-secondary" title="Add"><i class="fas fa-plus"></i></button>
+            </td>
+        </tr>
+    </tbody>
+</table>
+

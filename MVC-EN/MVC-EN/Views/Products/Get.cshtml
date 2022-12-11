@@ -1,0 +1,30 @@
+﻿@model ProductViewModel
+
+<tr hx-target="this" hx-swap="outerHTML">
+  <td class="text-left">
+    @if (Model.HasPhoto)
+    {
+      <img src="@Url.Action("GetImage", "Products", new { id = @Model.ProductNumber, hash=Model.ImageHash })"
+         class="malaslika" />
+    }
+  </td>
+  <td class="text-left">@Model.ProductNumber</td>
+  <td class="text-left">@Model.ProductName</td>
+  <td class="text-left">@Model.UnitName</td>
+  <td class="text-right text-nowrap">@Model.Price.ToString("C2")</td>
+  <td class="text-left"><input type="checkbox" @(Model.IsService ? "checked" : "") disabled />  </td>
+  <td class="text-left">@Model.Description</td>
+  <td>    
+    <a class="btn btn-sm"
+       hx-get="@Url.Action(nameof(ProductsController.Edit), new { id = Model.ProductNumber })"
+       title="Edit"><i class="fas fa-edit"></i></a>
+  </td>
+  <td> 
+    <button class="btn btn-sm btn-danger"
+            hx-confirm="Delete product?"
+            hx-delete="@Url.Action(nameof(ProductsController.Delete), new { id = Model.ProductNumber })"
+            title="Delete">
+      <i class="fas fa-trash-alt"></i>
+    </button>    
+  </td>
+</tr>

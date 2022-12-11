@@ -1,0 +1,37 @@
+﻿@model Country
+
+@{
+  ViewBag.Title = "Edit country";
+}
+
+<form asp-route-id="@Model.CountryCode"
+      asp-route-page="@ViewBag.Page"
+      asp-route-sort="@ViewBag.Sort"
+      asp-route-ascending="@ViewBag.Ascending"
+      method="post">
+  @*Not needed, because we have countryCode in the route, a do not use argument binding*@
+  @*<input type="hidden" asp-for="CountryCode" />*@
+  <div class="mb-3">
+    <label asp-for="CountryName" class="form-label"></label>
+    <input asp-for="CountryName" class="form-control" />
+    <div class="form-text"><span asp-validation-for="CountryName" class="text-danger"></span></div>
+  </div>
+  <div class="mb-3">
+    <label asp-for="CountryIso3" class="form-label"></label>
+    <input maxlength="3" asp-for="CountryIso3" class="form-control" />
+    <div class="form-text"><span asp-validation-for="CountryIso3" class="text-danger"></span></div>
+  </div>
+  <div class="text-center">
+    <button class="btn btn-primary" type="submit">Save</button>
+    <a asp-action="Index"
+       asp-route-page="@ViewBag.Page"
+       asp-route-sort="@ViewBag.Sort"
+       asp-route-ascending="@ViewBag.Ascending"
+       class="btn btn-secondary">Cancel</a>
+  </div>
+  <div asp-validation-summary="All"></div>
+</form>
+
+@section scripts {
+  <partial name="IncludeValidation" />
+}

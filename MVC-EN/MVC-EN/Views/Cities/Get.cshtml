@@ -1,0 +1,22 @@
+﻿@model CityViewModel
+
+<tr hx-target="this" hx-swap="outerHTML">
+  <td class="text-left">@Model.PostalCode</td>
+  <td class="text-left">@Model.CityName</td>
+  <td class="text-left">@Model.PostalName</td>
+  <td class="text-left">@Model.CountryName</td>
+  <td>
+    <a class="btn btn-sm"
+       hx-get="@Url.Action(nameof(CitiesController.Edit), new { id = Model.CityId })"
+       title="Edit"><i class="fas fa-edit"></i></a>
+  </td>
+  <td>   
+      <button class="btn btn-sm btn-danger"
+              hx-confirm="Delete city?"
+              hx-delete="@Url.Action(nameof(CitiesController.Delete), new { id = Model.CityId })"
+              title="Delete">
+        <i class="fas fa-trash-alt"></i>
+      </button> 
+  </td>
+</tr>
+  

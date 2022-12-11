@@ -1,0 +1,23 @@
+﻿@model ViewPartner
+<tr hx-target="this" hx-swap="outerHTML">
+  <td class="text-left">@Model.PartnerId</td>
+  <td class="text-left">@Model.PartnerTypeText</td>
+  <td class="text-left">@Model.VatNumber</td>
+  <td class="text-left">@Model.PartnerName</td>
+  <td>
+    <a asp-action="Edit"
+       asp-route-id="@Model.PartnerId"
+       asp-route-page="@ViewBag.PagingInfo.CurrentPage"
+       asp-route-sort="@ViewBag.PagingInfo.Sort"
+       asp-route-ascending="@ViewBag.PagingInfo.Ascending"
+       class="btn btn-warning btn-sm" title="Edit"><i class="fas fa-edit"></i></a>
+  </td>
+  <td>
+    <button class="btn btn-sm btn-danger"
+            hx-confirm="Delete partner?"
+            hx-delete="@Url.Action(nameof(PartnersController.Delete), new { id = Model.PartnerId })"
+            title="Delete">
+      <i class="fas fa-trash-alt"></i>
+    </button>
+  </td>
+</tr>

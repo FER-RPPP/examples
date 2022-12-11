@@ -1,0 +1,134 @@
+﻿@model DocumentViewModel
+@{
+    ViewBag.Title = "Document #" + @Model.DocumentId;
+}
+
+<div class="container">
+    <div class="row text-center">
+        <div class="col-sm-2">
+            @if (ViewBag.Previous != null)
+            {
+                <a class="btn btn-sm btn-primary"
+                   asp-action="Show"
+                   asp-route-page="@ViewBag.Page"
+                   asp-route-sort="@ViewBag.Sort"
+                   asp-route-ascending="@ViewBag.Ascending"
+                   asp-route-filter="@ViewBag.Filter"
+                   asp-route-position="@(ViewBag.Position - 1)"
+                   asp-route-id="@ViewBag.Previous">
+                    <i class="fas fa-step-backward"></i>
+                </a>
+            }
+        </div>
+        <div class="col-sm-8">
+            <h4>
+                @Model.DocumentNo/@Model.DocumentType/@Model.DocumentDate.ToString("d.M.yyyy.")
+                - @Model.PartnerName
+            </h4>
+        </div>
+        <div class="col-sm-2">
+            @if (ViewBag.Next != null)
+            {
+                <a class="btn btn-sm btn-primary" asp-action="Show"
+                   asp-route-page="@ViewBag.Page"
+                   asp-route-sort="@ViewBag.Sort"
+                   asp-route-ascending="@ViewBag.Ascending"
+                   asp-route-filter="@ViewBag.Filter"
+                   asp-route-position="@(ViewBag.Position + 1)"
+                   asp-route-id="@ViewBag.Next">
+                    <i class="fas fa-step-forward"></i>
+                </a>
+            }
+        </div>
+    </div>
+
+
+    @if (Model.PreviousDocumentId != null)
+    {
+    <div class="row justify-content-sm-center">
+        <div class="col-sm-2">
+            Previous document:
+        </div>
+        <div class="col-sm-6">
+            <a asp-action="Show" asp-route-id="@Model.PreviousDocumentId" target="_blank">@Model.PreviousDocumentName</a>
+        </div>
+    </div>
+    }
+
+    <div class="row justify-content-sm-center">
+        <div class="col-sm-2">
+            VAT rate: @Model.VAT.ToString("P2")
+        </div>
+        <div class="col-sm-2">
+            Amount: @Model.Amount.ToString("C2")
+        </div>
+        <div class="col-sm-1 text-right">
+            <a asp-action="Edit"
+               asp-route-id="@Model.DocumentId"
+               target="_blank"
+               class="btn btn-warning btn-sm" title="Ažuriraj"><i class="fas fa-edit"></i></a>
+        </div>
+        <div class="col-sm-1 text-right">
+          <form asp-action="Delete" method="post"
+                asp-route-page="@ViewBag.Page"
+                asp-route-sort="@ViewBag.Sort"
+                asp-route-ascending="@ViewBag.Ascending"
+                asp-route-filter="@ViewBag.Filter">
+              <input type="hidden" name="id" value="@Model.DocumentId" />
+              <button type="submit" class="btn btn-sm btn-danger delete" title="Delete"><i class="fas fa-trash-alt"></i></button>
+          </form>
+        </div>
+        <div class="col-sm-1 text-left">
+            <a class="btn btn-sm btn-primary cancel"
+               asp-action="Index"
+               asp-route-page="@ViewBag.Page"
+               asp-route-sort="@ViewBag.Sort"
+               asp-route-ascending="@ViewBag.Ascending"
+               asp-route-filter="@ViewBag.Filter"
+               title="Back to documents list">
+                <i class="fas fa-undo-alt"></i>
+            </a>
+        </div>
+    </div>
+
+    <div class="row">
+        <table class="table table-striped">
+            <thead>
+                <tr>
+                    @{
+                        string[] headers = { "Product", "Quantity", "Discount", "Unit price", "Amount" };
+                        for (int i = 0; i < headers.Length; i++)
+                        {
+                            <th class="text-center">
+                                @headers[i]
+                            </th>
+                        }
+                    }
+                    <th></th>
+                </tr>
+            </thead>
+            <tbody>
+                @foreach (var item in Model.Items)
+                {
+                    <tr>
+                        <td class="text-left col-sm-4">
+                            @item.ProductName
+                        </td>
+                        <td class="text-right col-sm-1">
+                            @item.Quantity.ToString("N2")
+                        </td>
+                        <td class="text-center col-sm-1">
+                            @item.Discount.ToString("P2")
+                        </td>
+                        <td class="text-right col-sm-2">
+                            @item.UnitPrice.ToString("C2")
+                        </td>
+                        <td class="text-right col-sm-2">
+                            @item.ItemPrice.ToString("C2")
+                        </td>
+                    </tr>
+                }
+            </tbody>
+        </table>
+    </div>
+</div>

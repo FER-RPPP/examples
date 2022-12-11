@@ -1,0 +1,41 @@
+﻿@model City
+
+@{
+  ViewBag.Title = "Add new city";
+}
+
+<h2>Add new city</h2>
+
+<form asp-action="Create" method="post">
+  <div asp-validation-summary="All"></div>
+  <div class="mb-3">
+    <label asp-for="PostalCode" class="form-label"></label>
+    <input asp-for="PostalCode" class="form-control" />
+    <div class="form-text"><span asp-validation-for="PostalCode" class="text-danger"></span></div>
+  </div>
+  <div class="mb-3">
+    <label asp-for="CityName" class="form-label"></label>
+    <input asp-for="CityName" class="form-control" />
+    <div class="form-text"><span asp-validation-for="CityName" class="text-danger"></span></div>
+  </div>
+  <div class="mb-3">
+    <label asp-for="PostalName" class="form-label"></label>
+    <input asp-for="PostalName" class="form-control" />
+    <div class="form-text"><span asp-validation-for="PostalName" class="text-danger"></span></div>
+  </div>
+  <div class="mb-3">
+    <label asp-for="CountryCode" class="form-label"></label>
+    <select class="form-select" asp-for="CountryCode" asp-items="ViewBag.Countries">
+      <option disabled selected value="">Choose a country</option>
+    </select>
+    <div class="form-text"><span asp-validation-for="CountryCode" class="text-danger"></span></div>
+  </div>
+  <div class="text-center">
+    <button class="btn btn-primary" type="submit">Add</button>
+    <a asp-action="Index" class="btn btn-default">Cancel</a>
+  </div>
+</form>
+
+@section scripts {
+  <partial name="IncludeValidation" />
+}

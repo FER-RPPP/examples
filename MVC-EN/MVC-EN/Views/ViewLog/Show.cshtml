@@ -1,0 +1,47 @@
+﻿@model IEnumerable<LogEntry>
+@{
+  ViewData["Title"] = "Log viewer";
+}
+<h2>Log entries on @(((DateTime) ViewBag.Day).ToString("dd.MM.yyyy."))</h2>
+
+<table class="table table-sm table-striped table-hover" id="logtable">
+  <thead>
+    <tr>
+      <th>Time</th>
+      <th>Id</th>
+      <th>Controller</th>
+      <th>Level</th>
+      <th>Message</th>
+      <th>Url</th>
+      <th>Action</th>
+    </tr>
+  </thead>
+  <tbody>
+    @foreach (var entry in Model)
+    {
+      <tr class="@(entry.Level == "ERROR" ? "bg-danger" : (entry.Level == "WARN" ? "bg-warning" : ""))">
+        <td class="text-center">@entry.Time.ToString("HH:mm:ss")</td>
+        <td class="text-left">@entry.Id</td>
+        <td class="text-center">@entry.Controller</td>
+        <td class="text-center">@entry.Level</td>
+        <td class="text-center">@entry.Message</td>
+        <td class="text-center">@entry.Url</td>
+        <td class="text-center">@entry.Action</td>
+      </tr>
+    }
+  </tbody>
+</table>
+
+@section styles{
+  <link rel="stylesheet" href="https://cdn.datatables.net/1.13.1/css/dataTables.bootstrap5.min.css" />
+}
+
+@section scripts{
+  <script src="https://cdn.datatables.net/1.13.1/js/jquery.dataTables.min.js"></script>
+  <script src="https://cdn.datatables.net/1.13.1/js/dataTables.bootstrap5.min.js"></script>
+  <script>
+    $(function () {
+        $('#logtable').DataTable();
+    });
+  </script>
+}

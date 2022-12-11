@@ -1,0 +1,63 @@
+﻿@model ProductsViewModel
+
+@{
+  ViewBag.Title = "Products";
+}
+
+<h2>Products</h2>
+
+
+<a asp-action="Create">Add a new product</a>
+
+<pager page-info="@Model.PagingInfo" page-action="Index" page-title="Enter page"
+       class="float-end">
+</pager>
+
+<table class="table table-sm table-striped table-hover">
+  <thead>
+    <tr>
+      @{
+        string[] headers = { "Photo", "Number", "Name", "Unit name", "Price", "Is service?", "Description" };
+        bool[] sortable = { true, true, true, true, true, true, false };
+        for (int i = 1; i <= headers.Length; i++)
+        {
+          <th>
+            @if (sortable[i - 1])
+            {
+              <a asp-route-sort="@i" asp-route-page="@Model.PagingInfo.CurrentPage" asp-route-ascending="@(Model.PagingInfo.Sort == i ? !Model.PagingInfo.Ascending : true)">
+                @headers[i - 1]
+              </a>
+            }
+            else
+            {
+              @headers[i - 1]
+            }
+          </th>
+        }
+      }
+      <th></th>
+      <th></th>
+    </tr>
+  </thead>
+  <tbody>
+    @foreach (var product in Model.Products)
+    {
+      <partial name="Get" model="product" />
+    }
+  </tbody>
+</table>
+
+@section scripts {
+  <script src="~/js/pager.js" asp-append-version="true"></script>
+  <script src="~/lib/htmx/htmx.min.js" asp-append-version="true"></script> 
+  <partial name="IncludeValidation" />
+
+  <script>
+    document.body.addEventListener("showMessage", function (evt) {
+        toastr[evt.detail.messageType](evt.detail.message);
+    })
+    document.body.addEventListener("htmx:responseError", function (evt) {     
+        toastr["error"](evt.detail.error);
+    })
+  </script>
+}

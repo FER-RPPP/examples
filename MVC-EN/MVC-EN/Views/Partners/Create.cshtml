@@ -1,0 +1,130 @@
+﻿@model PartnerViewModel
+
+@{
+  ViewBag.Title = "New Partner";
+}
+
+<h2>Create new partner</h2>
+
+<form asp-action="Create" method="post">
+  <div asp-validation-summary="All"></div>
+  
+  <div class="form-check form-check-inline">
+    <input class="form-check-input" type="radio" asp-for="PartnerType" value="P">
+    <label class="form-check-label" asp-for="PartnerType">Person</label>
+  </div>
+  <div class="form-check form-check-inline">
+    <input class="form-check-input" type="radio" asp-for="PartnerType" value="C">
+    <label class="form-check-label" asp-for="PartnerType">Company</label>
+  </div>
+
+
+  <div class="mb-3 row company-data">
+    <label asp-for="CompanyName" class="col-sm-2 col-form-label"></label>
+    <div class="col-sm-5">
+      <input asp-for="CompanyName" class="form-control" />
+    </div>
+    <div class="form-text col-sm-5"><span asp-validation-for="CompanyName" class="text-danger"></span></div>
+  </div>
+  <div class="mb-3 row company-data">
+    <label asp-for="RegistrationNumber" class="col-sm-2 col-form-label"></label>
+    <div class="col-sm-5">
+      <input asp-for="RegistrationNumber" class="form-control" />
+    </div>
+    <div class="form-text col-sm-5"><span asp-validation-for="RegistrationNumber" class="text-danger"></span></div>
+  </div>
+  <div class="mb-3 row person-data">
+    <label asp-for="PersonFirstName" class="col-sm-2 col-form-label"></label>
+    <div class="col-sm-5">
+      <input asp-for="PersonFirstName" class="form-control" />
+    </div>
+    <div class="form-text col-sm-5"><span asp-validation-for="PersonFirstName" class="text-danger"></span></div>
+  </div>
+  <div class="mb-3 row person-data">
+    <label asp-for="PersonLastName" class="col-sm-2 col-form-label"></label>
+    <div class="col-sm-5">
+      <input asp-for="PersonLastName" class="form-control" />
+    </div>
+    <div class="form-text col-sm-5"><span asp-validation-for="PersonLastName" class="text-danger"></span></div>
+  </div>
+  <div class="mb-3 row">
+    <label asp-for="VATNumber" class="col-sm-2 col-form-label"></label>
+    <div class="col-sm-5">
+      <input asp-for="VATNumber" class="form-control" />
+    </div>
+    <div class="form-text col-sm-5"><span asp-validation-for="VATNumber" class="text-danger"></span></div>
+  </div>
+  <div class="mb-3 row">
+    <label asp-for="ResidenceAddress" class="col-sm-2 col-form-label"></label>
+    <div class="col-sm-5">
+      <input asp-for="ResidenceAddress" class="form-control" />
+    </div>
+    <div class="form-text col-sm-5"><span asp-validation-for="ResidenceAddress" class="text-danger"></span></div>
+  </div>
+  <div class="mb-3 row">
+    <label asp-for="ResidenceCityId" class="col-sm-2 col-form-label"></label>
+    <div class="col-sm-5">
+      <input asp-for="ResidenceCityName" class="form-control" data-autocomplete="cities"
+             data-autocomplete-placeholder-name="residence-city"
+             value="@Model.ResidenceCityName" />
+      <input type="hidden" asp-for="ResidenceCityId" data-autocomplete-placeholder="residence-city" />
+      </div>
+    <div class="form-text col-sm-5"><span asp-validation-for="ResidenceCityId" class="text-danger"></span></div>
+  </div>
+  <div class="mb-3 row">
+    <label asp-for="ShipmentAddress" class="col-sm-2 col-form-label"></label>
+    <div class="col-sm-5">
+      <input asp-for="ShipmentAddress" class="form-control" />
+    </div>
+    <div class="form-text col-sm-5"><span asp-validation-for="ShipmentAddress" class="text-danger"></span></div>
+  </div>
+  <div class="mb-3 row">
+    <label asp-for="ShipmentCityId" class="col-sm-2 col-form-label"></label>
+    <div class="col-sm-5">
+      <input asp-for="ShipmentCityName" class="form-control" data-autocomplete="cities"
+           data-autocomplete-placeholder-name="shippment-city"
+           value="@Model.ShipmentCityName" />
+      <input type="hidden" asp-for="ShipmentCityId" data-autocomplete-placeholder="shippment-city" />
+    </div>
+    <div class="form-text col-sm-5"><span asp-validation-for="ShipmentCityId" class="text-danger"></span></div>
+  </div>
+
+  <div class="mb-3 row">
+    <div class="col-sm-2"></div>
+    <div class="col-sm-5">
+      <button class="btn btn-primary" type="submit">Add</button>
+      <a asp-action="Index" class="btn btn-secondary">Cancel</a>
+    </div>
+  </div>
+</form>
+
+@section styles{
+  <link rel="stylesheet" href="~/lib/jqueryui/themes/base/jquery-ui.css" />
+}
+
+@section scripts{
+  <partial name="IncludeValidation" />
+  <script src="~/lib/jqueryui/jquery-ui.js"></script>
+  <script src="~/js/autocomplete.js" asp-append-version="true"></script>
+
+  <script type="text/javascript">
+    $(function () {
+      $('input:radio').change(function () {
+            PersonOrCompany($(this).val());
+      });
+
+      PersonOrCompany($('input:checked').val());
+    });
+
+    function PersonOrCompany(type) {
+      if (type === 'P') {
+        $(".company-data").hide();
+        $(".person-data").show();
+      }
+      else {
+        $(".person-data").hide();
+        $(".company-data").show();
+      }
+    }
+  </script>
+}

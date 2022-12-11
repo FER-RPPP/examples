@@ -1,0 +1,50 @@
+﻿@model Product
+
+<tr hx-target="this" hx-swap="outerHTML">
+    <td colspan="2">
+        <span class="text-info">Delete photo?</span> <input type="checkbox" name="deletePhoto" value="true" />
+        <br/>
+        <input type="file" name="photo" class="form-control" />
+    </td>
+    <td>
+        <input type="hidden" asp-for="ProductNumber" />
+        @Model.ProductNumber<br/>
+        <input asp-for="ProductName" class="form-control"/>
+    </td>
+    <td>
+        <br />
+        <input asp-for="UnitName" class="form-control"/>
+    </td>
+    <td>
+        <br />
+        <input asp-for="Price" class="form-control"/>
+    </td>
+    <td>
+        <br />
+        <input asp-for="IsService" class="checkbox"/>
+    </td>
+    <td>
+        <br />
+        <input asp-for="Description" class="form-control"/>
+    </td>   
+    <td>
+        <br />
+        <button hx-include="closest tr"  
+                hx-encoding="multipart/form-data"
+                hx-post="@Url.Action(nameof(ProductsController.Edit))"
+                class="btn btn-sm btn-primary" title="Save">
+          <i class="fas fa-save"></i>
+        </button>
+    </td>
+    <td>
+        <br />
+        <button class="btn btn-sm cancel"               
+                hx-get="@Url.Action(nameof(ProductsController.Get), new { id = Model.ProductNumber })"
+                title="Cancel">
+          <i class="fas fa-undo-alt"></i>
+        </button>
+    </td>
+  <td>
+    <div asp-validation-summary="All"></div>
+  </td>
+</tr>

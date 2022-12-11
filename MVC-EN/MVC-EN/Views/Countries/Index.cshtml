@@ -1,0 +1,66 @@
+﻿@model CountriesViewModel
+
+@{
+  ViewBag.Title = "Countries";
+}
+
+<h2>Countries list</h2>
+
+<a asp-action="Create">Add new country</a>
+
+<pager page-info="@Model.PagingInfo" page-action="Index" page-title="Enter page"
+       class="float-end">
+</pager>
+
+<table class="table table-sm table-striped table-hover">
+  <thead>
+    <tr>
+      <th>
+        <a asp-route-sort="1" asp-route-page="@Model.PagingInfo.CurrentPage" asp-route-ascending="@(Model.PagingInfo.Sort == 1 ? !Model.PagingInfo.Ascending : true)">
+          Country Code
+        </a>
+      </th>
+      <th>
+        <a asp-route-sort="2" asp-route-page="@Model.PagingInfo.CurrentPage" asp-route-ascending="@(Model.PagingInfo.Sort == 2 ? !Model.PagingInfo.Ascending : true)">
+          Name
+        </a>
+      </th>
+      <th>
+        <a asp-route-sort="3" asp-route-page="@Model.PagingInfo.CurrentPage" asp-route-ascending="@(Model.PagingInfo.Sort == 3 ? !Model.PagingInfo.Ascending : true)">
+          ISO3
+        </a>
+      </th>
+      <th></th>
+    </tr>
+  </thead>
+  <tbody>
+    @foreach (var country in Model.Countries)
+    {
+      <tr>
+        <td class="text-left">@country.CountryCode</td>
+        <td class="text-left">@country.CountryName</td>
+        <td class="text-left">@country.CountryIso3</td>
+        <td class="btn-group">
+          <a asp-action="Edit"
+             asp-route-id="@country.CountryCode"
+             asp-route-page="@Model.PagingInfo.CurrentPage"
+             asp-route-sort="@Model.PagingInfo.Sort"
+             asp-route-ascending="@Model.PagingInfo.Ascending"
+             class="btn btn-sm" title="Edit"><i class="fas fa-edit"></i></a>
+
+          <form asp-action="Delete" method="post"
+                asp-route-page="@Model.PagingInfo.CurrentPage"
+                asp-route-sort="@Model.PagingInfo.Sort"
+                asp-route-ascending="@Model.PagingInfo.Ascending">
+            <input type="hidden" name="countryCode" value="@country.CountryCode" />
+            <button type="submit" class="btn btn-sm btn-danger delete" title="Delete"><i class="fas fa-trash-alt"></i></button>
+          </form>
+        </td>
+      </tr>
+    }
+  </tbody>
+</table>
+
+@section scripts {
+  <script src="~/js/pager.js" asp-append-version="true"></script>
+}

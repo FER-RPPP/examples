@@ -1,0 +1,15 @@
+﻿@{
+  ViewData["Title"] = "Log viewer";
+}
+
+<form asp-action="Show" method="get">
+  <div class="form-group row">
+    <label class="col-sm-3 col-form-label">Get log on:</label>
+    <div class="col-sm-2">
+      <input name="day" type="date" class="form-control" />
+    </div>
+    <div class="col-sm-1">
+      <button type="submit" class="btn btn-sm btn-primary" title="Get"><i class="fas fa-check-circle"></i></button>
+    </div>
+  </div>
+</form>

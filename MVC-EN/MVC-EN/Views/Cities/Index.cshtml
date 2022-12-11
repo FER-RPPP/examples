@@ -1,0 +1,65 @@
+﻿@model CitiesViewModel
+
+@{
+  ViewBag.Title = "Cities";
+}
+
+<h2>Cities</h2>
+
+
+<a asp-action="Create">Add a new city</a>
+
+@* Uncomment route parameters and see the difference in the generated url *@
+@* 
+<a asp-action="Create"
+   asp-route-page="@Model.PagingInfo.CurrentPage"
+   asp-route-sort="@Model.PagingInfo.Sort"
+   asp-route-ascending="@Model.PagingInfo.Ascending"
+>Add a new city</a>*@
+
+<pager page-info="@Model.PagingInfo" page-action="Index" page-title="Enter page"
+     class="float-end">
+</pager>
+
+<table class="table table-sm table-striped table-hover">
+  <thead>
+    <tr>
+      @{
+        string[] nazivi = { "Postal Code", "City Name", "Postal Name", "Country" };
+        for (int i = 1; i <= nazivi.Length; i++)
+        {
+          <th>
+            <a asp-route-sort="@i"
+               asp-route-page="@Model.PagingInfo.CurrentPage"
+               asp-route-ascending="@(Model.PagingInfo.Sort == i ? !Model.PagingInfo.Ascending : true)">
+              @nazivi[i - 1]
+            </a>
+          </th>
+        }
+      }
+      <th></th>
+      <th></th>
+    </tr>
+  </thead>
+  <tbody>
+    @foreach (var city in Model.Cities)
+    {
+      <partial name="Get" model="city" />
+    }
+  </tbody>
+</table>
+
+@section scripts {
+  <script src="~/js/pager.js" asp-append-version="true"></script>
+  <script src="~/lib/htmx/htmx.min.js" asp-append-version="true"></script> 
+  <partial name="IncludeValidation" />
+
+  <script>
+    document.body.addEventListener("showMessage", function(evt){     
+       toastr[evt.detail.messageType](evt.detail.message);
+    })
+    document.body.addEventListener("htmx:responseError", function (evt) {
+        toastr["error"](evt.detail.error);
+    })
+  </script>
+}

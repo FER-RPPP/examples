@@ -1,0 +1,43 @@
+﻿@{
+  ViewData["Title"] = "Home page";
+}
+
+<p>
+  The examples show a few typical examples of using MVC and ASP.NET Core. 
+</p>
+<p>
+  The example with countries shows data from a table that has no foreign keys. 
+  When displayed, it shows n data per page, 
+  with information about the number of items per page written to the configuration file(s). 
+  It also ensures that when we update a country, after the update we return to the same page 
+  we were on before the update. 
+  It is possible to add new countries, update and delete existing ones, updating on a separate page. 
+</p>
+<p>
+  The example with the cities demonstrates the creation of a dropdown list (selecting a country)
+  to select a foreign key value. 
+  Also, the example uses the <a href="https://htmx.org">htmx</a> library, 
+  which allows dynamic updating of data in the table without having to open a separate page. 
+</p>
+<p>
+  The example with partners is an example of the hierarchy of Partner, Company and Person 
+  classes modeled in the database in the form of TPT (Table per type). 
+  The merged data is retrieved using a view, which is then manually added to the data model.
+  When you add a new partner the input fields change dynamically depending on whether it 
+  is a company or a person, and the location is selected using a autocomplete instead of classic
+  drop down list.
+</p>
+<p>
+  The example with products also uses dynamic deletion and inline updating, 
+  and it is possible to add an image to the product. 
+  The image is resized using the libvips library before saving it to the database. 
+</p>
+<p>
+  The example with the documents is an example of a master detail form where the selection 
+  of a foreign key for a large number of options is done with javascript 
+  using autocomplete. 
+  It also demostrates saving multiple items at the same time.
+</p>
+<p>
+  Reports Controller exports data to Excel (with Reflection) and PDF.
+</p>

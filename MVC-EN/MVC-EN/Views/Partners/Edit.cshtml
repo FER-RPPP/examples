@@ -1,0 +1,116 @@
+﻿@model PartnerViewModel
+
+@{
+  ViewBag.Title = "Edit partner";
+}
+
+<form asp-action="Edit"
+      asp-route-page="@ViewBag.Page"
+      asp-route-sort="@ViewBag.Sort"
+      asp-route-ascending="@ViewBag.Ascending"
+      method="post">
+  <input type="hidden" asp-for="PartnerId" />
+  <input type="hidden" asp-for="PartnerType" />
+  @if (Model.PartnerType == "C")
+  {
+    <div class="mb-3 row">
+      <label asp-for="CompanyName" class="col-sm-2 col-form-label"></label>
+      <div class="col-sm-5">
+        <input asp-for="CompanyName" class="form-control" />
+      </div>
+      <div class="form-text col-sm-5"><span asp-validation-for="CompanyName" class="text-danger"></span></div>
+    </div>
+    <div class="mb-3 row">
+      <label asp-for="RegistrationNumber" class="col-sm-2 col-form-label"></label>
+      <div class="col-sm-5">
+        <input asp-for="RegistrationNumber" class="form-control" />
+      </div>
+      <div class="form-text col-sm-5"><span asp-validation-for="RegistrationNumber" class="text-danger"></span></div>
+    </div>
+  }
+  else
+  {
+    <div class="mb-3 row">
+      <label asp-for="PersonFirstName" class="col-sm-2 col-form-label"></label>
+      <div class="col-sm-5">
+        <input asp-for="PersonFirstName" class="form-control" />
+      </div>
+      <div class="form-text col-sm-5"><span asp-validation-for="PersonFirstName" class="text-danger"></span></div>
+    </div>
+    <div class="mb-3 row">
+      <label asp-for="PersonLastName" class="col-sm-2 col-form-label"></label>
+      <div class="col-sm-5">
+        <input asp-for="PersonLastName" class="form-control" />
+      </div>
+      <div class="form-text col-sm-5"><span asp-validation-for="PersonLastName" class="text-danger"></span></div>
+    </div>
+  }
+  <div class="mb-3 row">
+    <label asp-for="VATNumber" class="col-sm-2 col-form-label"></label>
+    <div class="col-sm-5">
+      <input asp-for="VATNumber" class="form-control" />
+    </div>
+    <div class="form-text col-sm-5"><span asp-validation-for="VATNumber" class="text-danger"></span></div>
+  </div>
+  <div class="mb-3 row">
+    <label asp-for="ResidenceAddress" class="col-sm-2 col-form-label"></label>
+    <div class="col-sm-5">
+      <input asp-for="ResidenceAddress" class="form-control" />
+    </div>
+    <div class="form-text col-sm-5"><span asp-validation-for="ResidenceAddress" class="text-danger"></span></div>
+  </div>
+  <div class="mb-3 row">
+    <label asp-for="ResidenceCityId" class="col-sm-2 col-form-label"></label>
+    <div class="col-sm-5">
+      <input asp-for="ResidenceCityName" class="form-control" data-autocomplete="cities"
+             data-autocomplete-placeholder-name="residence-city"
+             value="@Model.ResidenceCityName" />
+      <input type="hidden" asp-for="ResidenceCityId" data-autocomplete-placeholder="residence-city" />
+    </div>
+    <div class="form-text col-sm-5"><span asp-validation-for="ResidenceCityId" class="text-danger"></span></div>
+  </div>
+  <div class="mb-3 row">
+    <label asp-for="ShipmentAddress" class="col-sm-2 col-form-label"></label>
+    <div class="col-sm-5">
+      <input asp-for="ShipmentAddress" class="form-control" />
+    </div>
+    <div class="form-text col-sm-5"><span asp-validation-for="ShipmentAddress" class="text-danger"></span></div>
+  </div>
+  <div class="mb-3 row">
+    <label asp-for="ShipmentCityId" class="col-sm-2 col-form-label"></label>
+    <div class="col-sm-5">
+      <input asp-for="ShipmentCityName" class="form-control" data-autocomplete="cities"
+             data-autocomplete-placeholder-name="shippment-city"
+             value="@Model.ShipmentCityName" />
+      <input type="hidden" asp-for="ShipmentCityId" data-autocomplete-placeholder="shippment-city" />
+    </div>
+    <div class="form-text col-sm-5"><span asp-validation-for="ShipmentCityId" class="text-danger"></span></div>
+  </div>
+
+  <div class="mb-3 row">
+    <div class="col-sm-2"></div>
+    <div class="col-sm-5">
+      <button class="btn btn-primary" type="submit">Save</button>
+      <a asp-action="Index"
+         asp-route-page="@ViewBag.Page"
+         asp-route-sort="@ViewBag.Sort"
+         asp-route-ascending="@ViewBag.Ascending"
+        class="btn btn-secondary">Cancel</a>
+    </div>
+  </div>
+
+  <div class="mb-3 row" asp-validation-summary="All">
+  </div>
+
+</form>
+
+
+@section styles{
+  <link rel="stylesheet" href="~/lib/jqueryui/themes/base/jquery-ui.css" />
+}
+
+@section scripts{
+  <partial name="IncludeValidation" />
+  <script src="~/lib/jqueryui/jquery-ui.js"></script>
+  <script src="~/js/autocomplete.js" asp-append-version="true"></script>
+}
