@@ -45,7 +45,7 @@ try
 
   app.UseEndpoints(endpoints =>
   {
-    endpoints.MapControllerRoute("Places and articles",
+    endpoints.MapControllerRoute("Mjesta i artikli",
           "{action}/{controller:regex(^(Mjesto|Artikl)$)}/Page{page}/Sort{sort:int}/ASC-{ascending:bool}/{id?}",
           new { action = "Index" }
           );

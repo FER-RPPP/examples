@@ -1,15 +1,11 @@
 ﻿using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
-using Microsoft.Extensions.Logging;
 using Microsoft.Extensions.Options;
 using MVC.Extensions;
 using MVC.Extensions.Selectors;
 using MVC.Models;
 using MVC.ViewModels;
-using System;
-using System.Linq;
 using System.Text.Json;
-using System.Threading.Tasks;
 
 namespace MVC.Controllers
 {
@@ -236,18 +232,8 @@ namespace MVC.Controllers
     [HttpGet]
     public async Task<IActionResult> Get(int id)
     {
-      var mjesto = await ctx.Partner
-                            .Where(p => p.IdPartnera == id)
-                            .Select(p => new PartnerViewModel
-                            {
-                              IdPartnera = p.IdPartnera,
-                              IdMjestaIsporuke = p.IdMjestaIsporuke,
-                              IdMjestaPartnera = p.IdMjestaPartnera,
-                              AdrIsporuke = p.AdrIsporuke,
-                              AdrPartnera = p.AdrPartnera,
-                              Oib = p.Oib,
-                              TipPartnera = p.TipPartnera
-                            })
+      var mjesto = await ctx.vw_Partner
+                            .Where(p => p.IdPartnera == id)                            
                             .SingleOrDefaultAsync();
       if (mjesto != null)
       {
