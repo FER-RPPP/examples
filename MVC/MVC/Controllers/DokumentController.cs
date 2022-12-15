@@ -214,8 +214,7 @@ namespace MVC.Controllers
           d.Stavka.Add(novaStavka);
         }
 
-        d.IznosDokumenta = (1 + d.PostoPorez)
-                            * d.Stavka.Sum(s => s.KolArtikla * (1 - s.PostoRabat) * s.JedCijArtikla);
+        d.IznosDokumenta = (1 + d.PostoPorez) * d.Stavka.Sum(s => s.CijenaStavke);
         //eventualno umanji iznos za dodatni popust za kupca i sl... nešto što bi bilo poslovno pravilo
         try
         {
@@ -304,8 +303,7 @@ namespace MVC.Controllers
           novaStavka.JedCijArtikla = stavka.JedCijArtikla;
         }
 
-        dokument.IznosDokumenta = (1 + dokument.PostoPorez) *
-                                  model.Stavke.Sum(s => s.KolArtikla * (1 - s.PostoRabat) * s.JedCijArtikla);
+        dokument.IznosDokumenta = (1 + dokument.PostoPorez) * model.Stavke.Sum(s => s.IznosArtikla);
         //eventualno umanji iznos za dodatni popust za kupca i sl... nešto što bi bilo poslovno pravilo
         try
         {
