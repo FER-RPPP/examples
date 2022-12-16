@@ -3,9 +3,6 @@ using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Options;
 using MVC.Models;
 using MVC.ViewModels;
-using System.Collections.Generic;
-using System.Linq;
-using System.Threading.Tasks;
 
 namespace MVC.Controllers
 {
@@ -40,12 +37,12 @@ namespace MVC.Controllers
     public async Task<IEnumerable<IdLabel>> Partner(string term)
     {
       var query = ctx.vw_Partner
-                      .Select(p => new IdLabel
-                      {
+                     .Where(p => p.Naziv.Contains(term) || p.OIB.Contains(term))
+                     .Select(p => new IdLabel
+                     {
                         Id = p.IdPartnera,
                         Label = p.Naziv + " (" + p.OIB + ")"
-                      })
-                      .Where(l => l.Label.Contains(term));
+                     });                      
 
       var list = await query.OrderBy(l => l.Label)
                             .ThenBy(l => l.Id)
