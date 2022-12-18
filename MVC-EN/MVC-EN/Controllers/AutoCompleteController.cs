@@ -37,12 +37,13 @@ public class AutoCompleteController : Controller
   public async Task<List<IdLabel>> Partners(string term)
   {
     var query = ctx.vw_Partners
+                   .Where(p => p.PartnerName.Contains(term)
+                            || p.VatNumber.Contains(term))
                     .Select(p => new IdLabel
                     {
                       Id = p.PartnerId,
                       Label = p.PartnerName + " (" + p.VatNumber + ")"
-                    })
-                    .Where(l => l.Label.Contains(term));
+                    });                
 
     var list = await query.OrderBy(l => l.Label)
                           .ThenBy(l => l.Id)

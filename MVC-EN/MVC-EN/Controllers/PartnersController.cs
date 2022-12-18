@@ -44,13 +44,13 @@ public class PartnersController : Controller
 
     query = query.ApplySort(sort, ascending);
 
-    var partneri = await query
+    var partners = await query
                         .Skip((page - 1) * pagesize)
                         .Take(pagesize)                          
                         .ToListAsync();
     var model = new PartnersViewModel
     {
-      Partners = partneri,
+      Partners = partners,
       PagingInfo = pagingInfo
     };
 

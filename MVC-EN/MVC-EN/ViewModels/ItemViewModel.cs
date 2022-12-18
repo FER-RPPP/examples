@@ -13,11 +13,5 @@ public class ItemViewModel
   [Range(0, 1, ErrorMessage = "Discount should be in rage [0,1]")]
   public decimal Discount { get; set; }
 
-  public decimal ItemPrice
-  {
-    get
-    {
-      return Quantity * UnitPrice * (1 - Discount);
-    }
-  }
+  public decimal ItemPrice => Quantity * UnitPrice * (1 - Discount);
 }

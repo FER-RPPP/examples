@@ -288,8 +288,7 @@ public class ReportsController : Controller
   public async Task<IActionResult> Documents()
   {
     int n = 10;
-    var param = new SqlParameter("N", n); //SQL Parameter from Microsoft.Data.SqlClient, and not from System.Data.SqlClient
-    string title = $"Top {n} biggets purchaces";
+    string title = $"Top {n} biggets purchases";
     var items = await ctx.BiggestPurchases(n)                            
                          .OrderBy(s => s.DocumentId)
                          .ThenBy(s => s.ProductName)
@@ -419,8 +418,8 @@ public class ReportsController : Controller
                   decimal quantity = (decimal)list.GetValueOf(nameof(ItemDenorm.Quantity));
                   decimal discount = (decimal)list.GetValueOf(nameof(ItemDenorm.Discount));
                   decimal unitPrice = (decimal)list.GetValueOf(nameof(ItemDenorm.UnitPrice));
-                  var iznos = unitPrice * quantity * (1 - discount);
-                  return iznos;
+                  var amount = unitPrice * quantity * (1 - discount);
+                  return amount;
                 });
       });
     });
@@ -440,7 +439,7 @@ public class ReportsController : Controller
   #region Master-detail header
   public class MasterDetailsHeaders : IPageHeader
   {
-    private string title;
+    private readonly string title;
     public MasterDetailsHeaders(string title)
     {
       this.title = title;
@@ -558,7 +557,7 @@ public class ReportsController : Controller
       doc.DocumentMetadata(new DocumentMetadata
       {
         Author = "FER-ZPR",
-        Application = "Firma.MVC Core",
+        Application = "Firm.MVC",
         Title = title
       });
       doc.Compression(new CompressionSettings

@@ -2,7 +2,6 @@
   event.preventDefault();
   const tr = $(this).parents("tr");
   tr.remove();
-  clearOldMessage();
 });
 
 $(function () {
@@ -67,7 +66,5 @@ function addProduct() {
     $("#product-discount").val('');
     $("#product-price").val('');
     $("#product-name").val('');
-
-    clearOldMessage();
   }
 }
