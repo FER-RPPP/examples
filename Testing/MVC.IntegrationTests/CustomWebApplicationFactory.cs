@@ -11,7 +11,7 @@ using System.Threading.Tasks;
 
 namespace MVC.IntegrationTests
 {
-  public class CustomWebApplicationFactory<TTest> : WebApplicationFactory<Startup> 
+  public class CustomWebApplicationFactory<TTest> : WebApplicationFactory<Program> 
   {
     protected override void ConfigureWebHost(IWebHostBuilder builder)
     {

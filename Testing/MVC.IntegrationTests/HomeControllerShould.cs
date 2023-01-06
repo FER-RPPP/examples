@@ -1,20 +1,16 @@
 ﻿using FluentAssertions;
 using Microsoft.AspNetCore.Mvc.Testing;
-using System;
-using System.Collections.Generic;
-using System.Linq;
 using System.Net;
-using System.Text;
 using System.Threading.Tasks;
 using Xunit;
 
 namespace MVC.IntegrationTests
 {
-  public class HomeControllerShould : IClassFixture<WebApplicationFactory<Startup>>
+  public class HomeControllerShould : IClassFixture<WebApplicationFactory<Program>>
   {
-    private readonly WebApplicationFactory<Startup> factory;
+    private readonly WebApplicationFactory<Program> factory;
 
-    public HomeControllerShould(WebApplicationFactory<Startup> factory) 
+    public HomeControllerShould(WebApplicationFactory<Program> factory) 
     {
       this.factory = factory;
     }

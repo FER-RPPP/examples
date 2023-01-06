@@ -1,11 +1,8 @@
 using FluentAssertions;
 using Microsoft.AspNetCore.Mvc.Testing;
-using Microsoft.Extensions.DependencyInjection;
-using MVC.Models;
 using MVC.ViewModels;
 using System;
 using System.Collections.Generic;
-using System.Linq;
 using System.Net;
 using System.Text.Json;
 using System.Threading.Tasks;
@@ -13,11 +10,11 @@ using Xunit;
 
 namespace MVC.IntegrationTests
 {
-  public class AutoCompleteShould : IClassFixture<WebApplicationFactory<Startup>>
+  public class AutoCompleteShould : IClassFixture<WebApplicationFactory<Program>>
   {
-    private readonly WebApplicationFactory<Startup> factory;
+    private readonly WebApplicationFactory<Program> factory;
 
-    public AutoCompleteShould(WebApplicationFactory<Startup> factory)
+    public AutoCompleteShould(WebApplicationFactory<Program> factory)
     {
       this.factory = factory;     
     }
