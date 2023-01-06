@@ -1,0 +1,33 @@
+﻿BenchmarkDotNet=v0.13.3, OS=Windows 11 (10.0.22621.963)
+11th Gen Intel Core i7-1165G7 2.80GHz, 1 CPU, 8 logical and 4 physical cores
+.NET SDK=7.0.101
+  [Host]     : .NET 6.0.12 (6.0.1222.56807), X64 RyuJIT AVX2
+  DefaultJob : .NET 6.0.12 (6.0.1222.56807), X64 RyuJIT AVX2
+
+
+|            Method | ListSize |       Mean |    Error |    StdDev | Ratio | RatioSD |
+|------------------ |--------- |-----------:|---------:|----------:|------:|--------:|
+|        MapForeach |       10 |   108.5 ns |  2.17 ns |   2.50 ns |  1.00 |    0.00 |
+|           MapLinq |       10 |   120.2 ns |  2.26 ns |   2.12 ns |  1.11 |    0.03 |
+| MapWithReflection |       10 | 4,818.1 ns | 95.43 ns | 194.94 ns | 45.30 |    2.68 |
+| MapWithAutoMapper |       10 |   546.3 ns | 10.90 ns |  12.12 ns |  5.04 |    0.15 |
+
+
+--- 
+
+BenchmarkDotNet=v0.13.3, OS=Windows 11 (10.0.22621.963)
+11th Gen Intel Core i7-1165G7 2.80GHz, 1 CPU, 8 logical and 4 physical cores
+.NET SDK=7.0.101
+  [Host]     : .NET 6.0.12 (6.0.1222.56807), X64 RyuJIT AVX2
+  DefaultJob : .NET 6.0.12 (6.0.1222.56807), X64 RyuJIT AVX2
+
+
+|        Method | Top |     Mean |     Error |    StdDev | Ratio | RatioSD |
+|-------------- |---- |---------:|----------:|----------:|------:|--------:|
+|   MapManually |  10 | 6.092 ms | 0.1218 ms | 0.2432 ms |  1.00 |    0.00 |
+| MapAutoMapper |  10 | 6.004 ms | 0.1191 ms | 0.2853 ms |  0.98 |    0.05 |
+
+// * Hints *
+Outliers
+  DBAccess.MapManually: Default   -> 3 outliers were detected (5.51 ms..5.54 ms)
+  DBAccess.MapAutoMapper: Default -> 2 outliers were removed (14.38 ms, 16.33 ms)

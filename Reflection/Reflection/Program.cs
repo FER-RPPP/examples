@@ -16,7 +16,7 @@ namespace Reflection
       AssemblyLoadContext loadctx = AssemblyLoadContext.Default;
       Assembly asm = loadctx.LoadFromAssemblyPath(Path.GetFullPath(assemblyLocation));
       Type type = asm.GetType("LottoImplementation.Lotto");
-      IspisiPodatke(type);
+      PrintData(type);
 
       Console.WriteLine();
       Console.WriteLine("Creating an instance...");
@@ -38,7 +38,7 @@ namespace Reflection
       Console.WriteLine(print);
     }
 
-    private static void IspisiPodatke(Type t)
+    private static void PrintData(Type t)
     {
       ListVariousStats(t);
       ListFields(t);
