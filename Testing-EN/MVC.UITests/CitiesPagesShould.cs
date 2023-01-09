@@ -9,7 +9,7 @@ namespace MVC.UITests
 {
   public class CitiesPagesShould 
   {
-    private const string TestApp = "https://localhost:7057";
+    private const string TestApp = "https://localhost:54145";
 
     [Trait("Category", "UI Tests")]
     [Fact]
@@ -19,7 +19,7 @@ namespace MVC.UITests
       await using var browser = await playwright.Chromium.LaunchAsync(new BrowserTypeLaunchOptions
       {
         Headless = false,   
-        SlowMo = 200
+        SlowMo = 2000
       });
       var context = await browser.NewContextAsync();
       // Open new page
