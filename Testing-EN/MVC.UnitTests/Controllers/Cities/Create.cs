@@ -8,7 +8,7 @@ using MVC_EN;
 using MVC_EN.Controllers;
 using MVC_EN.Models;
 
-namespace MVC.UnitTests.Controllers.Mjesto
+namespace MVC.UnitTests.Controllers.Cities
 {
   public class Create
   {
