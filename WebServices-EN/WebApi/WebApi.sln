@@ -9,9 +9,9 @@ Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "EFModel", "..\EFModel\EFMod
 EndProject
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "ConsoleClientApps", "ConsoleClientApps", "{D33C59DF-8B20-4246-A5B3-9940A21B9427}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "ConsoleClient", "ConsoleClient\ConsoleClient.csproj", "{37E329EA-7FFE-4FD5-8322-5F495EA49F87}"
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "ConsoleClient", "ConsoleClientApps\ConsoleClient\ConsoleClient.csproj", "{37E329EA-7FFE-4FD5-8322-5F495EA49F87}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "StronglyTypedClient", "StronglyTypedClient\StronglyTypedClient.csproj", "{F3631803-77C5-4F4C-8634-7E551882568B}"
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "StronglyTypedClient", "ConsoleClientApps\StronglyTypedClient\StronglyTypedClient.csproj", "{F3631803-77C5-4F4C-8634-7E551882568B}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
