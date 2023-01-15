@@ -48,7 +48,7 @@ namespace WebApi.Controllers
     /// <param name="filter">Optional filter for city name</param>
     /// <returns></returns>
     [HttpGet("count", Name = "CitiesNumber")]
-    public async Task<int> Count([FromQuery] string filter)
+    public async Task<int> Count([FromQuery] string? filter)
     {
       var query = ctx.Cities.AsQueryable();
       if (!string.IsNullOrWhiteSpace(filter))

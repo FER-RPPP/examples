@@ -10,7 +10,7 @@ namespace WebApi.Models
   public class LoadParams
   {   
     /// <summary>
-    /// Starting row (i.e. skips First-1 rows)
+    /// Starting row index (i.e. how many rows to skip)
     /// </summary>    
     [FromQuery(Name = "jtStartIndex")]
     [Required]
