@@ -3,39 +3,40 @@
 using System;
 using System.Collections.Generic;
 
-namespace EFModel
+namespace EFModel;
+
+public partial class Artikl
 {
-    public partial class Artikl
-    {
-        public Artikl()
-        {
-            Stavka = new HashSet<Stavka>();
-        }
+    /// <summary>
+    /// Šifra artikla
+    /// </summary>
+    public int SifArtikla { get; set; }
 
-        /// <summary>
-        /// Šifra artikla
-        /// </summary>
-        public int SifArtikla { get; set; }
-        /// <summary>
-        /// Naziv artikla
-        /// </summary>
-        public string NazArtikla { get; set; }
-        /// <summary>
-        /// Jedinica mjere
-        /// </summary>
-        public string JedMjere { get; set; }
-        /// <summary>
-        /// Cijena artikla
-        /// </summary>
-        public decimal CijArtikla { get; set; }
-        /// <summary>
-        /// Check box, usluge nemaju sliku
-        /// </summary>
-        public bool ZastUsluga { get; set; }
-        public string TekstArtikla { get; set; }
-        public byte[] SlikaArtikla { get; set; }
-        public int? SlikaChecksum { get; set; }
+    /// <summary>
+    /// Naziv artikla
+    /// </summary>
+    public string NazArtikla { get; set; }
 
-        public virtual ICollection<Stavka> Stavka { get; set; }
-    }
+    /// <summary>
+    /// Jedinica mjere
+    /// </summary>
+    public string JedMjere { get; set; }
+
+    /// <summary>
+    /// Cijena artikla
+    /// </summary>
+    public decimal CijArtikla { get; set; }
+
+    /// <summary>
+    /// Check box, usluge nemaju sliku
+    /// </summary>
+    public bool ZastUsluga { get; set; }
+
+    public string TekstArtikla { get; set; }
+
+    public byte[] SlikaArtikla { get; set; }
+
+    public int? SlikaChecksum { get; set; }
+
+    public virtual ICollection<Stavka> Stavka { get; } = new List<Stavka>();
 }

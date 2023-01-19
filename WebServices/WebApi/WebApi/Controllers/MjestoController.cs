@@ -21,7 +21,7 @@ namespace WebApi.Controllers
   public class MjestoController : ControllerBase, ICustomController<int, MjestoViewModel>
   {
     private readonly FirmaContext ctx;
-    private static Dictionary<string, Expression<Func<Mjesto, object>>> orderSelectors = new Dictionary<string, Expression<Func<Mjesto, object>>>
+    private static Dictionary<string, Expression<Func<Mjesto, object>>> orderSelectors = new ()
     {
       [nameof(MjestoViewModel.IdMjesta).ToLower()] = m => m.IdMjesta,
       [nameof(MjestoViewModel.NazivDrzave).ToLower()] = m => m.OznDrzaveNavigation.NazDrzave,
@@ -29,6 +29,16 @@ namespace WebApi.Controllers
       [nameof(MjestoViewModel.OznDrzave).ToLower()] = m => m.OznDrzave,
       [nameof(MjestoViewModel.PostBrojMjesta).ToLower()] = m => m.PostBrMjesta,
       [nameof(MjestoViewModel.PostNazivMjesta).ToLower()] = m => m.PostNazMjesta
+    };
+
+    private static Expression<Func<Mjesto, MjestoViewModel>> projection = m => new MjestoViewModel
+    {
+      IdMjesta = m.IdMjesta,
+      NazivDrzave = m.OznDrzaveNavigation.NazDrzave,
+      NazivMjesta = m.NazMjesta,
+      OznDrzave = m.OznDrzave,
+      PostBrojMjesta = m.PostBrMjesta,
+      PostNazivMjesta = m.PostNazMjesta
     };
 
     public MjestoController(FirmaContext ctx) 
@@ -78,15 +88,7 @@ namespace WebApi.Controllers
         }
       }
 
-      var list = await query.Select(m => new MjestoViewModel
-                            {
-                              IdMjesta = m.IdMjesta,
-                              NazivDrzave = m.OznDrzaveNavigation.NazDrzave,
-                              NazivMjesta = m.NazMjesta,
-                              OznDrzave = m.OznDrzave,
-                              PostBrojMjesta = m.PostBrMjesta,
-                              PostNazivMjesta = m.PostNazMjesta
-                            })
+      var list = await query.Select(projection)
                             .Skip(loadParams.StartIndex)
                             .Take(loadParams.Rows)
                             .ToListAsync();
@@ -105,15 +107,7 @@ namespace WebApi.Controllers
     {   
       var mjesto = await ctx.Mjesto                            
                             .Where(m => m.IdMjesta == id)
-                            .Select(m => new MjestoViewModel
-                            {
-                              IdMjesta = m.IdMjesta,
-                              NazivDrzave = m.OznDrzaveNavigation.NazDrzave,
-                              NazivMjesta = m.NazMjesta,
-                              OznDrzave = m.OznDrzave,
-                              PostBrojMjesta = m.PostBrMjesta,
-                              PostNazivMjesta = m.PostNazMjesta
-                            })
+                            .Select(projection)
                             .FirstOrDefaultAsync();
       if (mjesto == null)
       {      
@@ -141,7 +135,7 @@ namespace WebApi.Controllers
       var mjesto = await ctx.Mjesto.FindAsync(id);
       if (mjesto == null)
       {
-        return Problem(statusCode: StatusCodes.Status404NotFound, detail: $"Invalid id = {id}");
+        return NotFound();
       }
       else
       {

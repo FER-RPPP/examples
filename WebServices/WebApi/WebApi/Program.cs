@@ -1,26 +1,72 @@
-using Microsoft.AspNetCore.Hosting;
-using Microsoft.Extensions.Configuration;
-using Microsoft.Extensions.Hosting;
-using Microsoft.Extensions.Logging;
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Threading.Tasks;
+using EFModel;
+using FluentValidation;
+using FluentValidation.AspNetCore;
+using Microsoft.EntityFrameworkCore;
+using Microsoft.OpenApi.Models;
+using System.Reflection;
+using WebApi;
+using WebApi.Controllers;
+using WebApi.Models;
 
-namespace WebApi
+var builder = WebApplication.CreateBuilder(args);
+
+#region Configure services
+
+// add/configure services
+builder.Services
+       .AddControllers()
+       .AddJsonOptions(configure => configure.JsonSerializerOptions.PropertyNamingPolicy = null);
+
+builder.Services
+       .AddFluentValidationAutoValidation()
+       .AddValidatorsFromAssemblyContaining<MjestoViewModel>();
+
+builder.Services.AddDbContext<FirmaContext>(options => options.UseSqlServer(builder.Configuration.GetConnectionString("Firma")));
+builder.Services.AddTransient<MjestoController>();
+
+builder.Services.AddEndpointsApiExplorer();
+builder.Services.AddSwaggerGen(c =>
 {
-  public class Program
+  c.SwaggerDoc(Constants.ApiVersion, new OpenApiInfo
   {
-    public static void Main(string[] args)
-    {
-      CreateHostBuilder(args).Build().Run();
-    }
+    Title = "Firm Web API",
+    Version = Constants.ApiVersion
+  });
+  var xmlFile = $"{Assembly.GetExecutingAssembly().GetName().Name}.xml";
+  var xmlPath = Path.Combine(AppContext.BaseDirectory, xmlFile);
+  c.IncludeXmlComments(xmlPath);
 
-    public static IHostBuilder CreateHostBuilder(string[] args) =>
-        Host.CreateDefaultBuilder(args)
-            .ConfigureWebHostDefaults(webBuilder =>
-            {
-              webBuilder.UseStartup<Startup>();
-            });
-  }
+  //e.g. include comment from EFModel (not needed, bust just for demonstration)
+  xmlFile = $"{typeof(EFModel.Artikl).Assembly.GetName().Name}.xml";
+  xmlPath = Path.Combine(AppContext.BaseDirectory, xmlFile);
+  c.IncludeXmlComments(xmlPath);
+});
+#endregion
+
+var app = builder.Build();
+
+#region Configure middleware pipeline.
+// https://docs.microsoft.com/en-us/aspnet/core/fundamentals/middleware/?view=aspnetcore-6.0#middleware-order-1
+
+if (app.Environment.IsDevelopment())
+{
+  app.UseDeveloperExceptionPage();
 }
+
+app.UseSwagger();
+app.UseSwaggerUI(c =>
+{
+  c.RoutePrefix = "docs";
+  c.DocumentTitle = "RPPP Web Api";
+  c.SwaggerEndpoint($"../swagger/{Constants.ApiVersion}/swagger.json", "RPPP WebAPI");
+});
+
+
+app.UseStaticFiles();
+
+app.UseRouting();
+
+app.MapControllers();
+#endregion
+
+app.Run();

@@ -3,26 +3,23 @@
 using System;
 using System.Collections.Generic;
 
-namespace EFModel
+namespace EFModel;
+
+public partial class Drzava
 {
-    public partial class Drzava
-    {
-        public Drzava()
-        {
-            Mjesto = new HashSet<Mjesto>();
-        }
+    /// <summary>
+    /// Oznaka države
+    /// </summary>
+    public string OznDrzave { get; set; }
 
-        /// <summary>
-        /// Oznaka države
-        /// </summary>
-        public string OznDrzave { get; set; }
-        /// <summary>
-        /// Naziv države
-        /// </summary>
-        public string NazDrzave { get; set; }
-        public string Iso3drzave { get; set; }
-        public int? SifDrzave { get; set; }
+    /// <summary>
+    /// Naziv države
+    /// </summary>
+    public string NazDrzave { get; set; }
 
-        public virtual ICollection<Mjesto> Mjesto { get; set; }
-    }
+    public string Iso3drzave { get; set; }
+
+    public int? SifDrzave { get; set; }
+
+    public virtual ICollection<Mjesto> Mjesto { get; } = new List<Mjesto>();
 }

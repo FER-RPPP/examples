@@ -3,23 +3,24 @@
 using System;
 using System.Collections.Generic;
 
-namespace EFModel
-{
-    public partial class Osoba
-    {
-        /// <summary>
-        /// Identifikator osobe
-        /// </summary>
-        public int IdOsobe { get; set; }
-        /// <summary>
-        /// Prezime osobe
-        /// </summary>
-        public string PrezimeOsobe { get; set; }
-        /// <summary>
-        /// Ime osobe
-        /// </summary>
-        public string ImeOsobe { get; set; }
+namespace EFModel;
 
-        public virtual Partner IdOsobeNavigation { get; set; }
-    }
+public partial class Osoba
+{
+    /// <summary>
+    /// Identifikator osobe
+    /// </summary>
+    public int IdOsobe { get; set; }
+
+    /// <summary>
+    /// Prezime osobe
+    /// </summary>
+    public string PrezimeOsobe { get; set; }
+
+    /// <summary>
+    /// Ime osobe
+    /// </summary>
+    public string ImeOsobe { get; set; }
+
+    public virtual Partner IdOsobeNavigation { get; set; }
 }

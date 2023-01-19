@@ -1,8 +1,6 @@
 ﻿using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.ModelBinding;
-using System;
 using System.ComponentModel.DataAnnotations;
-using System.Text.Json.Serialization;
 
 namespace WebApi.Models
 {
@@ -10,24 +8,24 @@ namespace WebApi.Models
   /// Map lazy loading parameters
   /// </summary>
   public class LoadParams
-  {   
+  {
     /// <summary>
-    /// Starting row (i.e. skips First-1 rows)
+    /// Starting row index (i.e. how many rows to skip)
     /// </summary>    
     [FromQuery(Name = "jtStartIndex")]
     [Required]
     [Range(0, int.MaxValue)]
     public int StartIndex { get; set; }
-    
+
     /// <summary>
     /// Number of elements to return
     /// </summary>
     [FromQuery(Name = "jtPageSize")]
     [Required]
-    [Range(1, int.MaxValue, ErrorMessage = "jtPageSize mora biti pozitivan broj")]
+    [Range(1, int.MaxValue, ErrorMessage = "jtPageSize must be positiive number")]
     public int Rows { get; set; }
-   
-    
+
+
     /// <summary>
     /// Name of a column. Must be same as in corresponding DTO object, case insensitive
     /// </summary>

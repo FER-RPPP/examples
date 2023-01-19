@@ -3,33 +3,38 @@
 using System;
 using System.Collections.Generic;
 
-namespace EFModel
-{
-    public partial class Stavka
-    {
-        public int IdStavke { get; set; }
-        /// <summary>
-        /// Identifikator dokumenta
-        /// </summary>
-        public int IdDokumenta { get; set; }
-        /// <summary>
-        /// Šifra artikla
-        /// </summary>
-        public int SifArtikla { get; set; }
-        /// <summary>
-        /// Količina artikla (za pojedine jedinice mjere može biti decimalni broj)
-        /// </summary>
-        public decimal KolArtikla { get; set; }
-        /// <summary>
-        /// Cijena jediničnog artikla bez poreza. Inicijalno cijena iz tablice Artikl
-        /// </summary>
-        public decimal JedCijArtikla { get; set; }
-        /// <summary>
-        /// Postotak popusta za pojedinu stavku
-        /// </summary>
-        public decimal PostoRabat { get; set; }
+namespace EFModel;
 
-        public virtual Dokument IdDokumentaNavigation { get; set; }
-        public virtual Artikl SifArtiklaNavigation { get; set; }
-    }
+public partial class Stavka
+{
+    public int IdStavke { get; set; }
+
+    /// <summary>
+    /// Identifikator dokumenta
+    /// </summary>
+    public int IdDokumenta { get; set; }
+
+    /// <summary>
+    /// Šifra artikla
+    /// </summary>
+    public int SifArtikla { get; set; }
+
+    /// <summary>
+    /// Količina artikla (za pojedine jedinice mjere može biti decimalni broj)
+    /// </summary>
+    public decimal KolArtikla { get; set; }
+
+    /// <summary>
+    /// Cijena jediničnog artikla bez poreza. Inicijalno cijena iz tablice Artikl
+    /// </summary>
+    public decimal JedCijArtikla { get; set; }
+
+    /// <summary>
+    /// Postotak popusta za pojedinu stavku
+    /// </summary>
+    public decimal PostoRabat { get; set; }
+
+    public virtual Dokument IdDokumentaNavigation { get; set; }
+
+    public virtual Artikl SifArtiklaNavigation { get; set; }
 }
