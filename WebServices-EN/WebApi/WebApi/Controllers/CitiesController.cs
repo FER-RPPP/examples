@@ -8,7 +8,7 @@ using WebServices.Util.ExceptionFilters;
 namespace WebApi.Controllers
 {
   /// <summary>
-  /// Web API servis for cities CRUD operations
+  /// Web API service for cities CRUD operations
   /// </summary>
   [ApiController]
   [Route("[controller]")]
