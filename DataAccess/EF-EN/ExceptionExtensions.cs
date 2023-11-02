@@ -1,18 +1,17 @@
 ﻿using System.Text;
 
-namespace EF_EN
+namespace EF_EN;
+
+public static class ExceptionExtensions
 {
-  public static class ExceptionExtensions
+  public static string CompleteExceptionMessage(this Exception? exc)
   {
-    public static string CompleteExceptionMessage(this Exception? exc)
+    StringBuilder sb = new StringBuilder();
+    while (exc != null)
     {
-      StringBuilder sb = new StringBuilder();
-      while (exc != null)
-      {
-        sb.AppendLine(exc.Message);
-        exc = exc.InnerException;
-      }
-      return sb.ToString();
+      sb.AppendLine(exc.Message);
+      exc = exc.InnerException;
     }
+    return sb.ToString();
   }
 }

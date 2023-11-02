@@ -1,10 +1,10 @@
-﻿using EF_EN.Model;
+﻿using EF.Model;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Logging;
 
-namespace EF_EN;
+namespace EF;
 
 internal class DISetup
 {
@@ -21,8 +21,9 @@ internal class DISetup
                               configure.AddConfiguration(configuration.GetSection("Logging"));
                               configure.AddConsole();
                             })
-                            .AddDbContext<FirmContext>(options => {
-                              options.UseSqlServer(configuration.GetConnectionString("Firm"));
+                            .AddDbContext<FirmaContext>(options => {
+                              options.UseSqlServer(configuration.GetConnectionString("Firma"));
+                              //options.LogTo(Console.Write, minimumLevel: LogLevel.Information); //too verbose -> solved using logging configuration
                             }, contextLifetime: ServiceLifetime.Transient)
                            .BuildServiceProvider();
     return provider;
