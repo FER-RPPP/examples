@@ -5,5 +5,5 @@ namespace Logging;
 
 public interface IDataLoader
 {
-  List<(string, DateTime)> LoadData(string filename);
+  List<(string, DateOnly)> LoadData(string filename);
 }
