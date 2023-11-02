@@ -3,14 +3,15 @@
 using System;
 using System.Collections.Generic;
 
-namespace EF_EN.Model
-{
-    public partial class Company
-    {
-        public int CompanyId { get; set; }
-        public string RegistrationNumber { get; set; }
-        public string CompanyName { get; set; }
+namespace EF_EN.Model;
 
-        public virtual Partner CompanyNavigation { get; set; }
-    }
+public partial class Company
+{
+    public int CompanyId { get; set; }
+
+    public string RegistrationNumber { get; set; }
+
+    public string CompanyName { get; set; }
+
+    public virtual Partner CompanyNavigation { get; set; }
 }

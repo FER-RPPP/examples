@@ -3,18 +3,23 @@
 using System;
 using System.Collections.Generic;
 
-namespace EF_EN.Model
-{
-    public partial class Item
-    {
-        public int ItemId { get; set; }
-        public int DocumentId { get; set; }
-        public int ProductNumber { get; set; }
-        public decimal Quantity { get; set; }
-        public decimal UnitPrice { get; set; }
-        public decimal Discount { get; set; }
+namespace EF_EN.Model;
 
-        public virtual Document Document { get; set; }
-        public virtual Product ProductNumberNavigation { get; set; }
-    }
+public partial class Item
+{
+    public int ItemId { get; set; }
+
+    public int DocumentId { get; set; }
+
+    public int ProductNumber { get; set; }
+
+    public decimal Quantity { get; set; }
+
+    public decimal UnitPrice { get; set; }
+
+    public decimal Discount { get; set; }
+
+    public virtual Document Document { get; set; }
+
+    public virtual Product ProductNumberNavigation { get; set; }
 }

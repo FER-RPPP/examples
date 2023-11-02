@@ -3,19 +3,15 @@
 using System;
 using System.Collections.Generic;
 
-namespace EF_EN.Model
+namespace EF_EN.Model;
+
+public partial class Country
 {
-    public partial class Country
-    {
-        public Country()
-        {
-            Cities = new HashSet<City>();
-        }
+    public string CountryCode { get; set; }
 
-        public string CountryCode { get; set; }
-        public string CountryName { get; set; }
-        public string CountryIso3 { get; set; }
+    public string CountryName { get; set; }
 
-        public virtual ICollection<City> Cities { get; set; }
-    }
+    public string CountryIso3 { get; set; }
+
+    public virtual ICollection<City> Cities { get; set; } = new List<City>();
 }

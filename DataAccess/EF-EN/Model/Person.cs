@@ -3,14 +3,15 @@
 using System;
 using System.Collections.Generic;
 
-namespace EF_EN.Model
-{
-    public partial class Person
-    {
-        public int PersonId { get; set; }
-        public string LastName { get; set; }
-        public string FirstName { get; set; }
+namespace EF_EN.Model;
 
-        public virtual Partner PersonNavigation { get; set; }
-    }
+public partial class Person
+{
+    public int PersonId { get; set; }
+
+    public string LastName { get; set; }
+
+    public string FirstName { get; set; }
+
+    public virtual Partner PersonNavigation { get; set; }
 }

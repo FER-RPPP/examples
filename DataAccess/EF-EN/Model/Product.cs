@@ -3,24 +3,25 @@
 using System;
 using System.Collections.Generic;
 
-namespace EF_EN.Model
+namespace EF_EN.Model;
+
+public partial class Product
 {
-    public partial class Product
-    {
-        public Product()
-        {
-            Items = new HashSet<Item>();
-        }
+    public int ProductNumber { get; set; }
 
-        public int ProductNumber { get; set; }
-        public string ProductName { get; set; }
-        public string UnitName { get; set; }
-        public decimal Price { get; set; }
-        public bool IsService { get; set; }
-        public string Description { get; set; }
-        public byte[] Photo { get; set; }
-        public int? PhotoChecksum { get; set; }
+    public string ProductName { get; set; }
 
-        public virtual ICollection<Item> Items { get; set; }
-    }
+    public string UnitName { get; set; }
+
+    public decimal Price { get; set; }
+
+    public bool IsService { get; set; }
+
+    public string Description { get; set; }
+
+    public byte[] Photo { get; set; }
+
+    public int? PhotoChecksum { get; set; }
+
+    public virtual ICollection<Item> Items { get; set; } = new List<Item>();
 }
