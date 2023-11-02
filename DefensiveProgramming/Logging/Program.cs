@@ -33,7 +33,7 @@ class Program
                             .Build();
 
     IServiceCollection services = new ServiceCollection();
-    var provider = services.AddLogging(configure => {
+    var provider = services.AddLogging(configure => {      
                                 configure.AddConfiguration(configuration.GetSection("Logging"));
                                 configure.AddConsole();
                                 configure.AddNLog(new NLogProviderOptions { RemoveLoggerFactoryFilter = false });

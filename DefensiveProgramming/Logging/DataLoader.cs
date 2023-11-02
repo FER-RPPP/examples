@@ -16,9 +16,9 @@ public class DataLoader : IDataLoader
     this.logger = logger;
   }
 
-  public List<Tuple<string, DateTime>> LoadData(string filename)
+  public List<(string, DateTime)> LoadData(string filename)
   {
-    List<Tuple<string, DateTime>> list = new List<Tuple<string, DateTime>>();
+    List<(string, DateTime)> list = new();
     if (!File.Exists(filename))
     {
       string message = $"File {filename} does not exist";
@@ -39,9 +39,9 @@ public class DataLoader : IDataLoader
             string datetext = line.Substring(match.Index, match.Length);
             if (DateTime.TryParseExact(datetext, "d.M.yyyy.", CultureInfo.InvariantCulture, DateTimeStyles.None, out DateTime date))
             {
-              var tuple = new Tuple<string, DateTime>(line.Remove(match.Index, match.Length).Trim(), date);
-              logger.LogTrace(tuple.ToString());
-              list.Add(tuple);
+              var item = (line.Remove(match.Index, match.Length).Trim(), date);
+              logger.LogTrace(item.ToString());
+              list.Add(item);
             }
             else
             {
