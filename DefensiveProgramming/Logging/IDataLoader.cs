@@ -1,10 +1,9 @@
 ﻿using System;
 using System.Collections.Generic;
 
-namespace Logging
+namespace Logging;
+
+public interface IDataLoader
 {
-  public interface IDataLoader
-  {
-    List<Tuple<string, DateTime>> LoadData(string filename);
-  }
+  List<Tuple<string, DateTime>> LoadData(string filename);
 }
