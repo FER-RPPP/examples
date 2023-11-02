@@ -1,5 +1,6 @@
 ﻿using EF_EN.Model;
 using Microsoft.Extensions.DependencyInjection;
+using Microsoft.Extensions.Logging;
 
 namespace EF_EN;
 
@@ -7,6 +8,7 @@ internal class Demo
 {
   internal static void AddProduct(IServiceProvider serviceProvider, int productCode)
   {
+    ILogger? logger = serviceProvider.GetService<ILogger<Demo>>();
     try
     {
       using var ctx = serviceProvider.GetRequiredService<FirmContext>();
@@ -19,16 +21,17 @@ internal class Demo
       };
       ctx.Products.Add(product);  //context.Set<Artikl>().Add(artikl);
       ctx.SaveChanges();
-      Console.WriteLine($"Product #{product.ProductNumber} successfully added");
+      logger?.LogInformation($"Product #{product.ProductNumber} successfully added");
     }
     catch (Exception exc)
     {
-      Console.WriteLine($"Error adding product #{productCode}: {exc.CompleteExceptionMessage()}");
+      logger?.LogError($"Error adding product #{productCode}: {exc.CompleteExceptionMessage()}");
     }
   }
 
   internal static void DeleteProduct(ServiceProvider serviceProvider, int productCode)
   {
+    ILogger? logger = serviceProvider.GetService<ILogger<Demo>>();
     try
     {
       using var ctx = serviceProvider.GetRequiredService<FirmContext>();
@@ -39,13 +42,40 @@ internal class Demo
         ctx.Products.Remove(product);
         //context.Entry(artikl).State = EntityState.Deleted;
         ctx.SaveChanges();
-        Console.WriteLine($"Product  #{product.ProductNumber} deleted");
-
-      }        
+        logger?.LogInformation($"Product #{product.ProductNumber} deleted");
+      }
+      else
+      {
+        logger?.LogWarning($"Product #{productCode} does not exists");
+      }
     }
     catch (Exception exc)
     {
-      Console.WriteLine($"Error deleting product #{productCode}: {exc.CompleteExceptionMessage()}");
+      logger?.LogError($"Error deleting product #{productCode}: {exc.CompleteExceptionMessage()}");
+    }
+  }
+  
+  internal static void RaiseProductPrice(ServiceProvider serviceProvider, int productCode, decimal percentage)
+  {
+    ILogger? logger = serviceProvider.GetService<ILogger<Demo>>();
+    try
+    {
+      using var ctx = serviceProvider.GetRequiredService<FirmContext>();
+      Product? product = ctx.Products.Find(productCode);
+      if (product != null)
+      {
+        product.Price *= 1 + percentage;
+        ctx.SaveChanges();
+        logger?.LogInformation("Price changed");
+      }
+      else
+      {
+        logger?.LogWarning($"Product #{productCode} does not exists");
+      }
+    }
+    catch (Exception exc)
+    {
+      logger?.LogError($"Error trying to change product #{productCode} price: {exc.CompleteExceptionMessage()}");
     }
   }
 
@@ -68,27 +98,9 @@ internal class Demo
                      c.PostalCode,
                      Country = c.CountryCodeNavigation.CountryName
                    });
-    foreach (var c in query) {
+    foreach (var c in query)
+    {
       Console.WriteLine($"{c.PostalCode} {c.CityName} ({c.Country})");
-    }
-  }
-
-  internal static void RaiseProductPrice(ServiceProvider serviceProvider, int productCode, decimal percentage)
-  {
-    try
-    {
-      using var ctx = serviceProvider.GetRequiredService<FirmContext>();
-      Product? product = ctx.Products.Find(productCode);
-      if (product != null)
-      {
-        product.Price *= 1 + percentage;
-        ctx.SaveChanges();
-        Console.WriteLine("Price changed");
-      }
-    }
-    catch (Exception exc)
-    {
-      Console.WriteLine($"Error trying to change product #{productCode} price: {exc.CompleteExceptionMessage()}");
     }
   }
 }
