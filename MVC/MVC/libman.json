@@ -3,31 +3,31 @@
   "defaultProvider": "cdnjs",
   "libraries": [
     {
-      "library": "bootstrap@5.2.2",
+      "library": "bootstrap@5.3.2",
       "destination": "wwwroot/lib/bootstrap/"
     },
     {
-      "library": "jquery@3.5.1",
+      "library": "jquery@3.7.1",
       "destination": "wwwroot/lib/jquery/"
     },
     {
-      "library": "font-awesome@5.15.1",
+      "library": "font-awesome@6.4.2",
       "destination": "wwwroot/lib/font-awesome/"
     },
     {
-      "library": "jquery-validation-unobtrusive@3.2.11",
+      "library": "jquery-validation-unobtrusive@4.0.0",
       "destination": "wwwroot/lib/jquery-validation-unobtrusive/"
     },
     {
-      "library": "jquery-validate@1.19.2",
+      "library": "jquery-validate@1.20.0",
       "destination": "wwwroot/lib/jquery-validate/"
     },
     {
-      "library": "jqueryui@1.12.1",
+      "library": "jqueryui@1.13.2",
       "destination": "wwwroot/lib/jqueryui/"
     },
     {
-      "library": "htmx@1.8.4",
+      "library": "htmx@1.9.8",
       "destination": "wwwroot/lib/htmx/"
     },
     {
