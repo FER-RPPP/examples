@@ -19,7 +19,7 @@ internal class Demo
         UnitName = "piece",
         ProductName = "Cheap Phone v1"
       };
-      ctx.Products.Add(product);  //context.Set<Artikl>().Add(artikl);
+      ctx.Products.Add(product);  //context.Set<Product>().Add(product);
       ctx.SaveChanges();
       logger?.LogInformation($"Product #{product.ProductNumber} successfully added");
     }
@@ -35,12 +35,12 @@ internal class Demo
     try
     {
       using var ctx = serviceProvider.GetRequiredService<FirmContext>();
-      //Product product = ctx.Find<Artikl>(productCode);
+      //Product product = ctx.Find<Product>(productCode);
       Product? product = ctx.Products.Find(productCode);
       if (product != null)
       {
         ctx.Products.Remove(product);
-        //context.Entry(artikl).State = EntityState.Deleted;
+        //context.Entry(product).State = EntityState.Deleted;
         ctx.SaveChanges();
         logger?.LogInformation($"Product #{product.ProductNumber} deleted");
       }
