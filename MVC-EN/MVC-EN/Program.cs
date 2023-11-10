@@ -33,7 +33,7 @@ try
   var app = builder.Build();
 
   #region configure middleware pipeline
-  //middleware order https://learn.microsoft.com/en-us/aspnet/core/fundamentals/middleware/?view=aspnetcore-6.0#middleware-order
+  //middleware order https://learn.microsoft.com/en-us/aspnet/core/fundamentals/middleware/#middleware-order
 
   if (app.Environment.IsDevelopment())
   {
@@ -44,15 +44,12 @@ try
 
   app.UseRouting();
 
-  app.UseEndpoints(endpoints =>
-  {
-    endpoints.MapControllerRoute("Cities and products",
+  app.MapControllerRoute("Cities and products",
           "{action}/{controller:regex(^(Cities|Products)$)}/Page{page}/Sort{sort:int}/ASC-{ascending:bool}/{id?}",
           new { action = "Index" }
           );
 
-    endpoints.MapDefaultControllerRoute();
-  });
+  app.MapDefaultControllerRoute();
 
   #endregion
 
