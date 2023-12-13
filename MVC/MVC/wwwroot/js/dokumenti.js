@@ -1,8 +1,7 @@
-﻿$(document).on('click', '.deleterow', function () {
+﻿$(document).on('click', '.deleterow', function (event) {
   event.preventDefault();
   var tr = $(this).parents("tr");
-  tr.remove();
-  clearOldMessage();
+  tr.remove();  
 });
 
 $(function () {
@@ -20,7 +19,7 @@ $(function () {
   });
 
 
-  $("#artikl-dodaj").click(function () {
+  $("#artikl-dodaj").click(function (event) {
     event.preventDefault();
     dodajArtikl();
   });
@@ -65,8 +64,6 @@ function dodajArtikl() {
     $("#artikl-kolicina").val('');
     $("#artikl-rabat").val('');
     $("#artikl-cijena").val('');
-    $("#artikl-naziv").val('');
-
-    clearOldMessage();
+    $("#artikl-naziv").val('');    
   }
 }
