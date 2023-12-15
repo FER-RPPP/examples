@@ -1,4 +1,4 @@
-﻿$(document).on('click', '.deleterow', function () {
+﻿$(document).on('click', '.deleterow', function (event) {
   event.preventDefault();
   const tr = $(this).parents("tr");
   tr.remove();
@@ -19,7 +19,7 @@ $(function () {
   });
 
 
-  $("#product-add").click(function () {
+  $("#product-add").click(function (event) {
     event.preventDefault();
     addProduct();
   });
