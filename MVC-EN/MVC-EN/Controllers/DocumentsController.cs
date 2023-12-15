@@ -279,7 +279,7 @@ public class DocumentsController : Controller
                                 .Where(s => s.ItemId > 0)
                                 .Select(s => s.ItemId)
                                 .ToList();
-      //remove all not anymore in the model
+      //remove all items that are not anymore in the model
       ctx.RemoveRange(document.Items.Where(i => !itemsIds.Contains(i.ItemId)));
 
       foreach (var item in model.Items)
