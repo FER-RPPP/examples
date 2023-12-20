@@ -13,21 +13,76 @@
 | MapWithAutoMapper |       10 |   546.3 ns | 10.90 ns |  12.12 ns |  5.04 |    0.15 |
 
 
---- 
 
-BenchmarkDotNet=v0.13.3, OS=Windows 11 (10.0.22621.963)
-11th Gen Intel Core i7-1165G7 2.80GHz, 1 CPU, 8 logical and 4 physical cores
-.NET SDK=7.0.101
-  [Host]     : .NET 6.0.12 (6.0.1222.56807), X64 RyuJIT AVX2
-  DefaultJob : .NET 6.0.12 (6.0.1222.56807), X64 RyuJIT AVX2
+BenchmarkDotNet v0.13.11, Windows 11 (10.0.22621.2861/22H2/2022Update/SunValley2)
+13th Gen Intel Core i5-1340P, 1 CPU, 16 logical and 12 physical cores
+.NET SDK 8.0.100
+  [Host]     : .NET 6.0.25 (6.0.2523.51912), X64 RyuJIT AVX2
+  DefaultJob : .NET 6.0.25 (6.0.2523.51912), X64 RyuJIT AVX2
 
 
-|        Method | Top |     Mean |     Error |    StdDev | Ratio | RatioSD |
+| Method            | ListSize | Mean        | Error     | StdDev   | Ratio | RatioSD |
+|------------------ |--------- |------------:|----------:|---------:|------:|--------:|
+| MapForeach        | 10       |    83.14 ns |  0.907 ns | 0.848 ns |  1.00 |    0.00 |
+| MapLinq           | 10       |   117.53 ns |  1.680 ns | 1.571 ns |  1.41 |    0.03 |
+| MapWithReflection | 10       | 3,042.57 ns | 12.641 ns | 9.869 ns | 36.57 |    0.35 |
+| MapWithAutoMapper | 10       |   499.42 ns |  3.913 ns | 3.469 ns |  6.00 |    0.08 |
+
+
+BenchmarkDotNet v0.13.11, Windows 11 (10.0.22621.2861/22H2/2022Update/SunValley2)
+13th Gen Intel Core i5-1340P, 1 CPU, 16 logical and 12 physical cores
+.NET SDK 8.0.100
+  [Host]     : .NET 7.0.14 (7.0.1423.51910), X64 RyuJIT AVX2
+  DefaultJob : .NET 7.0.14 (7.0.1423.51910), X64 RyuJIT AVX2
+
+
+| Method            | ListSize | Mean        | Error     | StdDev   | Ratio | RatioSD |
+|------------------ |--------- |------------:|----------:|---------:|------:|--------:|
+| MapForeach        | 10       |    84.94 ns |  0.814 ns | 0.680 ns |  1.00 |    0.00 |
+| MapLinq           | 10       |   111.17 ns |  2.226 ns | 2.286 ns |  1.31 |    0.03 |
+| MapWithReflection | 10       | 1,008.92 ns | 10.223 ns | 9.562 ns | 11.87 |    0.14 |
+| MapWithAutoMapper | 10       |   504.64 ns |  5.971 ns | 5.585 ns |  5.94 |    0.07 |
+
+
+
+BenchmarkDotNet v0.13.11, Windows 11 (10.0.22621.2861/22H2/2022Update/SunValley2)
+13th Gen Intel Core i5-1340P, 1 CPU, 16 logical and 12 physical cores
+.NET SDK 8.0.100
+  [Host]     : .NET 8.0.0 (8.0.23.53103), X64 RyuJIT AVX2
+  DefaultJob : .NET 8.0.0 (8.0.23.53103), X64 RyuJIT AVX2
+
+
+| Method            | ListSize | Mean      | Error     | StdDev   | Ratio | RatioSD |
+|------------------ |--------- |----------:|----------:|---------:|------:|--------:|
+| MapForeach        | 10       |  80.67 ns |  0.663 ns | 0.554 ns |  1.00 |    0.00 |
+| MapLinq           | 10       | 107.38 ns |  2.131 ns | 1.993 ns |  1.33 |    0.03 |
+| MapWithReflection | 10       | 668.54 ns | 10.255 ns | 9.593 ns |  8.30 |    0.14 |
+| MapWithAutoMapper | 10       | 424.24 ns |  6.710 ns | 5.603 ns |  5.26 |    0.08 |
+
+
+--------------------------
+
+  BenchmarkDotNet v0.13.11, Windows 11 (10.0.22621.2861/22H2/2022Update/SunValley2)
+13th Gen Intel Core i5-1340P, 1 CPU, 16 logical and 12 physical cores
+.NET SDK 8.0.100
+  [Host]     : .NET 6.0.25 (6.0.2523.51912), X64 RyuJIT AVX2
+  DefaultJob : .NET 6.0.25 (6.0.2523.51912), X64 RyuJIT AVX2
+
+
+| Method        | Top | Mean     | Error     | StdDev    | Ratio | RatioSD |
 |-------------- |---- |---------:|----------:|----------:|------:|--------:|
-|   MapManually |  10 | 6.092 ms | 0.1218 ms | 0.2432 ms |  1.00 |    0.00 |
-| MapAutoMapper |  10 | 6.004 ms | 0.1191 ms | 0.2853 ms |  0.98 |    0.05 |
+| MapManually   | 10  | 3.391 ms | 0.2923 ms | 0.8527 ms |  1.00 |    0.00 |
+| MapAutoMapper | 10  | 3.223 ms | 0.3683 ms | 1.0801 ms |  1.00 |    0.39 |
 
-// * Hints *
-Outliers
-  DBAccess.MapManually: Default   -> 3 outliers were detected (5.51 ms..5.54 ms)
-  DBAccess.MapAutoMapper: Default -> 2 outliers were removed (14.38 ms, 16.33 ms)
+
+BenchmarkDotNet v0.13.11, Windows 11 (10.0.22621.2861/22H2/2022Update/SunValley2)
+13th Gen Intel Core i5-1340P, 1 CPU, 16 logical and 12 physical cores
+.NET SDK 8.0.100
+  [Host]     : .NET 7.0.14 (7.0.1423.51910), X64 RyuJIT AVX2
+  DefaultJob : .NET 7.0.14 (7.0.1423.51910), X64 RyuJIT AVX2
+
+
+| Method        | Top | Mean     | Error     | StdDev    | Ratio | RatioSD |
+|-------------- |---- |---------:|----------:|----------:|------:|--------:|
+| MapManually   | 10  | 3.283 ms | 0.3443 ms | 1.0044 ms |  1.00 |    0.00 |
+| MapAutoMapper | 10  | 2.824 ms | 0.3019 ms | 0.8757 ms |  0.95 |    0.43 |
