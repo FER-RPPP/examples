@@ -1,4 +1,5 @@
 using Contract.Validation;
+using Contract.Validation.DTOs;
 using DAL.Models;
 using FluentValidation;
 using FluentValidation.AspNetCore;
@@ -30,8 +31,10 @@ namespace WebServices
     {
       services.AddDbContext<FirmaContext>(options => options.UseSqlServer(Configuration.GetConnectionString("Firma")));
       services.AddControllers()
-              .AddFluentValidation(fv => fv.RegisterValidatorsFromAssemblyContaining<Contract.Validation.DTOs.MjestoValidator>())
               .AddJsonOptions(configure => configure.JsonSerializerOptions.PropertyNamingPolicy = null);
+
+      services.AddFluentValidationAutoValidation()
+              .AddValidatorsFromAssemblyContaining<MjestoValidator>();
 
       services.AddSwaggerGen(c =>
       {
@@ -53,9 +56,11 @@ namespace WebServices
       services.AddTransient<MjestoController>();
 
       services.AddAutoMapper(typeof(Startup), typeof(Util.ApiModelsMappingProfile));
-            
-      services.AddMediatR(typeof(DAL.CommandHandlers.MjestoCommandHandler));
-      services.AddTransient(typeof(IPipelineBehavior<,>), typeof(ValidationPipeline<,>));
+                  
+      services.AddMediatR(cfg => {
+        cfg.RegisterServicesFromAssembly(typeof(DAL.CommandHandlers.MjestoCommandHandler).Assembly);        
+        cfg.AddOpenBehavior(typeof(ValidationPipeline<,>));
+      });
     }
     
 

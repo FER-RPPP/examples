@@ -4,11 +4,11 @@ using Microsoft.AspNetCore.OData.Query;
 using Microsoft.AspNetCore.OData.Routing.Controllers;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Logging;
-using Newtonsoft.Json;
 using ODataApi.Contract;
 using System.IO;
 using System.Linq;
 using System.Text;
+using System.Text.Json;
 using System.Threading.Tasks;
 
 namespace ODataApi.Controllers
@@ -89,7 +89,7 @@ namespace ODataApi.Controllers
         await Request.Body.CopyToAsync(stream);
         logger.LogTrace(Encoding.Default.GetString(stream.ToArray()));
       }
-      logger.LogTrace(JsonConvert.SerializeObject(model));
+      logger.LogTrace(JsonSerializer.Serialize(model));
 
       if (model != null && ModelState.IsValid)
       {
@@ -122,7 +122,7 @@ namespace ODataApi.Controllers
         await Request.Body.CopyToAsync(stream);
         logger.LogTrace(Encoding.Default.GetString(stream.ToArray()));
       }
-      logger.LogTrace(JsonConvert.SerializeObject(model));
+      logger.LogTrace(JsonSerializer.Serialize(model));
 
       if (model == null || model.IdMjesta != key || !ModelState.IsValid)
       {
@@ -157,7 +157,7 @@ namespace ODataApi.Controllers
         await Request.Body.CopyToAsync(stream);
         logger.LogTrace(Encoding.Default.GetString(stream.ToArray()));
       }
-      logger.LogTrace(JsonConvert.SerializeObject(model));
+      logger.LogTrace(JsonSerializer.Serialize(model));
 
       if (model == null || !ModelState.IsValid)
       {

@@ -3,11 +3,11 @@
   "defaultProvider": "cdnjs",
   "libraries": [
     {
-      "library": "jquery@3.6.0",
+      "library": "jquery@3.7.1",
       "destination": "wwwroot/lib/jquery/"
     },
     {
-      "library": "jqueryui@1.12.1",
+      "library": "jqueryui@1.13.2",
       "destination": "wwwroot/lib/jqueryui/"
     },
     {

@@ -18,14 +18,13 @@ namespace DAL.CommandHandlers
       this.ctx = ctx;
     }   
 
-    public async Task<Unit> Handle(DeleteMjesto command, CancellationToken cancellationToken)
+    public async Task Handle(DeleteMjesto command, CancellationToken cancellationToken)
     {
       var drzava = await ctx.Mjesto.FindAsync(command.Id);
       if (drzava != null)
       {       
         ctx.Remove(drzava);
-        await ctx.SaveChangesAsync(cancellationToken);
-        return default;
+        await ctx.SaveChangesAsync(cancellationToken);        
       }
       else
       {
@@ -47,7 +46,7 @@ namespace DAL.CommandHandlers
       return mjesto.IdMjesta;
     }
 
-    public async Task<Unit> Handle(UpdateMjesto command, CancellationToken cancellationToken)
+    public async Task Handle(UpdateMjesto command, CancellationToken cancellationToken)
     {
       var mjesto = await ctx.Mjesto.FindAsync(new object[] { command.IdMjesta },cancellationToken:cancellationToken);
       if (mjesto != null)
@@ -56,8 +55,7 @@ namespace DAL.CommandHandlers
         mjesto.PostBrMjesta = command.PostBrojMjesta;
         mjesto.PostNazMjesta = command.PostNazivMjesta;
         mjesto.OznDrzave = command.OznDrzave;
-        await ctx.SaveChangesAsync(cancellationToken);
-        return default;
+        await ctx.SaveChangesAsync(cancellationToken);        
       }
       else 
         throw new ArgumentException($"Nepostojeća oznaka mjesta: {command.IdMjesta}");

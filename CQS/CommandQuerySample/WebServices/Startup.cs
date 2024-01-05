@@ -1,7 +1,13 @@
 using CommandQueryCore;
+using Contract.CommandHandlers;
+using Contract.Commands;
+using Contract.Queries;
+using Contract.QueryHandlers;
+using Contract.Validation.DTOs;
 using DAL.CommandHandlers;
 using DAL.Models;
 using DAL.QueryHandlers;
+using FluentValidation;
 using FluentValidation.AspNetCore;
 using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Hosting;
@@ -12,7 +18,6 @@ using Microsoft.Extensions.Hosting;
 using Microsoft.OpenApi.Models;
 using System;
 using System.Collections.Generic;
-using System.Diagnostics.Contracts;
 using System.IO;
 using System.Reflection;
 using WebServices.Controllers;
@@ -31,9 +36,11 @@ namespace WebServices
     public void ConfigureServices(IServiceCollection services)
     {
       services.AddDbContext<FirmaContext>(options => options.UseSqlServer(Configuration.GetConnectionString("Firma")));
-      services.AddControllers()
-              .AddFluentValidation(fv => fv.RegisterValidatorsFromAssemblyContaining<MjestoValidator>())
+      services.AddControllers()              
               .AddJsonOptions(configure => configure.JsonSerializerOptions.PropertyNamingPolicy = null);
+
+      services.AddFluentValidationAutoValidation()
+              .AddValidatorsFromAssemblyContaining<MjestoValidator>();
 
       services.AddSwaggerGen(c =>
       {
