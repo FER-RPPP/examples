@@ -1,26 +1,58 @@
-using Microsoft.AspNetCore.Hosting;
+using EFModel;
+using GraphQL.Server.Ui.Voyager;
+using GraphQLServer.SetupGraphQL;
+using HotChocolate.Types.Pagination;
+using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Configuration;
-using Microsoft.Extensions.Hosting;
-using Microsoft.Extensions.Logging;
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Threading.Tasks;
 
-namespace GraphQLServer
+var builder = WebApplication.CreateBuilder(args);
+
+#region services
+builder.Services.AddDbContext<FirmaContext>(options => options.UseSqlServer(builder.Configuration.GetConnectionString("Firma")));
+builder.Services
+        .AddGraphQLServer()
+        .SetPagingOptions(new PagingOptions
+        {
+          DefaultPageSize = 20,
+          MaxPageSize = 1000,
+          IncludeTotalCount = true
+        })
+        .AddProjections()
+        .AddFiltering()
+        .AddSorting()
+        .AddQueryType<Queries>()
+        .AddMutationType<Mutations>();
+#endregion
+
+var app = builder.Build();
+
+#region configure middleware pipeline
+//middleware order https://learn.microsoft.com/en-us/aspnet/core/fundamentals/middleware/#middleware-order
+if (app.Environment.IsDevelopment())
 {
-  public class Program
-  {
-    public static void Main(string[] args)
-    {
-      CreateHostBuilder(args).Build().Run();
-    }
-
-    public static IHostBuilder CreateHostBuilder(string[] args) =>
-        Host.CreateDefaultBuilder(args)
-            .ConfigureWebHostDefaults(webBuilder =>
-            {
-              webBuilder.UseStartup<Startup>();
-            });
-  }
+  app.UseDeveloperExceptionPage();
 }
+
+app.UseStaticFiles();
+
+app.UseRouting();
+
+app.UseStaticFiles();
+
+app.UseRouting();
+
+
+app.MapGraphQL();
+
+app.UseGraphQLVoyager("/voyager", new VoyagerOptions() { GraphQLEndPoint = "graphql" });
+app.UseGraphQLPlayground(
+    "/",                               // url to host Playground at
+    new GraphQL.Server.Ui.Playground.PlaygroundOptions
+    {
+      GraphQLEndPoint = "/graphql",         // url of GraphQL endpoint
+      SubscriptionsEndPoint = "/graphql",   // url of GraphQL endpoint
+    });
+
+#endregion
+
+app.Run();
