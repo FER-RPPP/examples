@@ -19,7 +19,7 @@ public static class ExcelCreator
     foreach (var prop in props)
     {
       if (prop.PropertyType is IEnumerable)
-        continue; //preskoči kolekcije
+        continue; //skip collections
       string name = prop.Name;
       if (prop.IsDefined(typeof(DisplayAttribute)))
       {
