@@ -3,7 +3,6 @@ using GraphQL.Server.Ui.Voyager;
 using GraphQLServer.SetupGraphQL;
 using HotChocolate.Types.Pagination;
 using Microsoft.EntityFrameworkCore;
-using Microsoft.Extensions.Configuration;
 
 var builder = WebApplication.CreateBuilder(args);
 
@@ -11,6 +10,7 @@ var builder = WebApplication.CreateBuilder(args);
 builder.Services.AddDbContext<FirmaContext>(options => options.UseSqlServer(builder.Configuration.GetConnectionString("Firma")));
 builder.Services
         .AddGraphQLServer()
+        .ModifyRequestOptions(opt => opt.IncludeExceptionDetails = builder.Environment.IsDevelopment())
         .SetPagingOptions(new PagingOptions
         {
           DefaultPageSize = 20,
