@@ -37,16 +37,14 @@ public partial class FirmaContext : DbContext
                 .HasName("pk_Artikl")
                 .IsClustered(false);
 
-            entity.Property(e => e.SifArtikla)
-                .ValueGeneratedNever()
-                .HasComment("Šifra artikla");
+            entity.Property(e => e.SifArtikla).HasComment("Šifra artikla");
             entity.Property(e => e.CijArtikla)
                 .HasComment("Cijena artikla")
                 .HasColumnType("money");
             entity.Property(e => e.JedMjere)
                 .IsRequired()
                 .HasMaxLength(5)
-                .HasDefaultValueSql("('kom')")
+                .HasDefaultValue("kom")
                 .HasComment("Jedinica mjere");
             entity.Property(e => e.NazArtikla)
                 .IsRequired()
@@ -108,7 +106,7 @@ public partial class FirmaContext : DbContext
                 .IsRequired()
                 .HasMaxLength(255)
                 .HasComment("Naziv države");
-            entity.Property(e => e.SifDrzave).HasDefaultValueSql("((0))");
+            entity.Property(e => e.SifDrzave).HasDefaultValue(0);
         });
 
         modelBuilder.Entity<Mjesto>(entity =>
