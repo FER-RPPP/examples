@@ -1,6 +1,5 @@
 ﻿using Microsoft.Extensions.Configuration;
 using Secrets;
-using System;
 
 var enumerator = Environment.GetEnvironmentVariables().GetEnumerator();
 while (enumerator.MoveNext())
