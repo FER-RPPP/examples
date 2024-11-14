@@ -65,7 +65,7 @@ namespace MVC.Controllers
       }
 
       query = query.ApplySort(sort, ascending);
-      
+
       var drzave = query
                   .Skip((page - 1) * pagesize)
                   .Take(pagesize)
@@ -176,9 +176,7 @@ namespace MVC.Controllers
 
       try
       {
-        Drzava drzava = await ctx.Drzava
-                          .Where(d => d.OznDrzave == id)
-                          .FirstOrDefaultAsync();
+        Drzava drzava = await ctx.Drzava.FindAsync(id);
         if (drzava == null)
         {
           return NotFound("Neispravna oznaka države: " + id);
