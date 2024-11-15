@@ -177,9 +177,7 @@ public class CountriesController : Controller
 
     try
     {
-      Country country = await ctx.Countries
-                        .Where(d => d.CountryCode == id)
-                        .FirstOrDefaultAsync();
+      Country country = await ctx.Countries.FindAsync(id);
       if (country == null)
       {
         return NotFound("Invalid country code: " + id);
