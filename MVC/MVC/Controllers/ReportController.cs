@@ -186,6 +186,26 @@ public class ReportController : Controller
     }
   }
 
+  public async Task<IActionResult> NajboljiPartneri(int? godina, int broj = 10)
+  {
+    godina ??= DateTime.Now.Year;
+
+    var partneri = await ctx.NajboljiPartneri(godina.Value, broj).ToListAsync();
+
+    IDocument pdfDocument = new NajboljiPartneriPdf(partneri, $"{broj} najboljih partnera u {godina}. godini");
+    byte[] pdf = pdfDocument.GeneratePdf();
+
+    if (pdf != null)
+    {
+      Response.Headers.Append("content-disposition", "inline; filename=dokumenti.pdf");
+      return File(pdf, "application/pdf");
+    }
+    else
+    {
+      return NotFound();
+    }
+  }
+
   #region Private methods
 
   private Document CreateReport<T>(string naslov,
