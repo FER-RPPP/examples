@@ -32,7 +32,7 @@ public class DokumentiPdf : MasterDetailPdf<Kupnja>
         column.Item().Text(text =>
         {
           text.Span("Partner: ").Bold();
-          text.Span($"{item.NazPartnera}");
+          text.Span($"{item.OIB} - {item.NazPartnera}");
         });
 
         column.Item().Text(text =>

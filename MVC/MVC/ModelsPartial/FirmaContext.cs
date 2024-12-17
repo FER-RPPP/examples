@@ -1,5 +1,4 @@
 ﻿using Microsoft.EntityFrameworkCore;
-using MVC.ModelsPartial;
 
 namespace MVC.Models;
 

@@ -4,27 +4,27 @@
 
 <ul>
   <li>
-    <a target="_blank" asp-action="Drzave">Popis svih država</a>
+    <a target="_blank" asp-action="@nameof(ReportController.Drzave)">Popis svih država</a>
     @*<a target="_blank" asp-action="@nameof(Firma.Mvc.Controllers.ReportController.Drzave)">Popis svih država</a>*@
     @*<a target="_blank" href="@Url.Action("Drzave")">Popis svih država</a>*@
   </li>
   <li>
-    <a target="_blank" asp-action="Artikli">10 najskupljih artikala sa slikom</a>
+    <a target="_blank" asp-action="@nameof(ReportController.Artikli)">10 najskupljih artikala sa slikom</a>
   </li>
   <li>
-    <a target="_blank" asp-action="Dokumenti">10 dokumenata s najvećim iznosom</a>
+    <a target="_blank" asp-action="@nameof(ReportController.Dokumenti)">10 dokumenata s najvećim iznosom</a>
   </li>
   <li>
-    <a target="_blank" asp-action="NajboljiPartneri" asp-route-broj="10" asp-route-godina="2014">10 najboljih partnera u 2014. godini</a>
+    <a target="_blank" asp-action="@nameof(ReportController.NajboljiPartneri)" asp-route-broj="10" asp-route-godina="2014">10 najboljih partnera u 2014. godini</a>
   </li>
 </ul>
 
 
 <ul>
   <li>
-    <a asp-action="DrzaveExcel">Popis svih država (Excel)</a>
+    <a asp-action="@nameof(ReportController.DrzaveExcel)">Popis svih država (Excel)</a>
   </li>
   <li>
-    <a asp-action="DokumentiExcel">10 dokumenata s najvećim iznosom - bez detalja (Excel)</a>
+    <a asp-action="@nameof(ReportController.DokumentiExcel)">10 dokumenata s najvećim iznosom - bez detalja (Excel)</a>
   </li>
 </ul>

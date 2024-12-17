@@ -1,4 +1,4 @@
-﻿namespace MVC.ModelsPartial;
+﻿namespace MVC.Models;
 
 public class NajboljiPartner
 {

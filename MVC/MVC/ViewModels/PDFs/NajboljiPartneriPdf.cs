@@ -1,4 +1,4 @@
-﻿using MVC.ModelsPartial;
+﻿using MVC.Models;
 using QuestPDF.Fluent;
 using QuestPDF.Helpers;
 using QuestPDF.Infrastructure;
@@ -16,10 +16,6 @@ public class NajboljiPartneriPdf : AbstractPdf
 
   public static TextStyle TitleStyle => TextStyle.Default.FontSize(20).SemiBold().FontColor(Colors.Blue.Medium);
 
-  static IContainer HeaderCellStyle(IContainer container) => container.DefaultTextStyle(x => x.SemiBold())
-                                                                      .PaddingVertical(5)
-                                                                      .BorderBottom(1)
-                                                                      .BorderColor(Colors.Black);
   public override void Compose(IDocumentContainer container)
   {
     container.Page(page =>
@@ -40,10 +36,10 @@ public class NajboljiPartneriPdf : AbstractPdf
 
         table.Header(header =>
         {
-          header.Cell().Element(HeaderCellStyle).AlignCenter().Text("#");
-          header.Cell().Element(HeaderCellStyle).AlignCenter().PaddingLeft(10).Text("OIB");
-          header.Cell().Element(HeaderCellStyle).AlignLeft().Text("Naziv partnera");
-          header.Cell().Element(HeaderCellStyle).AlignCenter().Text("Iznos");
+          header.Cell().Element(TableHeaderStyle).AlignCenter().Text("#");
+          header.Cell().Element(TableHeaderStyle).AlignCenter().PaddingLeft(10).Text("OIB");
+          header.Cell().Element(TableHeaderStyle).AlignLeft().Text("Naziv partnera");
+          header.Cell().Element(TableHeaderStyle).AlignCenter().Text("Iznos");
         });
 
         foreach (var (item, i) in data.Select((item, i) => (item, i + 1)))

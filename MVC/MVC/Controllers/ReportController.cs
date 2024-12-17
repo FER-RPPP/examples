@@ -5,21 +5,18 @@ using OfficeOpenXml;
 using MVC.Extensions;
 using MVC.ViewModels.PDFs;
 using QuestPDF.Fluent;
-using QuestPDF.Helpers;
 using QuestPDF.Infrastructure;
 
 namespace MVC.Controllers;
 
 public class ReportController : Controller
 {
-  private readonly FirmaContext ctx;
-  private readonly IWebHostEnvironment environment;
+  private readonly FirmaContext ctx;  
   private const string ExcelContentType = "application/vnd.openxmlformats-officedocument.spreadsheetml.sheet";
 
-  public ReportController(FirmaContext ctx, IWebHostEnvironment environment)
+  public ReportController(FirmaContext ctx)
   {
-    this.ctx = ctx;
-    this.environment = environment;
+    this.ctx = ctx;    
   }
 
   public IActionResult Index()
@@ -86,7 +83,7 @@ public class ReportController : Controller
                           .OrderBy(d => d.NazDrzave)
                           .ToListAsync();
 
-    var report = CreateReport("Popis država", drzave, DodajZaglavljeZaDrzave, DodajDrzavu);
+    var report = drzave.CreateTableReport("Popis država", DefinirajStupceZaDrzave, DodajDrzavu);
 
     byte[] pdf = report.GeneratePdf();
 
@@ -118,7 +115,8 @@ public class ReportController : Controller
                             .ToListAsync();
 
 
-    var report = CreateReport("Deset najskupljih artikala koji imaju sliku", artikli, DodajZaglavljeZaArtikle,
+    var report = artikli.CreateTableReport("Deset najskupljih artikala koji imaju sliku", 
+      DefinirajStupceZaArtikle,
       (table, i, artikl, cellStyle) =>
       {
         table.Cell().Element(cellStyle).AlignRight().Text($"{i}.");
@@ -158,6 +156,7 @@ public class ReportController : Controller
                                IdDokumenta = d.IdDokumenta,
                                IznosDokumenta = d.IznosDokumenta,
                                NazPartnera = p.Naziv,
+                               OIB = p.OIB, 
                                Stavke = d.Stavka.Select(s => new StavkaKupnje
                                {
                                  IdStavke = s.IdStavke,
@@ -206,77 +205,9 @@ public class ReportController : Controller
     }
   }
 
-  #region Private methods
-
-  private Document CreateReport<T>(string naslov,
-                                   IEnumerable<T> podaci,
-                                   Action<TableDescriptor> dodajZaglavlje,
-                                   Action<TableDescriptor, int, T, Func<IContainer, IContainer>> dodajRedak,
-                                   Action<TableDescriptor> dodajPodnozje = null
-                                  )
-  {
-    var report = Document.Create(container =>
-    {
-      container.Page(page =>
-      {
-        page.Size(PageSizes.A4);
-        page.Margin(1, Unit.Centimetre);
-        page.DefaultTextStyle(x => x.FontSize(10));
-
-        page.Header().AlignCenter().Text(naslov).Bold().FontSize(16);
-
-        page.Footer().Inlined(inlined =>
-        {
-          inlined.AlignJustify();
-
-          inlined.Item()
-                .Text(DateTime.Now.ToString("dd.MM.yyyy."));
-
-          inlined.Item()
-                 .Text(x =>
-                 {
-                   x.CurrentPageNumber();
-                   x.Span(" / ");
-                   x.TotalPages();
-                 });
-
-        });
-
-        page.Content().Table(table =>
-        {
-          dodajZaglavlje(table);
-
-          foreach (var (podatak, i) in podaci.Select((podatak, i) => (podatak, i + 1)))
-          {
-            var paran = i % 2 == 0;
-            IContainer CellStyle(IContainer container)
-            {
-              return container.Background(paran ? Colors.White : Colors.Grey.Lighten4).PaddingVertical(5);
-            }
-            dodajRedak(table, i, podatak, CellStyle);
-          }
-
-          dodajPodnozje?.Invoke(table);
-        });
-      });
-    });
-
-    report.WithMetadata(new DocumentMetadata
-    {
-      Author = "FER-ZPR",
-      Title = naslov,
-    });
-
-    return report;
-  }
-
-  static IContainer HeaderCellStyle(IContainer container)
-  {
-    return container.DefaultTextStyle(x => x.SemiBold()).PaddingVertical(5).BorderBottom(1).BorderColor(Colors.Black);
-  }
-
+  #region Private methods  
   #region Zaglavlje i redak za države
-  private void DodajZaglavljeZaDrzave(TableDescriptor table)
+  private void DefinirajStupceZaDrzave(TableDescriptor table)
   {
     table.ColumnsDefinition(columns =>
     {
@@ -289,14 +220,13 @@ public class ReportController : Controller
 
     table.Header(header =>
     {
-      header.Cell().Element(HeaderCellStyle).AlignRight().Text("#");
-      header.Cell().Element(HeaderCellStyle).AlignLeft().PaddingLeft(5).Text("Oznaka države");
-      header.Cell().Element(HeaderCellStyle).AlignLeft().Text("Naziv države");
-      header.Cell().Element(HeaderCellStyle).AlignCenter().Text("ISO3");
-      header.Cell().Element(HeaderCellStyle).AlignCenter().Text("Šifra države");
+      header.Cell().CommonHeaderCellStyle().AlignRight().Text("#");
+      header.Cell().CommonHeaderCellStyle().AlignLeft().PaddingLeft(5).Text("Oznaka države");
+      header.Cell().CommonHeaderCellStyle().AlignLeft().Text("Naziv države");
+      header.Cell().CommonHeaderCellStyle().AlignCenter().Text("ISO3");
+      header.Cell().CommonHeaderCellStyle().AlignCenter().Text("Šifra države");
     });
-  }
-  #endregion
+  }  
 
   private void DodajDrzavu(TableDescriptor table, int i, Drzava drzava, Func<IContainer, IContainer> cellStyle)
   {
@@ -307,8 +237,10 @@ public class ReportController : Controller
     table.Cell().Element(cellStyle).AlignCenter().Text(drzava.SifDrzave.ToString());
   }
 
+  #endregion
+
   #region Zaglavlje za artikle
-  private void DodajZaglavljeZaArtikle(TableDescriptor table)
+  private void DefinirajStupceZaArtikle(TableDescriptor table)
   {
     table.ColumnsDefinition(columns =>
     {
@@ -321,13 +253,13 @@ public class ReportController : Controller
 
     table.Header(header =>
     {
-      header.Cell().Element(HeaderCellStyle).AlignRight().Text("#");
-      header.Cell().Element(HeaderCellStyle).AlignCenter().Text("");
-      header.Cell().Element(HeaderCellStyle).AlignLeft().PaddingLeft(5).Text("Šifra");
-      header.Cell().Element(HeaderCellStyle).AlignLeft().Text("Naziv artikla");
-      header.Cell().Element(HeaderCellStyle).AlignCenter().Text("Cijena");
-    });
-    #endregion
+      header.Cell().CommonHeaderCellStyle().AlignRight().Text("#");
+      header.Cell().CommonHeaderCellStyle().AlignCenter().Text("");
+      header.Cell().CommonHeaderCellStyle().AlignLeft().PaddingLeft(5).Text("Šifra");
+      header.Cell().CommonHeaderCellStyle().AlignLeft().Text("Naziv artikla");
+      header.Cell().CommonHeaderCellStyle().AlignCenter().Text("Cijena");
+    });    
   }
+  #endregion
   #endregion
 }
