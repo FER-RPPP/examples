@@ -6,16 +6,16 @@ public partial class FirmContext
 {
   public virtual DbSet<ViewPartner> vw_Partners { get; set; }
   public virtual DbSet<ViewDocument> vw_Documents { get; set; }
-  
+
   //The FromExpression call in the CLR function body allows for the function to be used instead of a regular DbSet.
-  public IQueryable<ItemDenorm> BiggestPurchases(int count) => 
-    FromExpression(() => BiggestPurchases(count));
+  [DbFunction("fn_BestPartners", "dbo")]
+  public IQueryable<BestPartner> BestPartners(int year, int count) =>
+    FromExpression(() => BestPartners(year, count));
 
   partial void OnModelCreatingPartial(ModelBuilder modelBuilder)
   {
-    modelBuilder.Entity<ViewPartner>(entity => {
-      entity.HasNoKey();
-      //entity.ToView("vw_Partners");
+    modelBuilder.Entity<ViewPartner>(entity => {      
+      entity.HasKey(p => p.PartnerId);      
     });
 
     modelBuilder.Entity<ViewDocument>(entity => {
@@ -24,11 +24,8 @@ public partial class FirmContext
     });
 
 
-    modelBuilder.Entity<ItemDenorm>(entity => {
+    modelBuilder.Entity<BestPartner>(entity => {
       entity.HasNoKey();      
-    });
-
-    modelBuilder.HasDbFunction(typeof(FirmContext).GetMethod(nameof(BiggestPurchases), new[] { typeof(int) }))
-                .HasName("fn_BiggestPurchases");
+    });  
   }
 }

@@ -4,22 +4,25 @@
 
 <ul>
   <li>
-    <a target="_blank" asp-action="Countries">Countries</a>
+    <a target="_blank" asp-action="@nameof(ReportsController.Countries)">Countries</a>
   </li>
   <li>
-    <a target="_blank" asp-action="Products">10 most expensive products that have a photo</a>
+    <a target="_blank" asp-action="@nameof(ReportsController.Products)">10 most expensive products that have a photo</a>
   </li>
   <li>
-    <a target="_blank" asp-action="Documents">10 biggest purchases</a>
+    <a target="_blank" asp-action="@nameof(ReportsController.Documents)">10 biggest purchases</a>
+  </li>
+  <li>
+    <a target="_blank" asp-action="@nameof(ReportsController.BestPartners)" asp-route-count="10" asp-route-year="2022">10 best partners in year 2022</a>
   </li>
 </ul>
 
 
 <ul>
   <li>
-    <a asp-action="CountriesExcel">Countries (Excel)</a>
+    <a asp-action="@nameof(ReportsController.CountriesExcel)">Countries (Excel)</a>
   </li>
   <li>
-    <a asp-action="DocumentsExcel">10 biggest purchases without details (Excel)</a>
+    <a asp-action="@nameof(ReportsController.DocumentsExcel)">10 biggest purchases without details (Excel)</a>
   </li>
 </ul>
