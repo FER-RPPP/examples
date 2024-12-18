@@ -6,6 +6,8 @@ using FluentValidation.AspNetCore;
 using Microsoft.EntityFrameworkCore;
 using FluentValidation;
 using MVC.ModelsValidation;
+using QuestPDF.Infrastructure;
+using OfficeOpenXml;
 
 var logger = NLog.LogManager.Setup().GetCurrentClassLogger();
 logger.Debug("init main");
@@ -51,7 +53,8 @@ try
 
   #endregion
 
-
+  QuestPDF.Settings.License = LicenseType.Community;
+  ExcelPackage.LicenseContext = LicenseContext.NonCommercial;
   app.Run();
 }
 catch (Exception exception)

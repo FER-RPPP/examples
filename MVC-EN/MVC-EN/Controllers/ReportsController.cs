@@ -1,29 +1,22 @@
-﻿
-using Microsoft.AspNetCore.Mvc;
+﻿using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
-using PdfRpt.ColumnsItemsTemplates;
-using PdfRpt.Core.Contracts;
-using PdfRpt.Core.Helper;
-using PdfRpt.FluentInterface;
-using Microsoft.Data.SqlClient;
 using OfficeOpenXml;
 using MVC_EN.Extensions;
 using MVC_EN.Models;
-using iTextSharp.text;
-using iTextSharp.text.pdf;
+using MVC_EN.ViewModels.PDFs;
+using QuestPDF.Fluent;
+using QuestPDF.Infrastructure;
 
 namespace MVC_EN.Controllers;
 
 public class ReportsController : Controller
 {
-  private readonly FirmContext ctx;
-  private readonly IWebHostEnvironment environment;
+  private readonly FirmContext ctx;  
   private const string ExcelContentType = "application/vnd.openxmlformats-officedocument.spreadsheetml.sheet";
 
-  public ReportsController(FirmContext ctx, IWebHostEnvironment environment)
+  public ReportsController(FirmContext ctx)
   {
-    this.ctx = ctx;
-    this.environment = environment;
+    this.ctx = ctx;    
   }
 
   public IActionResult Index()
@@ -82,80 +75,18 @@ public class ReportsController : Controller
   #endregion
 
   public async Task<IActionResult> Countries()
-  {
-    string title = "Countries";
+  {    
     var countries = await ctx.Countries
                              .AsNoTracking()
                              .OrderBy(d => d.CountryName)
                              .ToListAsync();
-    PdfReport report = CreateReport(title);
-    #region Header and footer
-    report.PagesFooter(footer =>
-    {
-      footer.DefaultFooter(DateTime.Now.ToString("dd.MM.yyyy."));
-    })
-    .PagesHeader(header =>
-    {
-      header.CacheHeader(cache: true); // It's a default setting to improve the performance.
-            header.DefaultHeader(defaultHeader =>
-      {
-        defaultHeader.RunDirection(PdfRunDirection.LeftToRight);
-        defaultHeader.Message(title);
-      });
-    });
-    #endregion
-    #region Set datasource and define columns
-    report.MainTableDataSource(dataSource => dataSource.StronglyTypedList(countries));
+    var report = countries.CreateTableReport("Countries", AddColumnsForCountries, AddCountry);
 
-    report.MainTableColumns(columns =>
-    {
-      columns.AddColumn(column =>
-      {
-        column.IsRowNumber(true);
-        column.CellsHorizontalAlignment(HorizontalAlignment.Right);
-        column.IsVisible(true);
-        column.Order(0);
-        column.Width(1);
-        column.HeaderCell("#", horizontalAlignment: HorizontalAlignment.Right);
-      });
-
-      columns.AddColumn(column =>
-      {
-        column.PropertyName(nameof(Country.CountryCode));
-        column.CellsHorizontalAlignment(HorizontalAlignment.Center);
-        column.IsVisible(true);
-        column.Order(1);
-        column.Width(2);
-        column.HeaderCell("Country Code");
-      });
-
-      columns.AddColumn(column =>
-      {
-        column.PropertyName<Country>(x => x.CountryName);
-        column.CellsHorizontalAlignment(HorizontalAlignment.Center);
-        column.IsVisible(true);
-        column.Order(2);
-        column.Width(3);
-        column.HeaderCell("Country Name", horizontalAlignment: HorizontalAlignment.Center);
-      });
-
-      columns.AddColumn(column =>
-      {
-        column.PropertyName<Country>(x => x.CountryIso3);
-        column.CellsHorizontalAlignment(HorizontalAlignment.Center);
-        column.IsVisible(true);
-        column.Order(3);
-        column.Width(1);
-        column.HeaderCell("ISO3", horizontalAlignment: HorizontalAlignment.Center);
-      });
-    });
-
-    #endregion
-    byte[] pdf = report.GenerateAsByteArray();
+    byte[] pdf = report.GeneratePdf();
 
     if (pdf != null)
     {
-      Response.Headers.Add("content-disposition", "inline; filename=countries.pdf");
+      Response.Headers.Append("content-disposition", "inline; filename=countries.pdf");
       return File(pdf, "application/pdf");
       //return File(pdf, "application/pdf", "countries.pdf"); //Opens save as dialog
     }
@@ -180,102 +111,28 @@ public class ReportsController : Controller
                             })
                             .Take(10)
                             .ToListAsync();
-    PdfReport report = CreateReport(title);
-    #region Header and footer
-    report.PagesFooter(footer =>
-    {
-      footer.DefaultFooter(DateTime.Now.ToString("dd.MM.yyyy."));
-    })
-    .PagesHeader(header =>
-    {
-      header.CacheHeader(cache: true); // It's a default setting to improve the performance.
-            header.DefaultHeader(defaultHeader =>
+
+    var report = products.CreateTableReport(title,
+      AddColumnsForProducts,
+      (table, i, product, cellStyle) =>
       {
-        defaultHeader.RunDirection(PdfRunDirection.LeftToRight);
-        defaultHeader.Message(title);
-      });
-    });
-    #endregion
-    #region Set data source and define columns
-    report.MainTableDataSource(dataSource => dataSource.StronglyTypedList(products));
-
-    report.MainTableSummarySettings(summarySettings =>
-    {
-      summarySettings.OverallSummarySettings("Total");
-    });
-
-    report.MainTableColumns(columns =>
-    {
-      columns.AddColumn(column =>
+        table.Cell().Element(cellStyle).AlignRight().Text($"{i}.");
+        table.Cell().Element(cellStyle).AlignCenter().MaxHeight(0.9f, Unit.Inch).MaxWidth(1, Unit.Inch).Image(product.Photo);
+        table.Cell().Element(cellStyle).AlignLeft().PaddingLeft(5).Text(product.ProductNumber.ToString());
+        table.Cell().Element(cellStyle).AlignCenter().Text(product.ProductName);
+        table.Cell().Element(cellStyle).AlignRight().PaddingRight(5).Text(product.Price.ToString("N2"));
+      },
+      table =>
       {
-        column.IsRowNumber(true);
-        column.CellsHorizontalAlignment(HorizontalAlignment.Right);
-        column.IsVisible(true);
-        column.Order(0);
-        column.Width(1);
-        column.HeaderCell("#", horizontalAlignment: HorizontalAlignment.Right);
-      });
+        table.Cell().ColumnSpan(4).AlignRight().Text("TOTAL: ").Bold();
+        table.Cell().PaddingRight(5).Text(products.Sum(a => a.Price).ToString("N2")).AlignRight().Bold();
+      }
+    );
 
-      columns.AddColumn(column =>
-      {
-        column.PropertyName(nameof(Product.Photo));
-        column.CellsHorizontalAlignment(HorizontalAlignment.Center);
-        column.IsVisible(true);
-        column.Order(1);
-        column.Width(1);
-        column.HeaderCell(" ");
-        column.ColumnItemsTemplate(t => t.ByteArrayImage(string.Empty, fitImages: true));
-      });
-
-      columns.AddColumn(column =>
-      {
-        column.PropertyName(nameof(Product.ProductNumber));
-        column.CellsHorizontalAlignment(HorizontalAlignment.Center);
-        column.IsVisible(true);
-        column.Order(2);
-        column.Width(1);
-        column.HeaderCell("Number");
-      });
-
-      columns.AddColumn(column =>
-      {
-        column.PropertyName<Product>(x => x.ProductName);
-        column.CellsHorizontalAlignment(HorizontalAlignment.Center);
-        column.IsVisible(true);
-        column.Order(3);
-        column.Width(4);
-        column.HeaderCell("Name", horizontalAlignment: HorizontalAlignment.Center);
-      });
-
-      columns.AddColumn(column =>
-      {
-        column.PropertyName<Product>(x => x.Price);
-        column.CellsHorizontalAlignment(HorizontalAlignment.Center);
-        column.IsVisible(true);
-        column.Order(4);
-        column.Width(1);
-        column.HeaderCell("Price", horizontalAlignment: HorizontalAlignment.Center);
-        column.ColumnItemsTemplate(template =>
-        {
-          template.TextBlock();
-          template.DisplayFormatFormula(obj => obj == null || string.IsNullOrEmpty(obj.ToString())
-                                        ? string.Empty : string.Format("{0:C2}", obj));
-        });
-        column.AggregateFunction(aggregateFunction =>
-        {
-          aggregateFunction.NumericAggregateFunction(AggregateFunction.Sum);
-          aggregateFunction.DisplayFormatFormula(obj => obj == null || string.IsNullOrEmpty(obj.ToString())
-                                        ? string.Empty : string.Format("{0:C2}", obj));
-        });
-      });
-    });
-
-    #endregion
-    byte[] pdf = report.GenerateAsByteArray();
-
+    byte[] pdf = report.GeneratePdf();   
     if (pdf != null)
     {
-      Response.Headers.Add("content-disposition", "inline; filename=products.pdf");
+      Response.Headers.Append("content-disposition", "inline; filename=products.pdf");
       return File(pdf, "application/pdf");
     }
     else
@@ -289,312 +146,113 @@ public class ReportsController : Controller
   {
     int n = 10;
     string title = $"Top {n} biggets purchases";
-    var items = await ctx.BiggestPurchases(n)                            
-                         .OrderBy(s => s.DocumentId)
-                         .ThenBy(s => s.ProductName)
-                         .ToListAsync();
-    items.ForEach(s => s.DocumentUrl = Url.Action("Edit", "Documents", new { id = s.DocumentId }));
-    PdfReport report = CreateReport(title);
-    #region Header and footer
-    report.PagesFooter(footer =>
-    {
-      footer.DefaultFooter(DateTime.Now.ToString("dd.MM.yyyy."));
-    })
-    .PagesHeader(header =>
-    {
-      header.CacheHeader(cache: true); // It's a default setting to improve the performance.
-            header.CustomHeader(new MasterDetailsHeaders(title)
-      {
-        PdfRptFont = header.PdfFont
-      });
-    });
-    #endregion
-    #region Set datasource and define columns
-    report.MainTableDataSource(dataSource => dataSource.StronglyTypedList(items));
-
-    report.MainTableSummarySettings(summarySettings =>
-    {
-      summarySettings.OverallSummarySettings("Total");
-    });
-
-    report.MainTableColumns(columns =>
-    {
-      #region Columns used for groupings
-      columns.AddColumn(column =>
-      {
-        column.PropertyName<ItemDenorm>(s => s.DocumentId);
-        column.Group(
-            (val1, val2) =>
-            {
-              return (int)val1 == (int)val2;
-            });
-      });
-      #endregion
-      columns.AddColumn(column =>
-      {
-        column.IsRowNumber(true);
-        column.CellsHorizontalAlignment(HorizontalAlignment.Right);
-        column.IsVisible(true);
-        column.Width(1);
-        column.HeaderCell("#", horizontalAlignment: HorizontalAlignment.Right);
-      });
-      columns.AddColumn(column =>
-      {
-        column.PropertyName<ItemDenorm>(x => x.ProductName);
-        column.CellsHorizontalAlignment(HorizontalAlignment.Center);
-        column.IsVisible(true);
-        column.Width(4);
-        column.HeaderCell("Product Name", horizontalAlignment: HorizontalAlignment.Center);
-      });
-
-      columns.AddColumn(column =>
-      {
-        column.PropertyName<ItemDenorm>(x => x.Quantity);
-        column.CellsHorizontalAlignment(HorizontalAlignment.Right);
-        column.IsVisible(true);
-        column.Width(1);
-        column.HeaderCell("Quantity", horizontalAlignment: HorizontalAlignment.Center);
-        column.ColumnItemsTemplate(template =>
-        {
-          template.TextBlock();
-          template.DisplayFormatFormula(obj => obj == null || string.IsNullOrEmpty(obj.ToString())
-                                        ? string.Empty : string.Format("{0:.00}", obj));
-        });
-      });
-
-      columns.AddColumn(column =>
-      {
-        column.PropertyName<ItemDenorm>(x => x.UnitPrice);
-        column.CellsHorizontalAlignment(HorizontalAlignment.Right);
-        column.IsVisible(true);
-        column.Width(1);
-        column.HeaderCell("Unit price", horizontalAlignment: HorizontalAlignment.Center);
-        column.ColumnItemsTemplate(template =>
-        {
-          template.TextBlock();
-          template.DisplayFormatFormula(obj => obj == null || string.IsNullOrEmpty(obj.ToString())
-                                        ? string.Empty : string.Format("{0:C2}", obj));
-        });
-      });
-
-      columns.AddColumn(column =>
-      {
-        column.PropertyName<ItemDenorm>(x => x.Discount);
-        column.CellsHorizontalAlignment(HorizontalAlignment.Right);
-        column.IsVisible(true);
-        column.Width(1);
-        column.HeaderCell("Discount", horizontalAlignment: HorizontalAlignment.Center);
-        column.ColumnItemsTemplate(template =>
-        {
-          template.TextBlock();
-          template.DisplayFormatFormula(obj => obj == null || string.IsNullOrEmpty(obj.ToString())
-                                        ? string.Empty : string.Format("{0:P2}", obj));
-        });
-      });
-
-      columns.AddColumn(column =>
-      {
-        column.PropertyName("Total");
-        column.CellsHorizontalAlignment(HorizontalAlignment.Right);
-        column.IsVisible(true);
-        column.Width(1);
-        column.HeaderCell("Total", horizontalAlignment: HorizontalAlignment.Center);
-        column.ColumnItemsTemplate(template =>
-        {
-          template.TextBlock();
-          template.DisplayFormatFormula(obj => obj == null || string.IsNullOrEmpty(obj.ToString())
-                                        ? string.Empty : string.Format("{0:C2}", obj));
-        });
-        column.AggregateFunction(aggregateFunction =>
-        {
-          aggregateFunction.NumericAggregateFunction(AggregateFunction.Sum);
-          aggregateFunction.DisplayFormatFormula(obj => obj == null || string.IsNullOrEmpty(obj.ToString())
-                                        ? string.Empty : string.Format("{0:C2}", obj));
-        });
-        column.CalculatedField(
-                list =>
-                {
-                  if (list == null) return string.Empty;
-                  decimal quantity = (decimal)list.GetValueOf(nameof(ItemDenorm.Quantity));
-                  decimal discount = (decimal)list.GetValueOf(nameof(ItemDenorm.Discount));
-                  decimal unitPrice = (decimal)list.GetValueOf(nameof(ItemDenorm.UnitPrice));
-                  var amount = unitPrice * quantity * (1 - discount);
-                  return amount;
-                });
-      });
-    });
-
-    #endregion
-    byte[] pdf = report.GenerateAsByteArray();
+    var partners = ctx.vw_Partners;
+    var documents = await ctx.Documents
+                             .Join(partners, d => d.PartnerId, p => p.PartnerId, (d, p) => new Order
+                             {
+                               DocumentDate = d.DocumentDate,
+                               DocumentId = d.DocumentId,
+                               Amount = d.Amount,
+                               PartnerName = p.PartnerName,
+                               VatNumber = p.VatNumber,
+                               Items = d.Items.Select(item => new OrderItem
+                               {
+                                 ItemId = item.ItemId,
+                                 UnitPrice = item.UnitPrice,
+                                 Quantity = item.Quantity,
+                                 ProductName = item.ProductNumberNavigation.ProductName,
+                                 Discount = item.Discount,
+                                 ProductNumber = item.ProductNumber
+                               })
+                             })
+                             .OrderByDescending(d => d.Amount)
+                             .Take(n)
+                             .ToListAsync();
+   
+    IDocument pdfDocument = new DocumentsPdf(documents,title, Url);
+    byte[] pdf = pdfDocument.GeneratePdf();
 
     if (pdf != null)
     {
-      Response.Headers.Add("content-disposition", "inline; filename=documents.pdf");
+      Response.Headers.Append("content-disposition", "inline; filename=documents.pdf");
       return File(pdf, "application/pdf");
     }
     else
       return NotFound();
   }
 
-  #region Master-detail header
-  public class MasterDetailsHeaders : IPageHeader
+  public async Task<IActionResult> BestPartners(int? year, int count = 10)
   {
-    private readonly string title;
-    public MasterDetailsHeaders(string title)
+    year ??= DateTime.Now.Year;
+
+    var partners = await ctx.BestPartners(year.Value, count).ToListAsync();
+
+    IDocument pdfDocument = new BestPartnersPdf(partners, $"Top {count} best partners in year {year}");
+    byte[] pdf = pdfDocument.GeneratePdf();
+
+    if (pdf != null)
     {
-      this.title = title;
+      Response.Headers.Append("content-disposition", "inline; filename=dokumenti.pdf");
+      return File(pdf, "application/pdf");
     }
-    public IPdfFont PdfRptFont { set; get; }
-
-    public PdfGrid RenderingGroupHeader(iTextSharp.text.Document pdfDoc, PdfWriter pdfWriter, IList<CellData> newGroupInfo, IList<SummaryCellData> summaryData)
+    else
     {
-      var documentId = newGroupInfo.GetSafeStringValueOf(nameof(ItemDenorm.DocumentId));
-      var documentUrl = newGroupInfo.GetSafeStringValueOf(nameof(ItemDenorm.DocumentUrl));
-      var partnerName = newGroupInfo.GetSafeStringValueOf(nameof(ItemDenorm.PartnerName));
-      var documentDate = (DateTime)newGroupInfo.GetValueOf(nameof(ItemDenorm.DocumentDate));
-      var documentAmount = (decimal)newGroupInfo.GetValueOf(nameof(ItemDenorm.DocumentAmount));
-
-      var table = new PdfGrid(relativeWidths: new[] { 2f, 5f, 2f, 3f }) { WidthPercentage = 100 };
-
-      table.AddSimpleRow(
-          (cellData, cellProperties) =>
-          {
-            cellData.Value = "Document Id:";
-            cellProperties.PdfFont = PdfRptFont;
-            cellProperties.PdfFontStyle = DocumentFontStyle.Bold;
-            cellProperties.HorizontalAlignment = HorizontalAlignment.Left;
-          },
-          (cellData, cellProperties) =>
-          {
-            cellData.TableRowData = newGroupInfo; //postavi podatke retka za ćeliju
-                    var cellTemplate = new HyperlinkField(BaseColor.Black, false)
-            {
-              TextPropertyName = nameof(ItemDenorm.DocumentId),
-              NavigationUrlPropertyName = nameof(ItemDenorm.DocumentUrl),
-              BasicProperties = new CellBasicProperties
-              {
-                HorizontalAlignment = HorizontalAlignment.Left,
-                PdfFontStyle = DocumentFontStyle.Bold,
-                PdfFont = PdfRptFont
-              }
-            };
-
-            cellData.CellTemplate = cellTemplate;
-            cellProperties.PdfFont = PdfRptFont;
-            cellProperties.HorizontalAlignment = HorizontalAlignment.Left;
-          },
-          (cellData, cellProperties) =>
-          {
-            cellData.Value = "Document date:";
-            cellProperties.PdfFont = PdfRptFont;
-            cellProperties.PdfFontStyle = DocumentFontStyle.Bold;
-            cellProperties.HorizontalAlignment = HorizontalAlignment.Left;
-          },
-          (cellData, cellProperties) =>
-          {
-            cellData.Value = documentDate;
-            cellProperties.PdfFont = PdfRptFont;
-            cellProperties.HorizontalAlignment = HorizontalAlignment.Left;
-            cellProperties.DisplayFormatFormula = obj => ((DateTime)obj).ToString("dd.MM.yyyy");
-          });
-
-      table.AddSimpleRow(
-          (cellData, cellProperties) =>
-          {
-            cellData.Value = "Partner:";
-            cellProperties.PdfFont = PdfRptFont;
-            cellProperties.PdfFontStyle = DocumentFontStyle.Bold;
-            cellProperties.HorizontalAlignment = HorizontalAlignment.Left;
-          },
-          (cellData, cellProperties) =>
-          {
-            cellData.Value = partnerName;
-            cellProperties.PdfFont = PdfRptFont;
-            cellProperties.HorizontalAlignment = HorizontalAlignment.Left;
-          },
-          (cellData, cellProperties) =>
-          {
-            cellData.Value = "Amount:";
-            cellProperties.PdfFont = PdfRptFont;
-            cellProperties.PdfFontStyle = DocumentFontStyle.Bold;
-            cellProperties.HorizontalAlignment = HorizontalAlignment.Left;
-          },
-          (cellData, cellProperties) =>
-          {
-            cellData.Value = documentAmount;
-            cellProperties.DisplayFormatFormula = obj => ((decimal)obj).ToString("C2");
-            cellProperties.PdfFont = PdfRptFont;
-            cellProperties.HorizontalAlignment = HorizontalAlignment.Left;
-          });
-      return table.AddBorderToTable(borderColor: BaseColor.LightGray, spacingBefore: 5f);
-    }
-
-    public PdfGrid RenderingReportHeader(iTextSharp.text.Document pdfDoc, PdfWriter pdfWriter, IList<SummaryCellData> summaryData)
-    {
-      var table = new PdfGrid(numColumns: 1) { WidthPercentage = 100 };
-      table.AddSimpleRow(
-         (cellData, cellProperties) =>
-         {
-           cellData.Value = title;
-           cellProperties.PdfFont = PdfRptFont;
-           cellProperties.PdfFontStyle = DocumentFontStyle.Bold;
-           cellProperties.HorizontalAlignment = HorizontalAlignment.Center;
-         });
-      return table.AddBorderToTable();
+      return NotFound();
     }
   }
-  #endregion
 
-  #region Private methods
-  private PdfReport CreateReport(string title)
+  #region Private methods  
+  #region Header and rows for countries
+  private void AddColumnsForCountries(TableDescriptor table)
   {
-    var pdf = new PdfReport();
-
-    pdf.DocumentPreferences(doc =>
+    table.ColumnsDefinition(columns =>
     {
-      doc.Orientation(PageOrientation.Portrait);
-      doc.PageSize(PdfPageSize.A4);
-      doc.DocumentMetadata(new DocumentMetadata
-      {
-        Author = "FER-ZPR",
-        Application = "Firm.MVC",
-        Title = title
-      });
-      doc.Compression(new CompressionSettings
-      {
-        EnableCompression = true,
-        EnableFullCompression = true
-      });
-    })
-    //fix za linux https://github.com/VahidN/PdfReport.Core/issues/40
-    .DefaultFonts(fonts => {
-      fonts.Path(Path.Combine(environment.WebRootPath, "fonts", "verdana.ttf"),
-                       Path.Combine(environment.WebRootPath, "fonts", "tahoma.ttf"));
-      fonts.Size(9);
-      fonts.Color(System.Drawing.Color.Black);
-    })
-    //
-    .MainTableTemplate(template =>
-    {
-      template.BasicTemplate(BasicTemplate.ProfessionalTemplate);
-    })
-    .MainTablePreferences(table =>
-    {
-      table.ColumnsWidthsType(TableColumnWidthType.Relative);
-            //table.NumberOfDataRowsPerPage(20);
-            table.GroupsPreferences(new GroupsPreferences
-      {
-        GroupType = GroupType.HideGroupingColumns,
-        RepeatHeaderRowPerGroup = true,
-        ShowOneGroupPerPage = true,
-        SpacingBeforeAllGroupsSummary = 5f,
-        NewGroupAvailableSpacingThreshold = 150,
-        SpacingAfterAllGroupsSummary = 5f
-      });
-      table.SpacingAfter(4f);
+      columns.ConstantColumn(25);
+      columns.RelativeColumn(2);
+      columns.RelativeColumn(3);
+      columns.RelativeColumn();      
     });
 
-    return pdf;
+    table.Header(header =>
+    {
+      header.Cell().CommonHeaderCellStyle().AlignRight().Text("#");
+      header.Cell().CommonHeaderCellStyle().AlignLeft().PaddingLeft(5).Text("Country Code");
+      header.Cell().CommonHeaderCellStyle().AlignLeft().Text("Country Name");
+      header.Cell().CommonHeaderCellStyle().AlignCenter().Text("ISO3");      
+    });
+  }
+
+  private void AddCountry(TableDescriptor table, int i, Country drzava, Func<IContainer, IContainer> cellStyle)
+  {
+    table.Cell().Element(cellStyle).AlignRight().Text($"{i}.");
+    table.Cell().Element(cellStyle).AlignLeft().PaddingLeft(5).Text(drzava.CountryCode);
+    table.Cell().Element(cellStyle).AlignLeft().Text(drzava.CountryName);
+    table.Cell().Element(cellStyle).AlignCenter().Text(drzava.CountryIso3);    
+  }
+
+  #endregion
+
+  #region Headers for products
+  private void AddColumnsForProducts(TableDescriptor table)
+  {
+    table.ColumnsDefinition(columns =>
+    {
+      columns.ConstantColumn(25);
+      columns.ConstantColumn(1.2f, Unit.Inch);
+      columns.RelativeColumn(1);
+      columns.RelativeColumn(3);
+      columns.RelativeColumn();
+    });
+
+    table.Header(header =>
+    {
+      header.Cell().CommonHeaderCellStyle().AlignRight().Text("#");
+      header.Cell().CommonHeaderCellStyle().AlignCenter().Text("");
+      header.Cell().CommonHeaderCellStyle().AlignLeft().PaddingLeft(5).Text("Number");
+      header.Cell().CommonHeaderCellStyle().AlignLeft().Text("Name");
+      header.Cell().CommonHeaderCellStyle().AlignCenter().Text("Price");
+    });
+    #endregion
   }
   #endregion
 }
