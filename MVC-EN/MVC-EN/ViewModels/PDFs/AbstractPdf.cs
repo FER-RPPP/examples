@@ -26,7 +26,7 @@ public abstract class AbstractPdf : IDocument
 
   public abstract void Compose(IDocumentContainer container);
 
-  protected virtual void ComposeFooter(IContainer container)
+  protected void ComposeFooter(IContainer container)
   {
     container.DefaultTextStyle(x => x.FontSize(10))
     .Inlined(inlined =>

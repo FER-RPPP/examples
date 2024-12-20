@@ -76,7 +76,7 @@ public static class PdfExtensions
 
   public static IContainer CommonHeaderCellStyle(this ITableCellContainer cell) => cell.Element(CommonTableHeaderCellStyle);
 
-  private static IContainer CommonTableHeaderCellStyle(this IContainer container) 
+  private static IContainer CommonTableHeaderCellStyle(IContainer container) 
     => container.DefaultTextStyle(x => x.SemiBold())
                 .PaddingVertical(5)
                 .BorderBottom(1)
