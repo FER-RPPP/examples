@@ -6,13 +6,11 @@ using QuestPDF.Infrastructure;
 namespace MVC.ViewModels.PDFs;
 
 public class DokumentiPdf : MasterDetailPdf<Kupnja>
-{
-  private readonly IEnumerable<Kupnja> dokumenti;
+{  
   private readonly IUrlHelper urlHelper;
 
   public DokumentiPdf(IEnumerable<Kupnja> dokumenti, string naslov, IUrlHelper urlHelper) : base(dokumenti, naslov)
-  {
-    this.dokumenti = dokumenti;
+  {   
     this.urlHelper = urlHelper;
   }
 

@@ -7,12 +7,10 @@ namespace MVC_EN.ViewModels.PDFs;
 
 public class DocumentsPdf : MasterDetailPdf<Order>
 {
-  private readonly IEnumerable<Order> documents;
   private readonly IUrlHelper urlHelper;
 
-  public DocumentsPdf(IEnumerable<Order> documents, string naslov, IUrlHelper urlHelper) : base(documents, naslov)
+  public DocumentsPdf(IEnumerable<Order> documents, string title, IUrlHelper urlHelper) : base(documents, title)
   {
-    this.documents = documents;
     this.urlHelper = urlHelper;
   }
 
@@ -42,7 +40,7 @@ public class DocumentsPdf : MasterDetailPdf<Order>
         });
       });
 
-      row.ConstantItem(100).AlignRight().Hyperlink(urlHelper.Action("Show", "Dokument", new { id = order.DocumentId })).Text($"#{order.DocumentId}");
+      row.ConstantItem(100).AlignRight().Hyperlink(urlHelper.Action("Show", "Documents", new { id = order.DocumentId })).Text($"#{order.DocumentId}");
     });
   }
 
@@ -71,16 +69,16 @@ public class DocumentsPdf : MasterDetailPdf<Order>
       });
 
       int pos = 0;  
-      foreach (var stavka in order.Items)
+      foreach (var item in order.Items)
       {
         ++pos;
 
         table.Cell().Element(CellStyle).Text($"{pos}.");
-        table.Cell().Element(CellStyle).Text(stavka.ProductName);
-        table.Cell().Element(CellStyle).AlignRight().Text(stavka.Quantity.ToString("N2"));
-        table.Cell().Element(CellStyle).AlignRight().Text(stavka.UnitPrice.ToString("C2"));
-        table.Cell().Element(CellStyle).AlignRight().Text(stavka.Discount.ToString("P2"));
-        table.Cell().Element(CellStyle).AlignRight().Text(stavka.ItemPrice.ToString("C2"));
+        table.Cell().Element(CellStyle).Text(item.ProductName);
+        table.Cell().Element(CellStyle).AlignRight().Text(item.Quantity.ToString("N2"));
+        table.Cell().Element(CellStyle).AlignRight().Text(item.UnitPrice.ToString("C2"));
+        table.Cell().Element(CellStyle).AlignRight().Text(item.Discount.ToString("P2"));
+        table.Cell().Element(CellStyle).AlignRight().Text(item.ItemPrice.ToString("C2"));
 
         IContainer CellStyle(IContainer container)
         {
