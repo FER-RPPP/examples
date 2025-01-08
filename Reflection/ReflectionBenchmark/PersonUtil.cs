@@ -40,7 +40,7 @@ namespace ReflectionBenchmark
       foreach (PropertyInfo destProperty in destProperties)
       {
         PropertyInfo sourceProperty = sourceProperties.FirstOrDefault(d => d.Name == destProperty.Name);
-        if (destProperty != null)
+        if (sourceProperty != null)
         {
           mapping.Add(new Pair(destProperty, sourceProperty));
         }

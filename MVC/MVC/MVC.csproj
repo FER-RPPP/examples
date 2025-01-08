@@ -22,7 +22,8 @@
     <PackageReference Include="NetVips" Version="3.0.0" />
     <PackageReference Include="NetVips.Native.win-x64" Version="8.16.0" />
     <PackageReference Include="NLog.Web.AspNetCore" Version="5.3.15" />
-    <PackageReference Include="QuestPDF" Version="2024.12.1" />
+    <PackageReference Include="QuestPDF" Version="2024.12.2" />
+    <PackageReference Include="System.Text.Json" Version="8.0.5" />
   </ItemGroup>
 
   <ItemGroup>
