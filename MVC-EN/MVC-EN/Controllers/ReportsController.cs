@@ -222,12 +222,12 @@ public class ReportsController : Controller
     });
   }
 
-  private void AddCountry(TableDescriptor table, int i, Country drzava, Func<IContainer, IContainer> cellStyle)
+  private void AddCountry(TableDescriptor table, int i, Country country, Func<IContainer, IContainer> cellStyle)
   {
     table.Cell().Element(cellStyle).AlignRight().Text($"{i}.");
-    table.Cell().Element(cellStyle).AlignLeft().PaddingLeft(5).Text(drzava.CountryCode);
-    table.Cell().Element(cellStyle).AlignLeft().Text(drzava.CountryName);
-    table.Cell().Element(cellStyle).AlignCenter().Text(drzava.CountryIso3);    
+    table.Cell().Element(cellStyle).AlignLeft().PaddingLeft(5).Text(country.CountryCode);
+    table.Cell().Element(cellStyle).AlignLeft().Text(country.CountryName);
+    table.Cell().Element(cellStyle).AlignCenter().Text(country.CountryIso3);    
   }
 
   #endregion
