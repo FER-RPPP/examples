@@ -11,11 +11,11 @@ builder.Services.AddDbContext<FirmaContext>(options => options.UseSqlServer(buil
 builder.Services
         .AddGraphQLServer()
         .ModifyRequestOptions(opt => opt.IncludeExceptionDetails = builder.Environment.IsDevelopment())
-        .SetPagingOptions(new PagingOptions
+        .ModifyPagingOptions(options =>
         {
-          DefaultPageSize = 20,
-          MaxPageSize = 1000,
-          IncludeTotalCount = true
+          options.DefaultPageSize = 20;
+          options.MaxPageSize = 1000;
+          options.IncludeTotalCount = true;
         })
         .AddProjections()
         .AddFiltering()
@@ -37,14 +37,10 @@ app.UseStaticFiles();
 
 app.UseRouting();
 
-app.UseStaticFiles();
-
-app.UseRouting();
-
-
 app.MapGraphQL();
 
 app.UseGraphQLVoyager("/voyager", new VoyagerOptions() { GraphQLEndPoint = "graphql" });
+
 app.UseGraphQLPlayground(
     "/",                               // url to host Playground at
     new GraphQL.Server.Ui.Playground.PlaygroundOptions
