@@ -1,0 +1,31 @@
+﻿
+Microsoft Visual Studio Solution File, Format Version 12.00
+# Visual Studio Version 16
+VisualStudioVersion = 16.0.32002.261
+MinimumVisualStudioVersion = 10.0.40219.1
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "GraphQLServer", "GraphQLServer\GraphQLServer.csproj", "{21F667D9-2DE9-453F-B4ED-454D472212BB}"
+EndProject
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "EFModel", "..\..\EFModel\EFModel.csproj", "{479F825A-D350-42FB-B25D-DFA1E40275DE}"
+EndProject
+Global
+	GlobalSection(SolutionConfigurationPlatforms) = preSolution
+		Debug|Any CPU = Debug|Any CPU
+		Release|Any CPU = Release|Any CPU
+	EndGlobalSection
+	GlobalSection(ProjectConfigurationPlatforms) = postSolution
+		{21F667D9-2DE9-453F-B4ED-454D472212BB}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{21F667D9-2DE9-453F-B4ED-454D472212BB}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{21F667D9-2DE9-453F-B4ED-454D472212BB}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{21F667D9-2DE9-453F-B4ED-454D472212BB}.Release|Any CPU.Build.0 = Release|Any CPU
+		{479F825A-D350-42FB-B25D-DFA1E40275DE}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{479F825A-D350-42FB-B25D-DFA1E40275DE}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{479F825A-D350-42FB-B25D-DFA1E40275DE}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{479F825A-D350-42FB-B25D-DFA1E40275DE}.Release|Any CPU.Build.0 = Release|Any CPU
+	EndGlobalSection
+	GlobalSection(SolutionProperties) = preSolution
+		HideSolutionNode = FALSE
+	EndGlobalSection
+	GlobalSection(ExtensibilityGlobals) = postSolution
+		SolutionGuid = {7C3D76C8-2281-402F-93A6-AEEA177474D3}
+	EndGlobalSection
+EndGlobal

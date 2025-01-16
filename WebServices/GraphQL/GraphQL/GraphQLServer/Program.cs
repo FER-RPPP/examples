@@ -1,7 +1,6 @@
 using EFModel;
 using GraphQL.Server.Ui.Voyager;
 using GraphQLServer.SetupGraphQL;
-using HotChocolate.Types.Pagination;
 using Microsoft.EntityFrameworkCore;
 
 var builder = WebApplication.CreateBuilder(args);
@@ -41,9 +40,9 @@ app.MapGraphQL();
 
 app.UseGraphQLVoyager("/voyager", new VoyagerOptions() { GraphQLEndPoint = "graphql" });
 
-app.UseGraphQLPlayground(
+app.UseGraphQLGraphiQL(
     "/",                               // url to host Playground at
-    new GraphQL.Server.Ui.Playground.PlaygroundOptions
+    new GraphQL.Server.Ui.GraphiQL.GraphiQLOptions
     {
       GraphQLEndPoint = "/graphql",         // url of GraphQL endpoint
       SubscriptionsEndPoint = "/graphql",   // url of GraphQL endpoint
