@@ -24,7 +24,6 @@ builder.Services
 builder.Services.AddDbContext<FirmContext>(options => options.UseSqlServer(builder.Configuration.GetConnectionString("Firm")));
 builder.Services.AddTransient<CitiesController>();
 
-builder.Services.AddEndpointsApiExplorer();
 builder.Services.AddSwaggerGen(c =>
 {
   c.SwaggerDoc(Constants.ApiVersion, new OpenApiInfo

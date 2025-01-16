@@ -24,12 +24,11 @@ builder.Services
 builder.Services.AddDbContext<FirmaContext>(options => options.UseSqlServer(builder.Configuration.GetConnectionString("Firma")));
 builder.Services.AddTransient<MjestoController>();
 
-builder.Services.AddEndpointsApiExplorer();
 builder.Services.AddSwaggerGen(c =>
 {
   c.SwaggerDoc(Constants.ApiVersion, new OpenApiInfo
   {
-    Title = "Firm Web API",
+    Title = "Firma Web API",
     Version = Constants.ApiVersion
   });
   var xmlFile = $"{Assembly.GetExecutingAssembly().GetName().Name}.xml";
