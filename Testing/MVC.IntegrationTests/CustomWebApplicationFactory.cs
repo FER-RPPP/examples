@@ -1,6 +1,7 @@
 ﻿using Microsoft.AspNetCore.Hosting;
 using Microsoft.AspNetCore.Mvc.Testing;
 using Microsoft.EntityFrameworkCore;
+using Microsoft.EntityFrameworkCore.Infrastructure;
 using Microsoft.Extensions.DependencyInjection;
 using MVC.Models;
 using System;
@@ -20,7 +21,7 @@ namespace MVC.IntegrationTests
         #region Replace database context with an in-memory context
         var descriptor = services.SingleOrDefault(
             d => d.ServiceType ==
-                typeof(DbContextOptions<FirmaContext>));
+                typeof(IDbContextOptionsConfiguration<FirmaContext>));
         services.Remove(descriptor);
 
         services.AddDbContext<FirmaContext>(options =>

@@ -1,6 +1,7 @@
 ﻿using Microsoft.AspNetCore.Hosting;
 using Microsoft.AspNetCore.Mvc.Testing;
 using Microsoft.EntityFrameworkCore;
+using Microsoft.EntityFrameworkCore.Infrastructure;
 using Microsoft.Extensions.DependencyInjection;
 using MVC_EN.Models;
 
@@ -15,7 +16,7 @@ namespace MVC.IntegrationTests
         #region Replace database context with an in-memory context
         var descriptor = services.SingleOrDefault(
             d => d.ServiceType ==
-                typeof(DbContextOptions<FirmContext>));
+                typeof(IDbContextOptionsConfiguration<FirmContext>));
         if (descriptor != null)
         {
           services.Remove(descriptor);
@@ -23,7 +24,7 @@ namespace MVC.IntegrationTests
 
         services.AddDbContext<FirmContext>(options =>
         {
-          options.UseInMemoryDatabase("Firm-" + typeof(TTest).Name); //database per test collection          
+          options.UseInMemoryDatabase("Firm-" + typeof(TTest).Name); //database per test collection                        
         });
 
         var sp = services.BuildServiceProvider();
