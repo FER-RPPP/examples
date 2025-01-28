@@ -1,0 +1,78 @@
+﻿<!DOCTYPE html>
+<html>
+<head>
+  <meta charset="utf-8" />
+  <title>Cities overview</title>
+  <link href="lib/jqueryui/themes/base/jquery-ui.min.css" rel="stylesheet" type="text/css" />
+  <link href="lib/jtable/lib/themes/lightcolor/blue/jtable.min.css" rel="stylesheet" type="text/css" />
+</head>
+<body>
+  <div class="container">
+    <div class="row">
+      Filter by city name<input type="text" id="filter" />
+      <button id="btnFilter">Filter</button>
+    </div>
+    <div class="row">
+      <div class="col-sm-12" id="cities">
+
+      </div>
+    </div>
+  </div>
+
+  <script type="text/javascript" src="lib/jquery/jquery.min.js"></script>
+  <script type="text/javascript" src="lib/jqueryui/jquery-ui.min.js"></script>
+  <script type="text/javascript" src="lib/jtable/lib/jquery.jtable.min.js"></script>
+  <!--<script type="text/javascript" src="lib/jtable/lib/localization/jquery.jtable.hr.js"></script>-->
+
+  <script type="text/javascript">
+$(document).ready(function () {
+      $('#cities').jtable({
+        title: 'Cities',
+        paging: true,
+        pageSize: 10,
+        sorting: true,
+        defaultSorting: 'CityId DESC',
+        actions: {
+          listAction: 'jtable/cities/getall',
+          createAction: 'jtable/cities/create',
+          updateAction: 'jtable/cities/update',
+          deleteAction: 'jtable/cities/delete'
+        },
+        fields: {
+          CityId: {
+            key: true,
+            list: false
+          },
+          PostalCode: {
+            title: 'Postal code',
+            width: '20%'
+          },
+          CityName: {
+            title: 'Name',
+            width: '30%'
+          },
+          PostalName: {
+            title: 'Postal name',
+            width: '30%'
+          },
+          CountryCode: {
+            title: 'Country',
+            width: '20%',
+            options: 'Lookup/Countries'
+          }
+        }
+      });
+
+      $("#cities").jtable('load');
+
+      $("#btnFilter").click(function (event) {
+        event.preventDefault();
+        $("#cities").jtable('load', {
+          search: $('#filter').val()
+        });
+      });
+});
+  </script>
+
+</body>
+</html>
