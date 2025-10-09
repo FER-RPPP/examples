@@ -58,8 +58,7 @@ public class Triple
 
   #region Operator overloading
   public static Triple operator +(Triple x, Triple y)
-  {
-    // prođe kroz gettere argumenata i konstruktor rezultata
+  {    
     return new Triple
     {
       First = x.First + y.First,

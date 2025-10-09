@@ -1,5 +1,4 @@
 ﻿using Inheritance;
-using System;
 
 Vehicle v = new Vehicle("BMW Isseta", 9.5);
 v.Start();

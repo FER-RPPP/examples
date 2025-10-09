@@ -10,7 +10,7 @@ public enum DayPeriod
 
 public class Activity
 {
-  public string Person { get; set; }
+  public required string Person { get; set; }
   public int Hours { get; set; }
   public DayPeriod Period { get; set; }
 }

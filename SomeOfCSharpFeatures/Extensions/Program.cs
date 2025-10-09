@@ -1,8 +1,4 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-
-namespace Extensions;
+﻿namespace Extensions;
 
 public enum Days
 {

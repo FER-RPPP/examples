@@ -1,6 +1,4 @@
-﻿using System;
-
-namespace Delegates;
+﻿namespace Delegates;
 
 class Program
 {
@@ -16,9 +14,13 @@ class Program
     PrintFunction pf = MathTool.PrintSquare;
     pf += MathTool.PrintSquareRoot;
     pf(x);
+#pragma warning disable CS8601 // Possible null reference assignment.
     pf -= MathTool.PrintSquare;
+#pragma warning restore CS8601 // Possible null reference assignment.
     Console.WriteLine();
-    pf(y);
+#pragma warning disable CS8602 // Dereference of a possibly null reference.
+    pf(y); //instead of pragma pf?.Invoke(y); can be used  
+#pragma warning restore CS8602 // Dereference of a possibly null reference.
 
     Func<int, int, int> func = MathTool.Sum;
     Console.WriteLine("func({0}, {1}) = {2}", x, y, func(x, y));
