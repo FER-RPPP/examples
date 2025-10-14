@@ -8,7 +8,11 @@ IConfiguration configuration = new ConfigurationBuilder()
                                    .AddUserSecrets<Program>() //foldername defined in .csproj of the project containing class Project
                                    .Build();
 
-string connString = configuration.GetConnectionString("Firma");
+string? connString = configuration.GetConnectionString("Firma");
+if (connString == null)
+{
+  throw new Exception("Missing connection string Firma");
+}
 Console.WriteLine(connString);
 #endregion
 

@@ -1,6 +1,4 @@
-﻿using System;
-
-namespace Using;
+﻿namespace Using;
 
   class C : IDisposable
   {

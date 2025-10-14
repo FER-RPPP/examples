@@ -11,4 +11,11 @@ public static class Util
       Console.Clear();
     }
   }
+
+  public static int ReadNumber()
+  {
+    int number;
+    while (!int.TryParse(Console.ReadLine(), out number)) ;
+    return number;
+  }
 }

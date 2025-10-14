@@ -2,18 +2,14 @@
 
 namespace Barricades;
 
-class Course
+class Course(string name)
 {
-  public string Name { get; private set; }
+  public string Name { get; private set; } = name;
 
-  //Consider why is dictionary private variable, and not property!    
+  //Consider why is dictionary private variable, and why not a property!    
   //indexer serves as a barricade
   
   private Dictionary<string, int> grades = new Dictionary<string, int>();
-  public Course(string name)
-  {
-    Name = name;
-  }
 
   /// <summary>
   /// Assign the new grade to the student.

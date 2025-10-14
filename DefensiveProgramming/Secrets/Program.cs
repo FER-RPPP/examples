@@ -18,6 +18,6 @@ Console.WriteLine($"Custom env variable using configuration = " + configuration[
 Console.WriteLine($"Name = " + configuration["Name"]);
 Console.WriteLine($"Key0 = " + configuration["Demo:Key0"]);
 
-Demo demo = configuration.GetSection("Demo").Get<Demo>(); // package Microsoft.Extensions.Configuration.Binder
-Console.WriteLine($"Key1 = " + demo.Key1);
-Console.WriteLine($"Key2 = " + demo.Key2);
+Demo? demo = configuration.GetSection("Demo").Get<Demo>(); // package Microsoft.Extensions.Configuration.Binder
+Console.WriteLine($"Key1 = " + demo?.Key1);
+Console.WriteLine($"Key2 = " + demo?.Key2);

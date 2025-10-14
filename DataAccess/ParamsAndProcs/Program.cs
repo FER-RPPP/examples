@@ -1,13 +1,14 @@
 ﻿using Microsoft.Data.SqlClient;
 using Microsoft.Extensions.Configuration;
 using System;
+using System.ComponentModel.Design;
 using System.Data.Common;
 
 namespace ParamsAndProcs
 {
   public class Program
   {
-    static IConfigurationRoot config;
+    static IConfigurationRoot? config;
     static DbProviderFactory factory = SqlClientFactory.Instance;
     //static DbProviderFactory factory = DbProviderFactories.GetFactory("Microsoft.Data.SqlClient"); //can be used if registered before using DbProviderFactories.RegisterFactory("System.Data.SqlClient", SqlClientFactory.Instance)
 
@@ -23,8 +24,15 @@ namespace ParamsAndProcs
       Console.WriteLine("Press ENTER to continue");
       Console.ReadLine();
 
-      decimal threshold = decimal.Parse(config["PriceThreshold"]);
-      ProcedureDemo(threshold);
+      if (decimal.TryParse(config["PriceThreshold"], out decimal threshold)) 
+      {
+        ProcedureDemo(threshold);
+      }
+      else
+      {
+        Console.WriteLine("Invalid value for PriceThreshold configuration key");
+      }
+      
     }
 
     /// <summary>
@@ -33,7 +41,7 @@ namespace ParamsAndProcs
     /// </summary>
     private static void ParametrizedQueryDemo()
     {     
-      using (DbConnection conn = factory.CreateConnection())
+      using (DbConnection? conn = factory.CreateConnection())
       {
         conn.ConnectionString = config.GetConnectionString("Firma");
         using (DbCommand command = factory.CreateCommand())

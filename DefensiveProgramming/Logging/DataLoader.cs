@@ -30,7 +30,7 @@ public class DataLoader : IDataLoader
       //use File.ReadAllLines for small files
       using (var reader = new StreamReader(File.OpenRead(filename)))
       {
-        string line;
+        string? line;
         while((line = reader.ReadLine()) != null) {
           string pattern = "[0-3]?[0-9].[0-3]?[0-9].[0-9]{4}.";
           var match = Regex.Match(line, pattern);

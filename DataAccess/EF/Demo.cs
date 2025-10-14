@@ -87,7 +87,7 @@ internal class Demo
   internal static void PrintMostExpensives(IServiceProvider serviceProvider)
   {
     Console.WriteLine("How many most expensive products to print?");
-    int n = int.Parse(Console.ReadLine());
+    int n = Util.ReadNumber();
     using (var context = serviceProvider.GetRequiredService<FirmaContext>())
     {
       var query = context.Artikl
@@ -106,7 +106,7 @@ internal class Demo
   internal static void PrintMostExpensivesAnonymous(IServiceProvider serviceProvider)
   {
     Console.WriteLine("How many most expensive products to print?");
-    int n = int.Parse(Console.ReadLine());
+    int n = Util.ReadNumber();
     using (var context = serviceProvider.GetRequiredService<FirmaContext>())
     {
       var query = context.Artikl
