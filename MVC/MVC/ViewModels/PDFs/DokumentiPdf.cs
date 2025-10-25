@@ -40,7 +40,11 @@ public class DokumentiPdf : MasterDetailPdf<Kupnja>
         });
       });
 
-      row.ConstantItem(100).AlignRight().Hyperlink(urlHelper.Action("Show", "Dokument", new { id = item.IdDokumenta })).Text($"#{item.IdDokumenta}");
+      string? documentUrl = urlHelper.Action("Show", "Dokument", new { id = item.IdDokumenta });
+      if (documentUrl != null)
+      {
+        row.ConstantItem(100).AlignRight().Hyperlink(documentUrl).Text($"#{item.IdDokumenta}");
+      }      
     });
   }
 

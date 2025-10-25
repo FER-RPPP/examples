@@ -37,7 +37,7 @@ public static class PdfExtensions
                                    string title,
                                    Action<TableDescriptor> createHeader,
                                    Action<TableDescriptor, int, T, Func<IContainer, IContainer>> createRow,
-                                   Action<TableDescriptor> createFooter = null
+                                   Action<TableDescriptor>? createFooter = null
                                   )
   {
     var report = Document.Create(container =>

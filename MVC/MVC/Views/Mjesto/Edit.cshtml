@@ -1,15 +1,15 @@
-﻿@model Mjesto
+﻿@model MjestoViewModel
 
 
 <tr hx-target="this" hx-swap="outerHTML">  
   <td class="text-start">    
-    <input asp-for="PostBrMjesta" class="form-control" />
+    <input asp-for="PostBrojMjesta" class="form-control" />
   </td>
   <td class="text-start">
-    <input asp-for="NazMjesta" class="form-control" />
+    <input asp-for="NazivMjesta" class="form-control" />
   </td>
   <td class="text-start">
-    <input asp-for="PostNazMjesta" class="form-control" />
+    <input asp-for="PostNazivMjesta" class="form-control" />
   </td>
   <td class="text-start">
     <select class="form-select" asp-for="OznDrzave" asp-items="ViewBag.Drzave">

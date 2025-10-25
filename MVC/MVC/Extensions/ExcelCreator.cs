@@ -21,11 +21,7 @@ namespace MVC.Extensions
       {
         if (prop.PropertyType is IEnumerable)
           continue; //preskoči kolekcije
-        string name = prop.Name;
-        if (prop.IsDefined(typeof(DisplayAttribute)))
-        {
-          name = prop.GetCustomAttribute<DisplayAttribute>().Name;
-        }
+        string name = prop.GetCustomAttribute<DisplayAttribute>()?.Name ?? prop.Name;        
         worksheet.Cells[row, col++].Value = name;
       }
 
@@ -39,11 +35,11 @@ namespace MVC.Extensions
           if (prop.PropertyType is IEnumerable)
             continue; //preskoči kolekcije
 
-          object value = prop.GetValue(t);
-          worksheet.Cells[row, col].Value = value;
-          if (prop.IsDefined(typeof(ExcelFormatAttribute)))
+          object? value = prop.GetValue(t);
+          if (value != null)
           {
-            string format = prop.GetCustomAttribute<ExcelFormatAttribute>().ExcelFormat;
+            worksheet.Cells[row, col].Value = value;
+            string? format = prop.GetCustomAttribute<ExcelFormatAttribute>()?.ExcelFormat;
             if (!string.IsNullOrWhiteSpace(format))
             {
               worksheet.Cells[row, col].Style.Numberformat.Format = format;

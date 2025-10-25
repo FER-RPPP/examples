@@ -6,7 +6,7 @@ namespace MVC.ViewModels
   {
     public int IdStavke { get; set; }
     public int SifArtikla { get; set; }
-    public string NazArtikla { get; set; }
+    public string NazArtikla { get; set; } = string.Empty;
     [Range(1e-6, double.MaxValue, ErrorMessage = "Količina mora biti pozitivan broj")]
     public decimal KolArtikla { get; set; }
     public decimal JedCijArtikla { get; set; }

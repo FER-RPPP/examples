@@ -1,6 +1,4 @@
 ﻿using MVC.Models;
-using System;
-using System.Linq;
 
 namespace MVC.Extensions.Selectors
 {
@@ -8,7 +6,7 @@ namespace MVC.Extensions.Selectors
   {
     public static IQueryable<Artikl> ApplySort(this IQueryable<Artikl> query, int sort, bool ascending)
     {
-      System.Linq.Expressions.Expression<Func<Artikl, object>> orderSelector = null;
+      System.Linq.Expressions.Expression<Func<Artikl, object?>>? orderSelector = null;
       switch (sort)
       {
         case 1:

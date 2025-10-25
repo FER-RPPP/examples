@@ -2,7 +2,7 @@
 
 public class NajboljiPartner
 {
-  public string OIB { get; set; }
-  public string Naziv { get; set; }
+  public required string OIB { get; set; }
+  public required string Naziv { get; set; }
   public decimal Iznos { get; set; }
 }

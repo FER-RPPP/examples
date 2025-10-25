@@ -17,11 +17,11 @@ namespace MVC.Models
     [ExcelFormat("dd.mm.yyyy")]
     public DateTime DatDokumenta { get; set; }
     public int IdPartnera { get; set; }
-    public string NazPartnera { get; set; }
+    public required string NazPartnera { get; set; }
 
     [ExcelFormat("#,###,##0.00")]
     public decimal IznosDokumenta { get; set; }
-    public string VrDokumenta { get; set; }
+    public required string VrDokumenta { get; set; }
     public int BrDokumenta { get; set; }
 
     [NotMapped]    

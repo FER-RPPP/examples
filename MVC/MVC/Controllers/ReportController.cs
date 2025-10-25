@@ -120,7 +120,7 @@ public class ReportController : Controller
       (table, i, artikl, cellStyle) =>
       {
         table.Cell().Element(cellStyle).AlignRight().Text($"{i}.");
-        table.Cell().Element(cellStyle).AlignCenter().MaxHeight(0.9f, Unit.Inch).MaxWidth(1, Unit.Inch).Image(artikl.SlikaArtikla);
+        table.Cell().Element(cellStyle).AlignCenter().MaxHeight(0.9f, Unit.Inch).MaxWidth(1, Unit.Inch).Image(artikl.SlikaArtikla!);
         table.Cell().Element(cellStyle).AlignLeft().PaddingLeft(5).Text(artikl.SifArtikla.ToString());
         table.Cell().Element(cellStyle).AlignCenter().Text(artikl.NazArtikla);
         table.Cell().Element(cellStyle).AlignRight().PaddingRight(5).Text(artikl.CijArtikla.ToString("N2"));

@@ -2,12 +2,8 @@ using MVC.Models;
 using MVC;
 using NLog;
 using NLog.Web;
-using FluentValidation.AspNetCore;
 using Microsoft.EntityFrameworkCore;
-using FluentValidation;
-using MVC.ModelsValidation;
 using QuestPDF.Infrastructure;
-using OfficeOpenXml;
 
 var logger = NLog.LogManager.Setup().GetCurrentClassLogger();
 logger.Debug("init main");
@@ -23,11 +19,6 @@ try
   builder.Services.AddDbContext<FirmaContext>(options => options.UseSqlServer(builder.Configuration.GetConnectionString("Firma")));
 
   builder.Services.AddControllersWithViews();
-
-  builder.Services
-          .AddFluentValidationAutoValidation()
-          .AddFluentValidationClientsideAdapters()
-          .AddValidatorsFromAssemblyContaining<DrzavaValidator>();
   #endregion
 
   var app = builder.Build();
@@ -54,7 +45,6 @@ try
   #endregion
 
   QuestPDF.Settings.License = LicenseType.Community;
-  ExcelPackage.LicenseContext = LicenseContext.NonCommercial;
   app.Run();
 }
 catch (Exception exception)

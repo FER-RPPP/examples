@@ -2,12 +2,12 @@
 
 public class Kupnja
 {
-  public string OIB { get; set; }
-  public string NazPartnera { get; set; }
+  public required string OIB { get; set; }
+  public required string NazPartnera { get; set; }
   public int IdDokumenta { get; set; }
   public DateTime DatDokumenta { get; set; }
   public decimal IznosDokumenta { get; set; }
-  public IEnumerable<StavkaKupnje> Stavke { get; set; }
+  public IEnumerable<StavkaKupnje> Stavke { get; set; } = Enumerable.Empty<StavkaKupnje>();
 }
 
 public class StavkaKupnje
@@ -17,6 +17,6 @@ public class StavkaKupnje
   public decimal KolArtikla { get; set; }
   public decimal JedCijArtikla { get; set; }
   public decimal PostoRabat { get; set; }
-  public string NazArtikla { get; set; }
+  public required string NazArtikla { get; set; }
   public decimal CijenaStavke => KolArtikla * JedCijArtikla * (1 - PostoRabat);
 }

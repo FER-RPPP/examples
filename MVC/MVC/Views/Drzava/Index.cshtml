@@ -1,4 +1,4 @@
-﻿@model MVC.ViewModels.DrzaveViewModel
+﻿@model PagedList<Drzava>
 
 @{
   ViewBag.Title = "Države";
@@ -39,7 +39,7 @@
     </tr>
   </thead>
   <tbody>
-    @foreach (var drzava in Model.Drzave)
+    @foreach (var drzava in Model.Data)
     {
       <tr>
         <td class="text-center">@drzava.OznDrzave</td>

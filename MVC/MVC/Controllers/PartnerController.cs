@@ -26,7 +26,7 @@ namespace MVC.Controllers
     {
       int pagesize = appData.PageSize;
 
-      var query = ctx.vw_Partner.AsQueryable();
+      IQueryable<ViewPartner> query = ctx.vw_Partner.AsQueryable();
       int count = await query.CountAsync();
 
       var pagingInfo = new PagingInfo
@@ -43,16 +43,8 @@ namespace MVC.Controllers
       }
 
       query = query.ApplySort(sort, ascending);
-
-      var partneri = await query
-                          .Skip((page - 1) * pagesize)
-                          .Take(pagesize)                          
-                          .ToListAsync();
-      var model = new PartneriViewModel
-      {
-        Partneri = partneri,
-        PagingInfo = pagingInfo
-      };
+      
+      var model = await PagedList<ViewPartner>.CreateAsync(query, pagingInfo);
 
       return View(model);
     }
@@ -74,7 +66,7 @@ namespace MVC.Controllers
       if (ModelState.IsValid)
       {
         Partner p = new Partner();
-        p.TipPartnera = model.TipPartnera;
+        p.TipPartnera = model.TipPartnera!;
         CopyValues(p, model);
         try
         {
@@ -257,14 +249,14 @@ namespace MVC.Controllers
       if (partner.TipPartnera == "O")
       {
         partner.Osoba = new Osoba();
-        partner.Osoba.ImeOsobe = model.ImeOsobe;
-        partner.Osoba.PrezimeOsobe = model.PrezimeOsobe;
+        partner.Osoba.ImeOsobe = model.ImeOsobe!;
+        partner.Osoba.PrezimeOsobe = model.PrezimeOsobe!;
       }
       else
       {
         partner.Tvrtka = new Tvrtka();
-        partner.Tvrtka.MatBrTvrtke = model.MatBrTvrtke;
-        partner.Tvrtka.NazivTvrtke = model.NazivTvrtke;
+        partner.Tvrtka.MatBrTvrtke = model.MatBrTvrtke!;
+        partner.Tvrtka.NazivTvrtke = model.NazivTvrtke!;
       }
     }
 

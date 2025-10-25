@@ -44,8 +44,7 @@ namespace MVC.Controllers
 
       query = query.ApplySort(sort, ascending);      
 
-      var artikli = await query
-                          .Select(a => new ArtiklViewModel
+      var artikli = query.Select(a => new ArtiklViewModel
                           {
                             SifraArtikla = a.SifArtikla,
                             NazivArtikla = a.NazArtikla,
@@ -55,15 +54,8 @@ namespace MVC.Controllers
                             TekstArtikla = a.TekstArtikla,
                             ImaSliku = a.SlikaArtikla != null,
                             ImageHash = a.SlikaChecksum
-                          })
-                          .Skip((page - 1) * pagesize)
-                          .Take(pagesize)
-                          .ToListAsync();
-      var model = new ArtikliViewModel
-      {
-        Artikli = artikli,
-        PagingInfo = pagingInfo
-      };
+                          });
+      var model = await PagedList<ArtiklViewModel>.CreateAsync(artikli, pagingInfo);
 
       return View(model);
     }
@@ -139,8 +131,8 @@ namespace MVC.Controllers
 
       byte[] image = await ctx.Artikl
                             .Where(a => a.SifArtikla == id)
-                            .Select(a => a.SlikaArtikla)
-                            .SingleOrDefaultAsync();
+                            .Select(a => a.SlikaArtikla!) //inače ne bi postojao checkshum
+                            .SingleAsync();
 
       return File(image, "image/jpeg", lastModified: DateTime.Now, entityTag: new EntityTagHeaderValue(responseETag));
     }
@@ -172,13 +164,13 @@ namespace MVC.Controllers
     }
 
     [HttpPost]   
-    public async Task<IActionResult> Edit(Artikl artikl, IFormFile slika, bool obrisiSliku)
+    public async Task<IActionResult> Edit(Artikl artikl, IFormFile? slika, bool obrisiSliku)
     {
       if (artikl == null)
       {
         return NotFound("Nema poslanih podataka");
       }
-      Artikl dbArtikl = await ctx.Artikl.FindAsync(artikl.SifArtikla);
+      Artikl? dbArtikl = await ctx.Artikl.FindAsync(artikl.SifArtikla);
       if (dbArtikl == null)
       {
         return NotFound($"Neispravna šifra artikla: {artikl.SifArtikla}");

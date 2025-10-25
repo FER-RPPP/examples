@@ -39,8 +39,7 @@ namespace MVC.Controllers
     {
       int pagesize = appSettings.PageSize;
 
-      var query = ctx.Drzava
-                     .AsNoTracking();
+      IQueryable<Drzava> query = ctx.Drzava.AsNoTracking();
 
       int count = query.Count();
       if (count == 0)
@@ -65,17 +64,8 @@ namespace MVC.Controllers
       }
 
       query = query.ApplySort(sort, ascending);
-
-      var drzave = query
-                  .Skip((page - 1) * pagesize)
-                  .Take(pagesize)
-                  .ToList();
-
-      var model = new DrzaveViewModel
-      {
-        Drzave = drzave,
-        PagingInfo = pagingInfo
-      };
+      
+      var model = PagedList<Drzava>.Create(query, pagingInfo);
 
       return View(model);
     }
@@ -176,7 +166,7 @@ namespace MVC.Controllers
 
       try
       {
-        Drzava drzava = await ctx.Drzava.FindAsync(id);
+        Drzava? drzava = await ctx.Drzava.FindAsync(id);
         if (drzava == null)
         {
           return NotFound("Neispravna oznaka države: " + id);

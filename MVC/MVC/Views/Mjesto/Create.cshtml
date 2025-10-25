@@ -1,4 +1,4 @@
-﻿@model Mjesto
+﻿@model MjestoViewModel
 
 @{
   ViewBag.Title = "Novo mjesto";
@@ -9,19 +9,19 @@
 <form asp-action="Create" method="post">
   <div asp-validation-summary="All"></div>
   <div class="mb-3">
-    <label asp-for="PostBrMjesta" class="form-label"></label>
-    <input asp-for="PostBrMjesta" class="form-control" />
-    <div class="form-text"><span asp-validation-for="PostBrMjesta" class="text-danger"></span></div>
+    <label asp-for="PostBrojMjesta" class="form-label"></label>
+    <input asp-for="PostBrojMjesta" class="form-control" />
+    <div class="form-text"><span asp-validation-for="PostBrojMjesta" class="text-danger"></span></div>
   </div>
   <div class="mb-3">
-    <label asp-for="NazMjesta" class="form-label"></label>
-    <input asp-for="NazMjesta" class="form-control" />
-    <div class="form-text"><span asp-validation-for="NazMjesta" class="text-danger"></span></div>
+    <label asp-for="NazivMjesta" class="form-label"></label>
+    <input asp-for="NazivMjesta" class="form-control" />
+    <div class="form-text"><span asp-validation-for="NazivMjesta" class="text-danger"></span></div>
   </div>
   <div class="mb-3">
-    <label asp-for="PostNazMjesta" class="form-label"></label>
-    <input asp-for="PostNazMjesta" class="form-control" />
-    <div class="form-text"><span asp-validation-for="PostNazMjesta" class="text-danger"></span></div>
+    <label asp-for="PostNazivMjesta" class="form-label"></label>
+    <input asp-for="PostNazivMjesta" class="form-control" />
+    <div class="form-text"><span asp-validation-for="PostNazivMjesta" class="text-danger"></span></div>
   </div>
   <div class="mb-3">
     <label asp-for="OznDrzave" class="form-label"></label>

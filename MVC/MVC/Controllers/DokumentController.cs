@@ -37,7 +37,7 @@ namespace MVC.Controllers
           df.NazPartnera = await ctx.vw_Partner
                                     .Where(p => p.IdPartnera == df.IdPartnera)
                                     .Select(vp => vp.Naziv)
-                                    .FirstOrDefaultAsync();
+                                    .FirstAsync();
         }
         query = df.Apply(query);
       }
@@ -61,22 +61,13 @@ namespace MVC.Controllers
 
       query = query.ApplySort(sort, ascending);
 
-      var dokumenti = await query
-                            .Skip((page - 1) * pagesize)
-                            .Take(pagesize)
-                            .ToListAsync();
+      var model = await DokumentiViewModel.CreateAsync(query, pagingInfo, df);
 
-      for (int i = 0; i < dokumenti.Count; i++)
+      for (int i = 0; i < model.Data.Count; i++)
       {
-        dokumenti[i].Position = (page - 1) * pagesize + i;
+        model.Data[i].Position = (page - 1) * pagesize + i;
       }
-      var model = new DokumentiViewModel
-      {
-        Dokumenti = dokumenti,
-        PagingInfo = pagingInfo,
-        Filter = df
-      };
-
+        
       return View(model);
     }
 
@@ -113,7 +104,7 @@ namespace MVC.Controllers
         dokument.NazPartnera = await ctx.vw_Partner
                                         .Where(p => p.IdPartnera == dokument.IdPartnera)
                                         .Select(p => p.Naziv)
-                                        .FirstOrDefaultAsync();
+                                        .FirstAsync();
 
         if (dokument.IdPrethDokumenta.HasValue)
         {
@@ -200,10 +191,10 @@ namespace MVC.Controllers
         Dokument d = new Dokument();
         d.BrDokumenta = model.BrDokumenta;
         d.DatDokumenta = model.DatDokumenta.Date;
-        d.IdPartnera = model.IdPartnera.Value;
+        d.IdPartnera = model.IdPartnera!.Value;
         d.IdPrethDokumenta = model.IdPrethDokumenta;
         d.PostoPorez = model.PostoPorez;
-        d.VrDokumenta = model.VrDokumenta;
+        d.VrDokumenta = model.VrDokumenta!;
         foreach (var stavka in model.Stavke)
         {
           Stavka novaStavka = new Stavka();
@@ -272,10 +263,10 @@ namespace MVC.Controllers
 
         dokument.BrDokumenta = model.BrDokumenta;
         dokument.DatDokumenta = model.DatDokumenta.Date;
-        dokument.IdPartnera = model.IdPartnera.Value;
+        dokument.IdPartnera = model.IdPartnera!.Value;
         dokument.IdPrethDokumenta = model.IdPrethDokumenta;
         dokument.PostoPorez = model.StopaPoreza / 100m;
-        dokument.VrDokumenta = model.VrDokumenta;
+        dokument.VrDokumenta = model.VrDokumenta!;
 
         List<int> idStavki = model.Stavke
                                   .Where(s => s.IdStavke > 0)
