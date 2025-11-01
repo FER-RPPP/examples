@@ -8,7 +8,7 @@ public static class ProductsSort
 {
   public static IQueryable<Product> ApplySort(this IQueryable<Product> query, int sort, bool ascending)
   {
-    System.Linq.Expressions.Expression<Func<Product, object>> orderSelector = null;
+    System.Linq.Expressions.Expression<Func<Product, object?>>? orderSelector = null;
     switch (sort)
     {
       case 1:

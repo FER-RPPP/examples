@@ -1,13 +1,8 @@
-using Microsoft.Extensions.Configuration;
 using MVC_EN.Models;
 using MVC_EN;
 using NLog;
 using NLog.Web;
-using FluentValidation.AspNetCore;
 using Microsoft.EntityFrameworkCore;
-using FluentValidation;
-using MVC_EN.ModelsValidation;
-using Microsoft.AspNetCore.Mvc.ViewFeatures;
 using QuestPDF.Infrastructure;
 using OfficeOpenXml;
 
@@ -26,10 +21,6 @@ try
 
   builder.Services.AddControllersWithViews();
 
-  builder.Services
-          .AddFluentValidationAutoValidation()
-          .AddFluentValidationClientsideAdapters()
-          .AddValidatorsFromAssemblyContaining<CountryValidator>();
   #endregion
 
   var app = builder.Build();
@@ -56,7 +47,6 @@ try
   #endregion
 
   QuestPDF.Settings.License = LicenseType.Community;
-  ExcelPackage.LicenseContext = LicenseContext.NonCommercial;
   app.Run();
 }
 catch (Exception exception)

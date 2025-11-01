@@ -13,7 +13,7 @@ public static class ExceptionExtensions
   /// </summary>
   /// <param name="exc">exception which hierarhcy of inner exceptions must be returned</param>
   /// <returns>String in which each exception message are separated by new line</returns>
-  public static string CompleteExceptionMessage(this Exception exc)
+  public static string CompleteExceptionMessage(this Exception? exc)
   {
     StringBuilder sb = new StringBuilder();
     while (exc != null)

@@ -26,7 +26,7 @@ public class PartnersController : Controller
   {
     int pagesize = appData.PageSize;
 
-    var query = ctx.vw_Partners.AsQueryable();
+    IQueryable<ViewPartner> query = ctx.vw_Partners.AsQueryable();
     int count = await query.CountAsync();
 
     var pagingInfo = new PagingInfo
@@ -48,11 +48,7 @@ public class PartnersController : Controller
                         .Skip((page - 1) * pagesize)
                         .Take(pagesize)                          
                         .ToListAsync();
-    var model = new PartnersViewModel
-    {
-      Partners = partners,
-      PagingInfo = pagingInfo
-    };
+    var model = await PagedList<ViewPartner>.CreateAsync(query, pagingInfo);
 
     return View(model);
   }
@@ -74,7 +70,7 @@ public class PartnersController : Controller
     if (ModelState.IsValid)
     {
       Partner p = new Partner();
-      p.PartnerType = model.PartnerType;
+      p.PartnerType = model.PartnerType!;
       CopyValues(p, model);
       try
       {
@@ -259,14 +255,14 @@ public class PartnersController : Controller
     if (partner.PartnerType == "P")
     {
       partner.Person = new Person();
-      partner.Person.FirstName = model.PersonFirstName;
-      partner.Person.LastName = model.PersonLastName;
+      partner.Person.FirstName = model.PersonFirstName!;
+      partner.Person.LastName = model.PersonLastName!;
     }
     else
     {
       partner.Company = new Company();
-      partner.Company.RegistrationNumber = model.RegistrationNumber;
-      partner.Company.CompanyName = model.CompanyName;
+      partner.Company.RegistrationNumber = model.RegistrationNumber!;
+      partner.Company.CompanyName = model.CompanyName!;
     }
   }
   #endregion

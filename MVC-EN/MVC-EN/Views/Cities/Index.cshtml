@@ -1,4 +1,4 @@
-﻿@model CitiesViewModel
+﻿@model PagedList<CityViewModel>
 
 @{
   ViewBag.Title = "Cities";
@@ -42,7 +42,7 @@
     </tr>
   </thead>
   <tbody>
-    @foreach (var city in Model.Cities)
+    @foreach (var city in Model.Data)
     {
       <partial name="Get" model="city" />
     }

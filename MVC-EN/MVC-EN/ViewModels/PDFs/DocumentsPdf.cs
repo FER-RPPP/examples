@@ -1,4 +1,5 @@
 ﻿using Microsoft.AspNetCore.Mvc;
+using MVC_EN.Models;
 using QuestPDF.Fluent;
 using QuestPDF.Helpers;
 using QuestPDF.Infrastructure;
@@ -39,8 +40,12 @@ public class DocumentsPdf : MasterDetailPdf<Order>
           text.Span($"{order.Amount:C2}");
         });
       });
-
-      row.ConstantItem(100).AlignRight().Hyperlink(urlHelper.Action("Show", "Documents", new { id = order.DocumentId })).Text($"#{order.DocumentId}");
+      
+      string? documentUrl = urlHelper.Action("Show", "Documents", new { id = order.DocumentId });
+      if (documentUrl != null)
+      {
+        row.ConstantItem(100).AlignRight().Hyperlink(documentUrl).Text($"#{order.DocumentId}");
+      }
     });
   }
 

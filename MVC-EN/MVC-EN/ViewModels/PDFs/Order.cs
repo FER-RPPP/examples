@@ -2,12 +2,12 @@
 
 public class Order
 {
-  public string VatNumber { get; set; }
-  public string PartnerName { get; set; }
+  public required string VatNumber { get; set; }
+  public required string PartnerName { get; set; }
   public int DocumentId { get; set; }
   public DateTime DocumentDate { get; set; }
   public decimal Amount { get; set; }
-  public IEnumerable<OrderItem> Items { get; set; }
+  public IEnumerable<OrderItem> Items { get; set; } = Enumerable.Empty<OrderItem>();
 }
 
 public class OrderItem
@@ -17,6 +17,6 @@ public class OrderItem
   public decimal Quantity { get; set; }
   public decimal UnitPrice { get; set; }
   public decimal Discount { get; set; }
-  public string ProductName { get; set; }
+  public required string ProductName { get; set; }
   public decimal ItemPrice => Quantity * UnitPrice * (1 - Discount);
 }

@@ -33,7 +33,7 @@ public class DocumentsController : Controller
         df.PartnerName = await ctx.vw_Partners
                                   .Where(p => p.PartnerId == df.PartnerId)
                                   .Select(p => p.PartnerName)
-                                  .FirstOrDefaultAsync();
+                                  .FirstAsync();
       }
       query = df.Apply(query);
     }
@@ -57,21 +57,12 @@ public class DocumentsController : Controller
 
     query = query.ApplySort(sort, ascending);
 
-    var documents = await query
-                          .Skip((page - 1) * pagesize)
-                          .Take(pagesize)
-                          .ToListAsync();
+    var model = await DocumentsViewModel.CreateAsync(query, pagingInfo, df);
 
-    for (int i = 0; i < documents.Count; i++)
+    for (int i = 0; i < model.Data.Count; i++)
     {
-      documents[i].Position = (page - 1) * pagesize + i;
+      model.Data[i].Position = (page - 1) * pagesize + i;
     }
-    var model = new DocumentsViewModel
-    {
-      Documents = documents,
-      PagingInfo = pagingInfo,
-      Filter = df
-    };
 
     return View(model);
   }
@@ -109,7 +100,7 @@ public class DocumentsController : Controller
       document.PartnerName = await ctx.vw_Partners
                                       .Where(p => p.PartnerId == document.PartnerId)
                                       .Select(p => p.PartnerName)
-                                      .FirstOrDefaultAsync();
+                                      .FirstAsync();
 
       if (document.PreviousDocumentId.HasValue)
       {
@@ -196,10 +187,10 @@ public class DocumentsController : Controller
       Document d = new Document();
       d.DocumentNo = model.DocumentNo;
       d.DocumentDate = model.DocumentDate.Date;
-      d.PartnerId = model.PartnerId.Value;
+      d.PartnerId = model.PartnerId!.Value;
       d.PreviousDocumentId = model.PreviousDocumentId;
       d.Vat = model.VAT;
-      d.DocumentType = model.DocumentType;
+      d.DocumentType = model.DocumentType!;
       foreach (var itemFromModel in model.Items)
       {
         Item item = new Item();
@@ -270,10 +261,10 @@ public class DocumentsController : Controller
 
       document.DocumentNo = model.DocumentNo;
       document.DocumentDate = model.DocumentDate.Date;
-      document.PartnerId = model.PartnerId.Value;
+      document.PartnerId = model.PartnerId!.Value;
       document.PreviousDocumentId = model.PreviousDocumentId;
       document.Vat = model.VatAsInt / 100m;
-      document.DocumentType = model.DocumentType;
+      document.DocumentType = model.DocumentType!;
 
       List<int> itemsIds = model.Items
                                 .Where(s => s.ItemId > 0)

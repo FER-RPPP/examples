@@ -1,4 +1,6 @@
-﻿using Microsoft.AspNetCore.Mvc;
+﻿using System.Linq.Expressions;
+using System.Text.Json;
+using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.Rendering;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Options;
@@ -6,14 +8,23 @@ using MVC_EN.Extensions;
 using MVC_EN.Extensions.Selectors;
 using MVC_EN.Models;
 using MVC_EN.ViewModels;
-using System.Text.Json;
 
 namespace MVC_EN.Controllers;
 public class CitiesController : Controller
 {
   private readonly FirmContext ctx;
   private readonly AppSettings appData;
- 
+
+  private static Expression<Func<City, CityViewModel>> selectProjection = c => new CityViewModel
+  {
+    CityId = c.CityId,
+    CityName = c.CityName,
+    PostalName = c.PostalName,
+    PostalCode = c.PostalCode,
+    CountryCode = c.CountryCode,
+    CountryName = c.CountryCodeNavigation.CountryName
+  };
+
   public CitiesController(FirmContext ctx, IOptionsSnapshot<AppSettings> options)
   {
     this.ctx = ctx;
@@ -42,23 +53,8 @@ public class CitiesController : Controller
 
     query = query.ApplySort(sort, ascending);
    
-    var cities = await query
-                        .Select(m => new CityViewModel
-                        {
-                          CityId = m.CityId,
-                          CityName = m.CityName,
-                          PostalName = m.PostalName,
-                          PostalCode = m.PostalCode,
-                          CountryName = m.CountryCodeNavigation.CountryName
-                        })
-                        .Skip((page - 1) * pagesize)
-                        .Take(pagesize)
-                        .ToListAsync();
-    var model = new CitiesViewModel
-    {
-      Cities = cities,
-      PagingInfo = pagingInfo
-    };
+    var cities = query.Select(selectProjection);
+    var model = await PagedList<CityViewModel>.CreateAsync(cities, pagingInfo);
 
     return View(model);
   }   
@@ -72,16 +68,23 @@ public class CitiesController : Controller
 
   [HttpPost]
   [ValidateAntiForgeryToken]
-  public async Task<IActionResult> Create(City city)
+  public async Task<IActionResult> Create(CityViewModel model)
   {
     if (ModelState.IsValid)
     {
       try
       {
+        var city = new City
+        {
+          CityName = model.CityName,
+          PostalName = model.PostalName, 
+          PostalCode = model.PostalCode,
+          CountryCode = model.CountryCode
+        };
         ctx.Add(city);
         await ctx.SaveChangesAsync();
 
-        TempData[Constants.Message] = $"City {city.CityName} has been added with id = {city.CityId}";
+        TempData[Constants.Message] = $"City {model.CityName} has been added with id = {city.CityId}";
         TempData[Constants.ErrorOccurred] = false;
         return RedirectToAction(nameof(Index));
 
@@ -90,13 +93,13 @@ public class CitiesController : Controller
       {
         ModelState.AddModelError(string.Empty, exc.CompleteExceptionMessage());
         await PrepareDropDownLists();
-        return View(city);
+        return View(model);
       }
     }
     else
     {
       await PrepareDropDownLists();
-      return View(city);
+      return View(model);
     }
   }
 
@@ -153,8 +156,8 @@ public class CitiesController : Controller
   public async Task<IActionResult> Edit(int id)
   {
     var city = await ctx.Cities
-                          .AsNoTracking()
                           .Where(m => m.CityId == id)
+                          .Select(selectProjection)
                           .SingleOrDefaultAsync();
     if (city != null)
     {        
@@ -168,37 +171,41 @@ public class CitiesController : Controller
   }
 
   [HttpPost]    
-  public async Task<IActionResult> Edit(City city)
+  public async Task<IActionResult> Edit(CityViewModel model)
   {
-    if (city == null)
+    if (model == null)
     {
       return NotFound("No data submitted!?");
-    }
-    bool checkId = await ctx.Cities.AnyAsync(m => m.CityId == city.CityId);
-    if (!checkId)
-    {
-      return NotFound($"Invalid city id: {city?.CityId}");
-    }
+    }  
 
     if (ModelState.IsValid)
     {
       try
       {
-        ctx.Update(city);
+        var city = await ctx.Cities.FindAsync(model.CityId);
+        if (city == null)
+        {
+          return NotFound($"Invalid city id: {model.CityId}");
+        }
+        city.CityName = model.CityName;
+        city.PostalName = model.PostalName;
+        city.PostalCode = model.PostalCode;
+        city.CountryCode = model.CountryCode;
+
         await ctx.SaveChangesAsync();
-        return RedirectToAction(nameof(Get), new { id = city.CityId });
+        return RedirectToAction(nameof(Get), new { id = model.CityId });
       }
       catch (Exception exc)
       {
         ModelState.AddModelError(string.Empty, exc.CompleteExceptionMessage());
         await PrepareDropDownLists();
-        return PartialView(city);
+        return PartialView(model);
       }
     }
     else
     {
       await PrepareDropDownLists();
-      return PartialView(city);
+      return PartialView(model);
     }
   }
 
@@ -207,14 +214,7 @@ public class CitiesController : Controller
   {
     var city = await ctx.Cities
                         .Where(m => m.CityId == id)
-                        .Select(m => new CityViewModel
-                        {
-                          CityId = m.CityId,
-                          CityName = m.CityName,
-                          PostalName = m.PostalName,
-                          PostalCode = m.PostalCode,
-                          CountryName = m.CountryCodeNavigation.CountryName
-                        })
+                        .Select(selectProjection)
                         .SingleOrDefaultAsync();
     if (city != null)
     {

@@ -1,4 +1,4 @@
-﻿@model CountriesViewModel
+﻿@model PagedList<Country>
 
 @{
   ViewBag.Title = "Countries";
@@ -34,7 +34,7 @@
     </tr>
   </thead>
   <tbody>
-    @foreach (var country in Model.Countries)
+    @foreach (var country in Model.Data)
     {
       <tr>
         <td class="text-left">@country.CountryCode</td>

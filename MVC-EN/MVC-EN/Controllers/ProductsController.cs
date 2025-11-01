@@ -42,28 +42,21 @@ public class ProductsController : Controller
       return RedirectToAction(nameof(Index), new { page = 1, sort, ascending });
     }
 
-    query = query.ApplySort(sort, ascending);      
+    query = query.ApplySort(sort, ascending);
 
-    var product = await query
-                        .Select(a => new ProductViewModel
-                        {
-                          ProductNumber = a.ProductNumber,
-                          ProductName = a.ProductName,
-                          UnitName = a.UnitName,
-                          Price = a.Price,
-                          IsService = a.IsService,
-                          Description = a.Description,
-                          HasPhoto = a.Photo != null,
-                          ImageHash = a.PhotoChecksum
-                        })
-                        .Skip((page - 1) * pagesize)
-                        .Take(pagesize)
-                        .ToListAsync();
-    var model = new ProductsViewModel
+    var products = query.Select(a => new ProductViewModel
     {
-      Products = product,
-      PagingInfo = pagingInfo
-    };
+      ProductNumber = a.ProductNumber,
+      ProductName = a.ProductName,
+      UnitName = a.UnitName,
+      Price = a.Price,
+      IsService = a.IsService,
+      Description = a.Description,
+      HasPhoto = a.Photo != null,
+      ImageHash = a.PhotoChecksum
+    });
+
+    var model = await PagedList<ProductViewModel>.CreateAsync(products, pagingInfo);
 
     return View(model);
   }
@@ -139,8 +132,8 @@ public class ProductsController : Controller
 
     byte[] image = await ctx.Products
                             .Where(a => a.ProductNumber == id)
-                            .Select(a => a.Photo)
-                            .SingleOrDefaultAsync();
+                            .Select(a => a.Photo!)
+                            .SingleAsync();
 
     return File(image, "image/jpeg", lastModified: DateTime.Now, entityTag: new EntityTagHeaderValue(responseETag));
   }

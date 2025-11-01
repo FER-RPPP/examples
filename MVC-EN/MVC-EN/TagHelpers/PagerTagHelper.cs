@@ -36,27 +36,27 @@ public class PagerTagHelper : TagHelper
 
   [ViewContext]
   [HtmlAttributeNotBound]
-  public ViewContext ViewContext { get; set; }
+  public ViewContext ViewContext { get; set; } = null!;
 
   /// <summary>
   /// Serialized string containing information about current page, and total number of pages
   /// </summary>
-  public PagingInfo PageInfo { get; set; }
+  public PagingInfo PageInfo { get; set; } = new PagingInfo();
 
   /// <summary>
   /// Serialized string containing current filter
   /// </summary>
-  public IPageFilter PageFilter { get; set; }
+  public IPageFilter? PageFilter { get; set; }
 
   /// <summary>
   /// Action for which link should be created
   /// </summary>
-  public string PageAction { get; set; }
+  public string PageAction { get; set; } = string.Empty;
 
   /// <summary>
   /// Tooltip for the textbox that is used to enter desired page
   /// </summary>
-  public string PageTitle { get; set; }
+  public string PageTitle { get; set; } = string.Empty;
 
   public override void Process(TagHelperContext context, TagHelperOutput output)
   {

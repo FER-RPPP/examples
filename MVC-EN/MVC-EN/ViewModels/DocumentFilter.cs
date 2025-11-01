@@ -7,7 +7,7 @@ namespace MVC_EN.ViewModels;
 public class DocumentFilter : IPageFilter
 {
   public int? PartnerId { get; set; }
-  public string PartnerName { get; set; }
+  public string PartnerName { get; set; } = string.Empty;
   [DataType(DataType.Date)]   
   public DateTime? DateFrom { get; set; }
   [DataType(DataType.Date)]   

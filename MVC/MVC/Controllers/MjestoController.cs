@@ -193,7 +193,6 @@ public class MjestoController : Controller
         mjesto.PostNazMjesta = model.PostNazivMjesta;
         mjesto.OznDrzave = model.OznDrzave; 
 
-        ctx.Update(mjesto);
         await ctx.SaveChangesAsync();
         return RedirectToAction(nameof(Get), new { id = model.IdMjesta });
       }

@@ -6,7 +6,7 @@ public static class PartnersSort
 {
   public static IQueryable<ViewPartner> ApplySort(this IQueryable<ViewPartner> query, int sort, bool ascending)
   {
-    System.Linq.Expressions.Expression<Func<ViewPartner, object>> orderSelector = null;
+    System.Linq.Expressions.Expression<Func<ViewPartner, object>>? orderSelector = null;
     switch (sort)
     {
       case 1:

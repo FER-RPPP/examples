@@ -117,7 +117,7 @@ public class ReportsController : Controller
       (table, i, product, cellStyle) =>
       {
         table.Cell().Element(cellStyle).AlignRight().Text($"{i}.");
-        table.Cell().Element(cellStyle).AlignCenter().MaxHeight(0.9f, Unit.Inch).MaxWidth(1, Unit.Inch).Image(product.Photo);
+        table.Cell().Element(cellStyle).AlignCenter().MaxHeight(0.9f, Unit.Inch).MaxWidth(1, Unit.Inch).Image(product.Photo!);
         table.Cell().Element(cellStyle).AlignLeft().PaddingLeft(5).Text(product.ProductNumber.ToString());
         table.Cell().Element(cellStyle).AlignCenter().Text(product.ProductName);
         table.Cell().Element(cellStyle).AlignRight().PaddingRight(5).Text(product.Price.ToString("N2"));

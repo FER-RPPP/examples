@@ -35,8 +35,8 @@ public class CountriesController : Controller
   {
     int pagesize = appSettings.PageSize;
 
-    var query = ctx.Countries
-                   .AsNoTracking();
+    IQueryable<Country> query = ctx.Countries
+                                   .AsNoTracking();
 
     int count = query.Count();
     if (count == 0)
@@ -62,17 +62,8 @@ public class CountriesController : Controller
     }
 
     query = query.ApplySort(sort, ascending);
-    
-    var countries = query
-                    .Skip((page - 1) * pagesize)
-                    .Take(pagesize)
-                    .ToList();
 
-    var model = new CountriesViewModel
-    {
-      Countries = countries,
-      PagingInfo = pagingInfo
-    };
+    var model = PagedList<Country>.Create(query, pagingInfo);
 
     return View(model);
   }
@@ -177,7 +168,7 @@ public class CountriesController : Controller
 
     try
     {
-      Country country = await ctx.Countries.FindAsync(id);
+      Country? country = await ctx.Countries.FindAsync(id);
       if (country == null)
       {
         return NotFound("Invalid country code: " + id);

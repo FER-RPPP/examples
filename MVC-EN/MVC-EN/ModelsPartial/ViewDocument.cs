@@ -16,11 +16,11 @@ public class ViewDocument
   [ExcelFormat("dd.mm.yyyy")]
   public DateTime DocumentDate { get; set; }
   public int PartnerId { get; set; }
-  public string PartnerName { get; set; }
+  public required string PartnerName { get; set; }
 
   [ExcelFormat("#,###,##0.00")]
   public decimal Amount { get; set; }
-  public string DocumentType { get; set; }
+  public required string DocumentType { get; set; }
   public int DocumentNo { get; set; }
 
   [NotMapped]    

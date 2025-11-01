@@ -7,7 +7,7 @@ public static class CountriesSort
 {
   public static IQueryable<Country> ApplySort(this IQueryable<Country> query, int sort, bool ascending)
   {
-    Expression<Func<Country, object>> orderSelector = sort switch
+    Expression<Func<Country, object?>>? orderSelector = sort switch
     {
       1 => d => d.CountryCode,
       2 => d => d.CountryName,

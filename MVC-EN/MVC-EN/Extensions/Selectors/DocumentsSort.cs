@@ -6,7 +6,7 @@ public static class DocumentsSort
 {
   public static IQueryable<ViewDocument> ApplySort(this IQueryable<ViewDocument> query, int sort, bool ascending)
   {
-    System.Linq.Expressions.Expression<Func<ViewDocument, object>> orderSelector = null;
+    System.Linq.Expressions.Expression<Func<ViewDocument, object>>? orderSelector = null;
     switch (sort)
     {
       case 1:

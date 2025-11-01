@@ -23,7 +23,7 @@ public class ViewLogController : Controller
       {          
         using (StreamReader reader = new StreamReader(fileStream))
         {
-          string line;
+          string? line;
           while ((line = await reader.ReadLineAsync()) != null)
           {
             if (line.StartsWith(format))

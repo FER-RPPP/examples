@@ -3,7 +3,7 @@
   "defaultProvider": "cdnjs",
   "libraries": [
     {
-      "library": "bootstrap@5.3.3",
+      "library": "bootstrap@5.3.8",
       "destination": "wwwroot/lib/bootstrap/"
     },
     {
@@ -11,7 +11,7 @@
       "destination": "wwwroot/lib/jquery/"
     },
     {
-      "library": "font-awesome@6.6.0",
+      "library": "font-awesome@7.0.1",
       "destination": "wwwroot/lib/font-awesome/"
     },
     {
@@ -27,7 +27,7 @@
       "destination": "wwwroot/lib/jqueryui/"
     },
     {
-      "library": "htmx@2.0.3",
+      "library": "htmx@2.0.7",
       "destination": "wwwroot/lib/htmx/"
     },
     {

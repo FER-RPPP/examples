@@ -7,7 +7,7 @@ public static class CitiesSort
 {
   public static IQueryable<City> ApplySort(this IQueryable<City> query, int sort, bool ascending)
   {
-    Expression<Func<City, object>> orderSelector = null;
+    Expression<Func<City, object?>>? orderSelector = null;
     switch (sort)
     {
       case 1:

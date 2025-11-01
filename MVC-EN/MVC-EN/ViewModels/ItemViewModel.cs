@@ -6,7 +6,7 @@ public class ItemViewModel
 {
   public int ItemId { get; set; }
   public int ProductNumber { get; set; }
-  public string ProductName { get; set; }
+  public string ProductName { get; set; } = string.Empty;
   [Range(1e-6, double.MaxValue, ErrorMessage = "Quantity must be positive number")]
   public decimal Quantity { get; set; }
   public decimal UnitPrice { get; set; }
