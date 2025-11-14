@@ -35,7 +35,7 @@ public class DocumentFilter : IPageFilter
         AmountTo);
   }
 
-  public static DocumentFilter FromString(string s)
+  public static DocumentFilter FromString(string? s)
   {
     var filter = new DocumentFilter();
     if (!string.IsNullOrEmpty(s))

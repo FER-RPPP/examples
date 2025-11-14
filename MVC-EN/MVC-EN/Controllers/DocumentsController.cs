@@ -19,7 +19,7 @@ public class DocumentsController : Controller
     appData = options.Value;
   }
 
-  public async Task<IActionResult> Index(string filter, int page = 1, int sort = 1, bool ascending = true)
+  public async Task<IActionResult> Index(string? filter, int page = 1, int sort = 1, bool ascending = true)
   {
     int pagesize = appData.PageSize;
     var query = ctx.vw_Documents.AsQueryable();
@@ -75,7 +75,7 @@ public class DocumentsController : Controller
     return RedirectToAction(nameof(Index), new { filter = filter.ToString() });
   }
 
-  public async Task<IActionResult> Show(int id, int? position, string filter, int page = 1, int sort = 1, bool ascending = true, string viewName = nameof(Show))
+  public async Task<IActionResult> Show(int id, int? position, string? filter, int page = 1, int sort = 1, bool ascending = true, string viewName = nameof(Show))
   {      
     var document = await ctx.Documents
                             .Where(d => d.DocumentId == id)
@@ -141,7 +141,7 @@ public class DocumentsController : Controller
     }
   }   
 
-  private async Task SetPreviousAndNext(int position, string filter, int sort, bool ascending)
+  private async Task SetPreviousAndNext(int position, string? filter, int sort, bool ascending)
   {
     var query = ctx.vw_Documents.AsQueryable();                     
 
@@ -228,14 +228,14 @@ public class DocumentsController : Controller
   }
 
   [HttpGet]
-  public Task<IActionResult> Edit(int id, int? position, string filter, int page = 1, int sort = 1, bool ascending = true)
+  public Task<IActionResult> Edit(int id, int? position, string? filter, int page = 1, int sort = 1, bool ascending = true)
   {
     return Show(id, position, filter, page, sort, ascending, viewName: nameof(Edit));
   }
 
   [HttpPost]
   [ValidateAntiForgeryToken]
-  public async Task<IActionResult> Edit(DocumentViewModel model, int? position, string filter, int page = 1, int sort = 1, bool ascending = true)
+  public async Task<IActionResult> Edit(DocumentViewModel model, int? position, string? filter, int page = 1, int sort = 1, bool ascending = true)
   {
     ViewBag.Page = page;
     ViewBag.Sort = sort;

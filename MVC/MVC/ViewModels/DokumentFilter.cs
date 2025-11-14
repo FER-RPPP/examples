@@ -35,7 +35,7 @@ public class DokumentFilter : IPageFilter
         IznosDo);
   }
 
-  public static DokumentFilter FromString(string s)
+  public static DokumentFilter FromString(string? s)
   {
     var filter = new DokumentFilter();
     if (!string.IsNullOrEmpty(s))
