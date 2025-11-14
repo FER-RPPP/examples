@@ -4,18 +4,19 @@ using System;
 using System.Collections.Generic;
 using System.ComponentModel;
 using System.ComponentModel.DataAnnotations;
+using System.Diagnostics.Metrics;
 
 namespace MVC_EN.Models;
 
 public partial class Country
 {
-  [DisplayName("Country Code"), Required, MaxLength(3)]
+  [Display(Name = "Country Code", Prompt = "Enter country code"), Required, MaxLength(3)]
   public string CountryCode { get; set; } = null!;
 
-  [DisplayName("Country Name"), Required]
+  [Display(Name = "Country Name"), Required]
   public string CountryName { get; set; } = null!;
 
-  [DisplayName("ISO3"), MaxLength(3)]
+  [Display(Name = "ISO3"), MaxLength(3)]
   public string? CountryIso3 { get; set; }
 
   public virtual ICollection<City> Cities { get; set; } = new List<City>();
