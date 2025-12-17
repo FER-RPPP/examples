@@ -8,11 +8,5 @@ public class IdLabel
   public string Label { get; set; } = string.Empty;
 
   [JsonPropertyName("id")]
-  public int Id { get; set; }
-  public IdLabel() { }
-  public IdLabel(int id, string label)
-  {
-    Id = id;
-    Label = label;
-  }
+  public int Id { get; set; } 
 }
