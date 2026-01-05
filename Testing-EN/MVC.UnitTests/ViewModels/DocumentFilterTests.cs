@@ -1,68 +1,67 @@
 ﻿using MVC_EN.ViewModels;
 
-namespace MVC.UnitTests.ViewModels
+namespace MVC.UnitTests.ViewModels;
+
+public class DocumentFilterTests
 {
-  public class DocumentFilterTests
+  [Fact]
+  [Trait("Category", "DocumentFilter")]
+  public void EmptyFilter_Returns_4_Slashes()
   {
-    [Fact]
-    [Trait("Category", "DocumentFilter")]
-    public void EmptyFilter_Returns_4_Slashes()
-    {
-      string expected = "----";
-      DocumentFilter filter = new();
-      string actual = filter.ToString();
-      Assert.Equal(expected, actual);
-    }
+    string expected = "----";
+    DocumentFilter filter = new();
+    string actual = filter.ToString();
+    Assert.Equal(expected, actual);
+  }
 
-    [Fact]
-    [Trait("Category", "DocumentFilter")]
-    public void Four_Slashes_Is_EmptyFilter()
-    {
-      string filterString = "----";
-      DocumentFilter filter = DocumentFilter.FromString(filterString);
-      Assert.True(filter.IsEmpty());
-    }
+  [Fact]
+  [Trait("Category", "DocumentFilter")]
+  public void Four_Slashes_Is_EmptyFilter()
+  {
+    string filterString = "----";
+    DocumentFilter filter = DocumentFilter.FromString(filterString);
+    Assert.True(filter.IsEmpty());
+  }
 
-    [Fact]
-    [Trait("Category", "DocumentFilter")]
-    public void InvalidDate_Throws_FormatException()
-    {
-      string filterString = "-15.12.2015-15.13.2021--";
-      Assert.Throws<FormatException>(() => DocumentFilter.FromString(filterString));      
-    }
+  [Fact]
+  [Trait("Category", "DocumentFilter")]
+  public void InvalidDate_Throws_FormatException()
+  {
+    string filterString = "-15.12.2015-15.13.2021--";
+    Assert.Throws<FormatException>(() => DocumentFilter.FromString(filterString));      
+  }
 
-    [Trait("Category", "DocumentFilter")]
-    [Theory]    
-    [InlineData("1-15.12.2015-15.12.2021-300")]
-    [InlineData("1-2-3-4-5-6")]
-    public void Not_4_Slashes_IsEmptyFilter(string filterString)
-    {
-      DocumentFilter filter = DocumentFilter.FromString(filterString);
-      Assert.True(filter.IsEmpty());
-    }
+  [Trait("Category", "DocumentFilter")]
+  [Theory]    
+  [InlineData("1-15.12.2015-15.12.2021-300")]
+  [InlineData("1-2-3-4-5-6")]
+  public void Not_4_Slashes_IsEmptyFilter(string filterString)
+  {
+    DocumentFilter filter = DocumentFilter.FromString(filterString);
+    Assert.True(filter.IsEmpty());
+  }
+  
+  [Trait("Category", "DocumentFilter")]
+  [Theory]
+  [InlineData("1-15.12.2015-07.05.2021-300-500", 1, 300.0, 500.0, "Irrelevant name", 15, 12, 2015, 7, 5, 2021)]
+  [InlineData("1-15.12.2015-07.05.2021-25,5-2,5", 1, 25.5, 2.5, "Irrelevant name", 15, 12, 2015, 7, 5, 2021)]
+  [InlineData("-15.12.2015-07.05.2021--", null, null, null, "Irrelevant name", 15, 12, 2015, 7, 5, 2021)]
+  public void FilterString_Is_WellFormed(string expected, int? partnerId, 
+    double? fromAmount, double? toAmount, 
+    string partnerName, 
+    int fromDate, int fromMonth, int fromYear,
+    int toDate, int toMonth, int toYear
+  )
+  {
+    DocumentFilter filter = new DocumentFilter();
+    filter.PartnerId = partnerId;
+    filter.PartnerName = partnerName;
+    filter.AmountFrom = (decimal?) fromAmount;
+    filter.AmountTo = (decimal?) toAmount;
     
-    [Trait("Category", "DocumentFilter")]
-    [Theory]
-    [InlineData("1-15.12.2015-07.05.2021-300-500", 1, 300.0, 500.0, "Irrelevant name", 15, 12, 2015, 7, 5, 2021)]
-    [InlineData("1-15.12.2015-07.05.2021-25,5-2,5", 1, 25.5, 2.5, "Irrelevant name", 15, 12, 2015, 7, 5, 2021)]
-    [InlineData("-15.12.2015-07.05.2021--", null, null, null, "Irrelevant name", 15, 12, 2015, 7, 5, 2021)]
-    public void FilterString_Is_WellFormed(string expected, int? partnerId, 
-      double? fromAmount, double? toAmount, 
-      string partnerName, 
-      int fromDate, int fromMonth, int fromYear,
-      int toDate, int toMonth, int toYear
-    )
-    {
-      DocumentFilter filter = new DocumentFilter();
-      filter.PartnerId = partnerId;
-      filter.PartnerName = partnerName;
-      filter.AmountFrom = (decimal?) fromAmount;
-      filter.AmountTo = (decimal?) toAmount;
-      
-      filter.DateFrom = new DateTime(fromYear, fromMonth, fromDate);
-      filter.DateTo = new DateTime(toYear, toMonth, toDate);
-      string filterString = filter.ToString();      
-      Assert.Equal(expected, filterString);
-    }
+    filter.DateFrom = new DateTime(fromYear, fromMonth, fromDate);
+    filter.DateTo = new DateTime(toYear, toMonth, toDate);
+    string filterString = filter.ToString();      
+    Assert.Equal(expected, filterString);
   }
 }

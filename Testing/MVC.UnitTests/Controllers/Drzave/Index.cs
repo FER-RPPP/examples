@@ -5,12 +5,11 @@ using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Logging;
 using Microsoft.Extensions.Options;
 using Moq;
-using MVC_EN;
-using MVC_EN.Controllers;
-using MVC_EN.Models;
-using MVC_EN.ViewModels;
+using MVC.Controllers;
+using MVC.Models;
+using MVC.ViewModels;
 
-namespace MVC.UnitTests.Controllers.Countries;
+namespace MVC.UnitTests.Controllers.Drzave;
 
 public class Index
 {
@@ -39,14 +38,14 @@ public class Index
   public void RedirectsToCreate_WhenNoCountries()
   {
     // Arrange      
-    var mockLogger = new Mock<ILogger<CountriesController>>();
+    var mockLogger = new Mock<ILogger<DrzavaController>>();
 
-    var dbOptions = new DbContextOptionsBuilder<FirmContext>()
+    var dbOptions = new DbContextOptionsBuilder<FirmaContext>()
                         .UseInMemoryDatabase(databaseName: nameof(RedirectsToCreate_WhenNoCountries))
                         .Options;
 
-    using var context = new FirmContext(dbOptions);
-    var controller = new CountriesController(context, options, mockLogger.Object);
+    using var context = new FirmaContext(dbOptions);
+    var controller = new DrzavaController(context, options, mockLogger.Object);
     controller.TempData = tempData;
 
     // Act
@@ -72,15 +71,15 @@ public class Index
   {
     int totalNumber = 40;
     // Arrange      
-    var mockLogger = new Mock<ILogger<CountriesController>>();
+    var mockLogger = new Mock<ILogger<DrzavaController>>();
 
-    var dbOptions = new DbContextOptionsBuilder<FirmContext>()
+    var dbOptions = new DbContextOptionsBuilder<FirmaContext>()
                         .UseInMemoryDatabase(databaseName: nameof(Returns_CorrectPageData) + page)
                         .Options;
-    using var context = new FirmContext(dbOptions);
+    using var context = new FirmaContext(dbOptions);
     await AddCountries(context, totalNumber);
 
-    var controller = new CountriesController(context, options, mockLogger.Object);
+    var controller = new DrzavaController(context, options, mockLogger.Object);
     controller.TempData = tempData;
 
     // Act
@@ -88,8 +87,8 @@ public class Index
 
     // Assert
     var viewResult = Assert.IsType<ViewResult>(result);
-    PagedList<Country> model = Assert.IsType<PagedList<Country>>(viewResult.Model);
-    viewResult.Model.Should().BeOfType<PagedList<Country>>(); //same as above, but using FluentAssertions
+    PagedList<Drzava> model = Assert.IsType<PagedList<Drzava>>(viewResult.Model);
+    viewResult.Model.Should().BeOfType<PagedList<Drzava>>(); //same as above, but using FluentAssertions
 
     model.PagingInfo.TotalItems.Should().Be(totalNumber);
     model.PagingInfo.ItemsPerPage.Should().Be(PageSize);
@@ -100,19 +99,19 @@ public class Index
     for(int i=0; i<expectedItemsCount; i++)
     {
       int expectedId = totalNumber - i - 1 - (page - 1) * PageSize;        
-      Assert.Equal(model.Data.ElementAt(i).CountryCode, $"{expectedId:D2}" );
+      Assert.Equal(model.Data.ElementAt(i).OznDrzave, $"{expectedId:D2}" );
     }
   }
 
-  private async Task AddCountries(FirmContext context, int count)
+  private async Task AddCountries(FirmaContext context, int count)
   {
     for (int i = 0; i < count; i++)
     {
       string id = $"{i:D2}";
-      context.Add(new Country
+      context.Add(new Models.Drzava
       {
-        CountryCode = id,
-        CountryName = id
+        OznDrzave = id,
+        NazDrzave = id
       });
     }
     await context.SaveChangesAsync();

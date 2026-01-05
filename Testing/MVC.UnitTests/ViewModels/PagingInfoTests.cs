@@ -1,4 +1,4 @@
-﻿using MVC_EN.ViewModels;
+﻿using MVC.ViewModels;
 
 namespace MVC.UnitTests.ViewModels;
 
