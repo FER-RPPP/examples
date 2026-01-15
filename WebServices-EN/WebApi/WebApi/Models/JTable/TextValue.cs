@@ -1,8 +1,7 @@
-﻿namespace WebApi.Models.JTable
+﻿namespace WebApi.Models.JTable;
+
+public struct TextValue
 {
-  public struct TextValue
-  {
-    public string DisplayText { get; set; }
-    public string Value { get; set; }    
-  }
+  public string DisplayText { get; set; }
+  public string Value { get; set; }    
 }

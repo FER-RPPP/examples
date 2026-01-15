@@ -39,7 +39,7 @@ app.UseStaticFiles();
 
 app.UseRouting();
 
-app.MapGraphQL();
+app.MapGraphQL(); // automatically adds Nitro UI at /graphql, see https://chillicream.com/docs/nitro/integrations/hot-chocolate for details
 
 app.UseGraphQLVoyager("/voyager", new VoyagerOptions() { GraphQLEndPoint = "graphql" });
 app.UseGraphQLGraphiQL(

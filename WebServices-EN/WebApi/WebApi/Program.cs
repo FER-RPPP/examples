@@ -1,8 +1,6 @@
 using EFModel;
-using FluentValidation;
-using FluentValidation.AspNetCore;
 using Microsoft.EntityFrameworkCore;
-using Microsoft.OpenApi.Models;
+using Microsoft.OpenApi;
 using System.Reflection;
 using WebApi;
 using WebApi.Controllers;
@@ -17,13 +15,10 @@ builder.Services
        .AddControllers()
        .AddJsonOptions(configure => configure.JsonSerializerOptions.PropertyNamingPolicy = null);
 
-builder.Services
-       .AddFluentValidationAutoValidation()       
-       .AddValidatorsFromAssemblyContaining<CityViewModel>();
-
 builder.Services.AddDbContext<FirmContext>(options => options.UseSqlServer(builder.Configuration.GetConnectionString("Firm")));
 builder.Services.AddTransient<CitiesController>();
 
+builder.Services.AddEndpointsApiExplorer();
 builder.Services.AddSwaggerGen(c =>
 {
   c.SwaggerDoc(Constants.ApiVersion, new OpenApiInfo
