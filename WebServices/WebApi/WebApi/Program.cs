@@ -1,9 +1,8 @@
-using EFModel;
-using FluentValidation;
-using FluentValidation.AspNetCore;
-using Microsoft.EntityFrameworkCore;
-using Microsoft.OpenApi.Models;
 using System.Reflection;
+using EFModel;
+using Microsoft.AspNetCore.Mvc.ViewFeatures;
+using Microsoft.EntityFrameworkCore;
+using Microsoft.OpenApi;
 using WebApi;
 using WebApi.Controllers;
 using WebApi.Models;
@@ -17,18 +16,15 @@ builder.Services
        .AddControllers()
        .AddJsonOptions(configure => configure.JsonSerializerOptions.PropertyNamingPolicy = null);
 
-builder.Services
-       .AddFluentValidationAutoValidation()
-       .AddValidatorsFromAssemblyContaining<MjestoViewModel>();
-
 builder.Services.AddDbContext<FirmaContext>(options => options.UseSqlServer(builder.Configuration.GetConnectionString("Firma")));
 builder.Services.AddTransient<MjestoController>();
 
+builder.Services.AddEndpointsApiExplorer();
 builder.Services.AddSwaggerGen(c =>
 {
   c.SwaggerDoc(Constants.ApiVersion, new OpenApiInfo
   {
-    Title = "Firma Web API",
+    Title = "Firm Web API",
     Version = Constants.ApiVersion
   });
   var xmlFile = $"{Assembly.GetExecutingAssembly().GetName().Name}.xml";
@@ -36,7 +32,7 @@ builder.Services.AddSwaggerGen(c =>
   c.IncludeXmlComments(xmlPath);
 
   //e.g. include comment from EFModel (not needed, bust just for demonstration)
-  xmlFile = $"{typeof(EFModel.Artikl).Assembly.GetName().Name}.xml";
+  xmlFile = $"{typeof(EFModel.Mjesto).Assembly.GetName().Name}.xml";
   xmlPath = Path.Combine(AppContext.BaseDirectory, xmlFile);
   c.IncludeXmlComments(xmlPath);
 });
@@ -56,8 +52,8 @@ app.UseSwagger();
 app.UseSwaggerUI(c =>
 {
   c.RoutePrefix = "docs";
-  c.DocumentTitle = "RPPP Web Api";
-  c.SwaggerEndpoint($"../swagger/{Constants.ApiVersion}/swagger.json", "RPPP WebAPI");
+  c.DocumentTitle = "Firm Web Api";
+  c.SwaggerEndpoint($"../swagger/{Constants.ApiVersion}/swagger.json", "Firma WebAPI");
 });
 
 

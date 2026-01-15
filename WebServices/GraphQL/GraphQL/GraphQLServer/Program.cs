@@ -5,28 +5,31 @@ using Microsoft.EntityFrameworkCore;
 
 var builder = WebApplication.CreateBuilder(args);
 
-#region services
-builder.Services.AddDbContext<FirmaContext>(options => options.UseSqlServer(builder.Configuration.GetConnectionString("Firma")));
-builder.Services
-        .AddGraphQLServer()
-        .ModifyRequestOptions(opt => opt.IncludeExceptionDetails = builder.Environment.IsDevelopment())
-        .ModifyPagingOptions(options =>
-        {
-          options.DefaultPageSize = 20;
-          options.MaxPageSize = 1000;
-          options.IncludeTotalCount = true;
-        })
-        .AddProjections()
-        .AddFiltering()
-        .AddSorting()
-        .AddQueryType<Queries>()
-        .AddMutationType<Mutations>();
+#region Configure services
+
+// add/configure services
+
+builder.Services.AddDbContext<FirmaContext>(options => options.UseSqlServer(builder.Configuration.GetConnectionString("Firm")));
+builder.Services.AddGraphQLServer()
+                .ModifyRequestOptions(opt => opt.IncludeExceptionDetails = builder.Environment.IsDevelopment())
+                .ModifyPagingOptions(options =>
+                {
+                  options.DefaultPageSize = 20;
+                  options.MaxPageSize = 1000;
+                  options.IncludeTotalCount = true;
+                })
+                .AddProjections()
+                .AddFiltering()
+                .AddSorting()
+                .AddQueryType<Queries>()
+                .AddMutationType<Mutations>();
 #endregion
 
 var app = builder.Build();
 
-#region configure middleware pipeline
-//middleware order https://learn.microsoft.com/en-us/aspnet/core/fundamentals/middleware/#middleware-order
+#region Configure middleware pipeline.
+//// https://docs.microsoft.com/en-us/aspnet/core/fundamentals/middleware/?view=aspnetcore-8.0#middleware-order-1
+
 if (app.Environment.IsDevelopment())
 {
   app.UseDeveloperExceptionPage();
@@ -36,10 +39,9 @@ app.UseStaticFiles();
 
 app.UseRouting();
 
-app.MapGraphQL();
+app.MapGraphQL(); // automatically adds Nitro UI at /graphql, see https://chillicream.com/docs/nitro/integrations/hot-chocolate for details
 
 app.UseGraphQLVoyager("/voyager", new VoyagerOptions() { GraphQLEndPoint = "graphql" });
-
 app.UseGraphQLGraphiQL(
     "/",                               // url to host Playground at
     new GraphQL.Server.Ui.GraphiQL.GraphiQLOptions
@@ -47,7 +49,6 @@ app.UseGraphQLGraphiQL(
       GraphQLEndPoint = "/graphql",         // url of GraphQL endpoint
       SubscriptionsEndPoint = "/graphql",   // url of GraphQL endpoint
     });
-
 #endregion
 
 app.Run();

@@ -1,22 +1,22 @@
-﻿using System;
-using System.Text;
+﻿using System.Text;
 
 namespace WebApi.Util.Extensions
 {
   /// <summary>
-  /// Razred sa proširenjima za iznimke
+  /// Class with useful extensions for exceptions handling
   /// </summary>
   public static class ExceptionExtensions
   {
     /// <summary>
-    /// Vraća sadržaj poruka cijele hijerarhije neke iznimke. Za predanu iznimku provjerava se postoji li unutarnja iznimka.
-    /// Ako da, poruka unutanje iznimke dodaje se u rezultat te se dalje provjerava postoji li unutarnja iznimka unutarnje iznimke itd...    
+    /// return complete hierarchy of an exception. It checks whether the exception has inner exception,
+    /// and if it has, then it appends inner exception message.
+    /// Then it looks for inner exception of the inner exceptions, and so on.
     /// </summary>
-    /// <param name="exc">Iznimka čija se kompletna hijerarhija poruka treba ispisati</param>
-    /// <returns>String formiran od poruka svih unutarnjih iznimki. Poruka svake iznimmke dodana je u novi redak</returns>
-    public static string CompleteExceptionMessage(this Exception exc)
+    /// <param name="exc">Exception which message hiearchy should be obtained</param>
+    /// <returns>String containing all exception hierarchy messages</returns>
+    public static string CompleteExceptionMessage(this Exception? exc)
     {
-      StringBuilder sb = new StringBuilder();
+      StringBuilder sb = new();
       while (exc != null)
       {
         sb.AppendLine(exc.Message);

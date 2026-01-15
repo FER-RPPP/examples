@@ -1,7 +1,6 @@
-﻿namespace GraphQLServer.SetupGraphQL
+﻿namespace GraphQLServer.SetupGraphQL;
+
+public partial class Mutations
 {
-  public partial class Mutations
-  {
-    
-  }
+  
 }

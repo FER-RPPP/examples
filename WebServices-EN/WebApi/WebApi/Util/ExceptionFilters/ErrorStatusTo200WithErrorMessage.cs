@@ -3,7 +3,7 @@ using Microsoft.AspNetCore.Mvc.Filters;
 using WebApi.Models.JTable;
 using WebApi.Util.Extensions;
 
-namespace WebServices.Util.ExceptionFilters;
+namespace WebApi.Util.ExceptionFilters;
 
 public class ErrorStatusTo200WithErrorMessage : ExceptionFilterAttribute
 {

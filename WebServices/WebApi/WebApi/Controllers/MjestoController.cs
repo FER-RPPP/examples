@@ -8,7 +8,7 @@ using System.Linq;
 using System.Linq.Expressions;
 using System.Threading.Tasks;
 using WebApi.Models;
-using WebServices.Util.ExceptionFilters;
+using WebApi.Util.ExceptionFilters;
 
 namespace WebApi.Controllers
 {

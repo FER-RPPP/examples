@@ -51,7 +51,7 @@ public partial class Dokument
 
     public virtual Dokument IdPrethDokumentaNavigation { get; set; }
 
-    public virtual ICollection<Dokument> InverseIdPrethDokumentaNavigation { get; } = new List<Dokument>();
+    public virtual ICollection<Dokument> InverseIdPrethDokumentaNavigation { get; set; } = new List<Dokument>();
 
-    public virtual ICollection<Stavka> Stavka { get; } = new List<Stavka>();
+    public virtual ICollection<Stavka> Stavka { get; set; } = new List<Stavka>();
 }

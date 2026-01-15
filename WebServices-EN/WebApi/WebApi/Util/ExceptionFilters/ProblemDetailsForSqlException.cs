@@ -3,7 +3,7 @@ using Microsoft.AspNetCore.Mvc.Filters;
 using Microsoft.Data.SqlClient;
 using WebApi.Util.Extensions;
 
-namespace WebServices.Util.ExceptionFilters;
+namespace WebApi.Util.ExceptionFilters;
 
 public class ProblemDetailsForSqlException : ExceptionFilterAttribute
 {

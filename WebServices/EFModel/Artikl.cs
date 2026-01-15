@@ -38,5 +38,5 @@ public partial class Artikl
 
     public int? SlikaChecksum { get; set; }
 
-    public virtual ICollection<Stavka> Stavka { get; } = new List<Stavka>();
+    public virtual ICollection<Stavka> Stavka { get; set; } = new List<Stavka>();
 }

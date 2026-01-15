@@ -39,7 +39,7 @@ public partial class Partner
     /// </summary>
     public string AdrIsporuke { get; set; }
 
-    public virtual ICollection<Dokument> Dokument { get; } = new List<Dokument>();
+    public virtual ICollection<Dokument> Dokument { get; set; } = new List<Dokument>();
 
     public virtual Mjesto IdMjestaIsporukeNavigation { get; set; }
 

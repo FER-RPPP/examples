@@ -34,7 +34,7 @@ public partial class Mjesto
 
     public virtual Drzava OznDrzaveNavigation { get; set; }
 
-    public virtual ICollection<Partner> PartnerIdMjestaIsporukeNavigation { get; } = new List<Partner>();
+    public virtual ICollection<Partner> PartnerIdMjestaIsporukeNavigation { get; set; } = new List<Partner>();
 
-    public virtual ICollection<Partner> PartnerIdMjestaPartneraNavigation { get; } = new List<Partner>();
+    public virtual ICollection<Partner> PartnerIdMjestaPartneraNavigation { get; set; } = new List<Partner>();
 }

@@ -20,7 +20,7 @@ namespace GraphQLServer.SetupGraphQL
       return item;
     }
 
-    public async Task<City> UpdateCity([Service] FirmContext ctx, int id, CityInput input)
+    public async Task<City?> UpdateCity([Service] FirmContext ctx, int id, CityInput input)
     {
       var item = await ctx.Cities.FindAsync(id);
       if (item != null)

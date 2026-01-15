@@ -1,11 +1,6 @@
-﻿namespace WebApi.Models.JTable
-{
-  public class CreateResult : JTableAjaxResult
-  {
-    public CreateResult(object record) : base()
-    {
-      Record = record;
-    }    
-    public object Record { get; set; }
-  }
+﻿namespace WebApi.Models.JTable;
+
+public class CreateResult(object record) : JTableAjaxResult
+{ 
+  public object Record { get; set; } = record;
 }

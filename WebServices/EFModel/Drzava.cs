@@ -21,5 +21,5 @@ public partial class Drzava
 
     public int? SifDrzave { get; set; }
 
-    public virtual ICollection<Mjesto> Mjesto { get; } = new List<Mjesto>();
+    public virtual ICollection<Mjesto> Mjesto { get; set; } = new List<Mjesto>();
 }

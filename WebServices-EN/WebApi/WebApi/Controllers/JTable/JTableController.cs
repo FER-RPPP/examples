@@ -2,7 +2,7 @@
 using WebApi.Util.Extensions;
 using WebApi.Models;
 using WebApi.Models.JTable;
-using WebServices.Util.ExceptionFilters;
+using WebApi.Util.ExceptionFilters;
 
 namespace WebApi.Controllers.JTable;
 

@@ -38,22 +38,26 @@ public partial class FirmaContext : DbContext
                 .IsClustered(false);
 
             entity.Property(e => e.SifArtikla)
-                .ValueGeneratedNever()
-                .HasComment("Šifra artikla");
+                .HasComment("Šifra artikla")
+                .HasAnnotation("Relational:DefaultConstraintName", "df_Artikl_SifArtikla");
             entity.Property(e => e.CijArtikla)
                 .HasComment("Cijena artikla")
+                .HasAnnotation("Relational:DefaultConstraintName", "df_Artikl_CijArtikla")
                 .HasColumnType("money");
             entity.Property(e => e.JedMjere)
                 .IsRequired()
                 .HasMaxLength(5)
-                .HasDefaultValueSql("('kom')")
-                .HasComment("Jedinica mjere");
+                .HasDefaultValue("kom")
+                .HasComment("Jedinica mjere")
+                .HasAnnotation("Relational:DefaultConstraintName", "df_Artikl_JedMjere");
             entity.Property(e => e.NazArtikla)
                 .IsRequired()
                 .HasMaxLength(255)
                 .HasComment("Naziv artikla");
             entity.Property(e => e.SlikaChecksum).HasComputedColumnSql("(checksum([SlikaArtikla]))", false);
-            entity.Property(e => e.ZastUsluga).HasComment("Check box, usluge nemaju sliku");
+            entity.Property(e => e.ZastUsluga)
+                .HasComment("Check box, usluge nemaju sliku")
+                .HasAnnotation("Relational:DefaultConstraintName", "df_Artikl_ZastUsluga");
         });
 
         modelBuilder.Entity<Dokument>(entity =>
@@ -63,7 +67,9 @@ public partial class FirmaContext : DbContext
                 .IsClustered(false);
 
             entity.Property(e => e.IdDokumenta).HasComment("Identifikator dokumenta");
-            entity.Property(e => e.BrDokumenta).HasComment("Broj dokumenta");
+            entity.Property(e => e.BrDokumenta)
+                .HasComment("Broj dokumenta")
+                .HasAnnotation("Relational:DefaultConstraintName", "df_Dokument_BrDokumenta");
             entity.Property(e => e.DatDokumenta)
                 .HasComment("Datum dokumenta")
                 .HasColumnType("datetime");
@@ -71,9 +77,11 @@ public partial class FirmaContext : DbContext
             entity.Property(e => e.IdPrethDokumenta).HasComment("Prethodni dokument");
             entity.Property(e => e.IznosDokumenta)
                 .HasComment("Ukupno stavke s porezom")
+                .HasAnnotation("Relational:DefaultConstraintName", "df_Dokument__IznosDokumenta")
                 .HasColumnType("money");
             entity.Property(e => e.PostoPorez)
                 .HasComment("Postotak poreza")
+                .HasAnnotation("Relational:DefaultConstraintName", "df_Dokument__PostoPorez")
                 .HasColumnType("decimal(4, 2)");
             entity.Property(e => e.VrDokumenta)
                 .IsRequired()
@@ -108,7 +116,9 @@ public partial class FirmaContext : DbContext
                 .IsRequired()
                 .HasMaxLength(255)
                 .HasComment("Naziv države");
-            entity.Property(e => e.SifDrzave).HasDefaultValueSql("((0))");
+            entity.Property(e => e.SifDrzave)
+                .HasDefaultValue(0)
+                .HasAnnotation("Relational:DefaultConstraintName", "df_Drzava_SifDrzave");
         });
 
         modelBuilder.Entity<Mjesto>(entity =>
@@ -205,14 +215,18 @@ public partial class FirmaContext : DbContext
             entity.Property(e => e.IdDokumenta).HasComment("Identifikator dokumenta");
             entity.Property(e => e.JedCijArtikla)
                 .HasComment("Cijena jediničnog artikla bez poreza. Inicijalno cijena iz tablice Artikl")
+                .HasAnnotation("Relational:DefaultConstraintName", "df_Stavka_JedCijArtikla")
                 .HasColumnType("money");
             entity.Property(e => e.KolArtikla)
                 .HasComment("Količina artikla (za pojedine jedinice mjere može biti decimalni broj)")
                 .HasColumnType("decimal(18, 5)");
             entity.Property(e => e.PostoRabat)
                 .HasComment("Postotak popusta za pojedinu stavku")
+                .HasAnnotation("Relational:DefaultConstraintName", "df_Stavka_PostoRabat")
                 .HasColumnType("decimal(4, 2)");
-            entity.Property(e => e.SifArtikla).HasComment("Šifra artikla");
+            entity.Property(e => e.SifArtikla)
+                .HasComment("Šifra artikla")
+                .HasAnnotation("Relational:DefaultConstraintName", "df_Stavka_SifArtikla");
 
             entity.HasOne(d => d.IdDokumentaNavigation).WithMany(p => p.Stavka)
                 .HasForeignKey(d => d.IdDokumenta)
