@@ -8,7 +8,7 @@ namespace StronglyTypedClient
 {
   class Program
   {
-    const string url = "https://localhost:44377";
+    const string url = "https://localhost:7295";
     static async Task Main(string[] args)
     {
       using var httpClient = new HttpClient();

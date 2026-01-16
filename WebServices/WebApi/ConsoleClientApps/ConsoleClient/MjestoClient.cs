@@ -2,7 +2,7 @@
 
 class MjestoClient
 {
-  const string url = "https://localhost:7295/cities";
+  const string url = "https://localhost:7295/mjesto";
 
   public static async Task AzurirajMjesto(int id, int pbr, string naziv, string oznDrzave)
   {
