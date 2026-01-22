@@ -1,6 +1,5 @@
-﻿namespace CommandQueryCore
+﻿namespace CommandQueryCore;
+
+public interface IQuery<TResult>
 {
-  public interface IQuery<TResult>
-  {
-  }  
-}
+}  

@@ -1,6 +1,5 @@
-﻿namespace Contract.Queries
+﻿namespace Contract.Queries;
+
+public class DrzaveLookupQuery : LookupQuery<string>
 {
-  public class DrzaveLookupQuery : LookupQuery<string>
-  {
-  }
 }

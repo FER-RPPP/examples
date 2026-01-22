@@ -1,9 +1,8 @@
 ﻿using CommandQueryCore;
 using Contract.Queries;
 
-namespace Contract.QueryHandlers
+namespace Contract.QueryHandlers;
+
+public interface IMjestoCountQueryHandler : IQueryHandler<MjestoCountQuery, int>
 {
-  public interface IMjestoCountQueryHandler : IQueryHandler<MjestoCountQuery, int>
-  {
-  }
 }

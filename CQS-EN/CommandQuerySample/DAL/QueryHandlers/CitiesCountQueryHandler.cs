@@ -5,26 +5,25 @@ using Microsoft.EntityFrameworkCore;
 using System.Linq;
 using System.Threading.Tasks;
 
-namespace DAL.QueryHandlers
+namespace DAL.QueryHandlers;
+
+public class CitiesCountQueryHandler : ICitiesCountQueryHandler
 {
-  public class CitiesCountQueryHandler : ICitiesCountQueryHandler
+  private readonly FirmContext ctx;
+
+  public CitiesCountQueryHandler(FirmContext ctx)
   {
-    private readonly FirmContext ctx;
+    this.ctx = ctx;
+  }
 
-    public CitiesCountQueryHandler(FirmContext ctx)
+  public async Task<int> Handle(CitiesCountQuery query)
+  {
+    var dbQuery = ctx.Cities.AsQueryable();
+    if (!string.IsNullOrWhiteSpace(query.SearchText))
     {
-      this.ctx = ctx;
+      dbQuery = dbQuery.Where(m => m.CityName.Contains(query.SearchText));
     }
-
-    public async Task<int> Handle(CitiesCountQuery query)
-    {
-      var dbQuery = ctx.Cities.AsQueryable();
-      if (!string.IsNullOrWhiteSpace(query.SearchText))
-      {
-        dbQuery = dbQuery.Where(m => m.CityName.Contains(query.SearchText));
-      }
-      int count = await dbQuery.CountAsync();
-      return count;
-    }
+    int count = await dbQuery.CountAsync();
+    return count;
   }
 }

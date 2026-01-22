@@ -1,12 +1,11 @@
 ﻿using CommandQueryCore;
 using System.Collections.Generic;
 
-namespace Contract.Queries
+namespace Contract.Queries;
+
+public class SearchCitiesQuery : IQuery<List<DTOs.City>>
 {
-  public class SearchCitiesQuery : IQuery<IEnumerable<DTOs.City>>
-  {
-    public int? PostalCode { get; set; }
-    public string CountryCode { get; set; }
-    public string CityName { get; set; }
-  }
+  public int? PostalCode { get; set; }
+  public string? CountryCode { get; set; }
+  public string? CityName { get; set; }
 }

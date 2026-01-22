@@ -2,9 +2,8 @@
 using Contract.DTOs;
 using Contract.Queries;
 
-namespace Contract.QueryHandlers
+namespace Contract.QueryHandlers;
+
+public interface IMjestoQueryHandler : IQueryHandler<MjestoQuery, Mjesto?>
 {
-  public interface IMjestoQueryHandler : IQueryHandler<MjestoQuery, Mjesto>
-  {
-  }
 }

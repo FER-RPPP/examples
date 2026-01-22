@@ -1,10 +1,6 @@
 ﻿using CommandQueryCore;
 using Contract.DTOs;
 
-namespace Contract.Queries
-{
-  public class CityQuery : IQuery<City>
-  {
-    public int Id { get; set; }
-  }
-}
+namespace Contract.Queries;
+
+public record CityQuery(int Id) : IQuery<City?>;

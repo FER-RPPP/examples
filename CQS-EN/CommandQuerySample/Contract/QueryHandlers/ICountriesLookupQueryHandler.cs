@@ -3,9 +3,8 @@ using Contract.DTOs;
 using Contract.Queries;
 using System.Collections.Generic;
 
-namespace Contract.QueryHandlers
+namespace Contract.QueryHandlers;
+
+public interface ICountriesLookupQueryHandler : IQueryHandler<CountriesLookupQuery, List<TextValue<string>>>
 {
-  public interface ICountriesLookupQueryHandler : IQueryHandler<CountriesLookupQuery, IEnumerable<TextValue<string>>>
-  {
-  }
 }

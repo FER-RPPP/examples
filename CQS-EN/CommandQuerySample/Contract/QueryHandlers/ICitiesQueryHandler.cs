@@ -2,9 +2,8 @@
 using Contract.Queries;
 using System.Collections.Generic;
 
-namespace Contract.QueryHandlers
+namespace Contract.QueryHandlers;
+
+public interface ICitiesQueryHandler : IQueryHandler<CitiesQuery, List<DTOs.City>>
 {
-  public interface ICitiesQueryHandler : IQueryHandler<CitiesQuery, List<DTOs.City>>
-  {
-  }
 }

@@ -1,7 +1,6 @@
-﻿namespace Contract.Commands
+﻿namespace Contract.Commands;
+
+public class UpdateCity(int cityId) : AddCity
 {
-  public class UpdateCity : AddCity
-  {
-    public int CityId { get; set; }    
-  }
+  public int CityId { get; set; } = cityId;
 }

@@ -1,12 +1,11 @@
-﻿namespace Contract.Commands
+﻿namespace Contract.Commands;
+
+public class AddMjesto
 {
-  public class AddMjesto
-  {
-    public string NazivMjesta { get; set; }
+  public required string NazivMjesta { get; set; }
 
-    public int PostBrojMjesta { get; set; }
+  public int PostBrojMjesta { get; set; }
 
-    public string OznDrzave { get; set; }
-    public string PostNazivMjesta { get; set; }
-  }
+  public required string OznDrzave { get; set; }
+  public string? PostNazivMjesta { get; set; }
 }

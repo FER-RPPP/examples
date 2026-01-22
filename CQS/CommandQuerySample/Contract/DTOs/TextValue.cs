@@ -1,8 +1,7 @@
-﻿namespace Contract.DTOs
+﻿namespace Contract.DTOs;
+
+public class TextValue<V>
 {
-  public class TextValue<V>
-  {
-    public V Value { get; set; }
-    public string Text { get; set; }    
-  }
+  public required V Value { get; set; }
+  public required string Text { get; set; }
 }

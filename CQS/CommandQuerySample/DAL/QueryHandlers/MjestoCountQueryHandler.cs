@@ -5,26 +5,25 @@ using Microsoft.EntityFrameworkCore;
 using System.Linq;
 using System.Threading.Tasks;
 
-namespace DAL.QueryHandlers
+namespace DAL.QueryHandlers;
+
+public class MjestoCountQueryHandler : IMjestoCountQueryHandler
 {
-  public class MjestoCountQueryHandler : IMjestoCountQueryHandler
+  private readonly FirmaContext ctx;
+
+  public MjestoCountQueryHandler(FirmaContext ctx)
   {
-    private readonly FirmaContext ctx;
+    this.ctx = ctx;
+  }
 
-    public MjestoCountQueryHandler(FirmaContext ctx)
+  public async Task<int> Handle(MjestoCountQuery query)
+  {
+    var dbQuery = ctx.Mjesto.AsQueryable();
+    if (!string.IsNullOrWhiteSpace(query.SearchText))
     {
-      this.ctx = ctx;
+      dbQuery = dbQuery.Where(m => m.NazMjesta.Contains(query.SearchText));
     }
-
-    public async Task<int> Handle(MjestoCountQuery query)
-    {
-      var dbQuery = ctx.Mjesto.AsQueryable();
-      if (!string.IsNullOrWhiteSpace(query.SearchText))
-      {
-        dbQuery = dbQuery.Where(m => m.NazMjesta.Contains(query.SearchText));
-      }
-      int count = await dbQuery.CountAsync();
-      return count;
-    }
+    int count = await dbQuery.CountAsync();
+    return count;
   }
 }

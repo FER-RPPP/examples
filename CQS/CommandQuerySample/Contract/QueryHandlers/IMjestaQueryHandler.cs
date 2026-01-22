@@ -2,9 +2,8 @@
 using Contract.Queries;
 using System.Collections.Generic;
 
-namespace Contract.QueryHandlers
+namespace Contract.QueryHandlers;
+
+public interface IMjestaQueryHandler : IQueryHandler<MjestaQuery, List<DTOs.Mjesto>>
 {
-  public interface IMjestaQueryHandler : IQueryHandler<MjestaQuery, IEnumerable<DTOs.Mjesto>>
-  {
-  }
 }

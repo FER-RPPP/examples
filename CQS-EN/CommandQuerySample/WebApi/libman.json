@@ -11,7 +11,7 @@
       "destination": "wwwroot/lib/jqueryui/"
     },
     {
-      "provider": "unpkg",
+      "provider": "jsdelivr",
       "library": "jtable@2.6.0",
       "destination": "wwwroot/lib/jtable/"
     }

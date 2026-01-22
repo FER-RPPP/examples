@@ -3,9 +3,8 @@ using Contract.DTOs;
 using Contract.Queries;
 using System.Collections.Generic;
 
-namespace Contract.QueryHandlers
+namespace Contract.QueryHandlers;
+
+public interface IDrzaveLookupQueryHandler : IQueryHandler<DrzaveLookupQuery, List<TextValue<string>>>
 {
-  public interface IDrzaveLookupQueryHandler : IQueryHandler<DrzaveLookupQuery, IEnumerable<TextValue<string>>>
-  {
-  }
 }

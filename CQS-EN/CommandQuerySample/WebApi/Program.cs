@@ -1,16 +1,16 @@
+using System.Reflection;
 using CommandQueryCore;
 using Contract.CommandHandlers;
 using Contract.Commands;
 using Contract.Queries;
 using Contract.QueryHandlers;
+using Contract.Validation.CommandValidators;
 using DAL.CommandHandlers;
 using DAL.Models;
 using DAL.QueryHandlers;
 using FluentValidation;
-using FluentValidation.AspNetCore;
 using Microsoft.EntityFrameworkCore;
-using Microsoft.OpenApi.Models;
-using System.Reflection;
+using Microsoft.OpenApi;
 using WebApi;
 using WebApi.Controllers;
 using WebApi.Util;
@@ -25,13 +25,11 @@ builder.Services
        .AddJsonOptions(configure => configure.JsonSerializerOptions.PropertyNamingPolicy = null);
 
 builder.Services
-       .AddFluentValidationAutoValidation()       
-       .AddValidatorsFromAssemblyContaining<Contract.DTOs.City>();
+       .AddValidatorsFromAssemblyContaining<AddCityValidator>();
 
 builder.Services.AddDbContext<FirmContext>(options => options.UseSqlServer(builder.Configuration.GetConnectionString("Firm")));
 builder.Services.AddTransient<CitiesController>();
 
-builder.Services.AddEndpointsApiExplorer();
 builder.Services.AddSwaggerGen(c =>
 {
   c.SwaggerDoc(Constants.ApiVersion, new OpenApiInfo
@@ -44,14 +42,14 @@ builder.Services.AddSwaggerGen(c =>
   c.IncludeXmlComments(xmlPath);
 });
 
-builder.Services.AddAutoMapper(typeof(ApiModelsMappingProfile));
+builder.Services.AddAutoMapper(cfg => { }, typeof(ApiModelsMappingProfile));
 
 #region Register handlers
 builder.Services.AddTransient<ICitiesQueryHandler, CitiesQueryHandler>();
 builder.Services.AddTransient<ICityQueryHandler, CityQueryHandler>();
 builder.Services.AddTransient<ICitiesCountQueryHandler, CitiesCountQueryHandler>();
 
-builder.Services.AddTransient<IQueryHandler<SearchCitiesQuery, IEnumerable<Contract.DTOs.City>>, SearchCitiesQueryHandler>();
+builder.Services.AddTransient<IQueryHandler<SearchCitiesQuery, List<Contract.DTOs.City>>, SearchCitiesQueryHandler>();
 
 builder.Services.AddTransient<ICommandHandler<DeleteCity>, CityCommandHandlers>();
 

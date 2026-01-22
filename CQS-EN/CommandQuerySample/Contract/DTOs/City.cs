@@ -1,12 +1,13 @@
-﻿namespace Contract.DTOs
+﻿using System.ComponentModel.DataAnnotations;
+
+namespace Contract.DTOs;
+
+public class City
 {
-  public class City
-  {
-    public int CityId { get; set; }
-    public int PostalCode { get; set; }
-    public string CityName { get; set; }
-    public string PostalName { get; set; }
-    public string CountryCode { get; set; }
-    public string CountryName { get; set; }
-  }
+  public int CityId { get; set; }
+  [Range(10, 90000)] public int PostalCode { get; set; }
+  [Required] public required string CityName { get; set; }
+  public string? PostalName { get; set; }
+  [Required] public required string CountryCode { get; set; }
+  public string CountryName { get; set; } = string.Empty;
 }

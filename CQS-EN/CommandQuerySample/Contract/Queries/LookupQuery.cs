@@ -2,10 +2,9 @@
 using Contract.DTOs;
 using System.Collections.Generic;
 
-namespace Contract.Queries
+namespace Contract.Queries;
+
+public abstract class LookupQuery<V> : IQuery<List<TextValue<V>>>
 {
-  public abstract class LookupQuery<V> : IQuery<IEnumerable<TextValue<V>>>
-  {
-      
-  }  
-}
+    
+}  

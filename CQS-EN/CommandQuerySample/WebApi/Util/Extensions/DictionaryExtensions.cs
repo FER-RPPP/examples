@@ -2,9 +2,7 @@
 
 public static class DictionaryExtensions
 {
-  public static TValue GetOrCreate<TKey, TValue>(this Dictionary<TKey, TValue> dict, TKey key) 
-    where TValue : new() 
-    where TKey : notnull
+  public static TValue GetOrCreate<TKey, TValue>(this Dictionary<TKey, TValue> dict, TKey key) where TValue : new() where TKey : notnull  
   {
     if (!dict.ContainsKey(key))
     {
@@ -16,5 +14,7 @@ public static class DictionaryExtensions
     {
       return dict[key];
     }	
-  }  
+  }
+
+  
 }
