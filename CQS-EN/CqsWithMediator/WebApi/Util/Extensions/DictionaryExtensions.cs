@@ -1,22 +1,23 @@
-﻿namespace WebApi.Util.Extensions;
+﻿using System.Collections.Generic;
 
-public static class DictionaryExtensions
+namespace WebApi.Util.Extensions
 {
-  public static TValue GetOrCreate<TKey, TValue>(this Dictionary<TKey, TValue> dict, TKey key) 
-    where TValue : new()
-    where TKey: notnull
+  public static class DictionaryExtensions
   {
-    if (!dict.ContainsKey(key))
+    public static TValue GetOrCreate<TKey, TValue>(this Dictionary<TKey, TValue> dict, TKey key) where TValue : new() where TKey : notnull
     {
-      var item = new TValue();
-      dict[key] = item;
-      return item;
+      if (!dict.ContainsKey(key))
+      {
+        var item = new TValue();
+        dict[key] = item;
+        return item;
+      }
+      else
+      {
+        return dict[key];
+      }	
     }
-    else
-    {
-      return dict[key];
-    }	
-  }
 
-  
+    
+  }
 }

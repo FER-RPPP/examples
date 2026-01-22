@@ -505,3 +505,5 @@ typings/
 # exceptions needed to keep same port everywhere
 !WebServices-EN/**/Properties/launchSettings.json
 !WebServices/**/Properties/launchSettings.json
+!CQS-EN/**/Properties/launchSettings.json
+!CQS/**/Properties/launchSettings.json

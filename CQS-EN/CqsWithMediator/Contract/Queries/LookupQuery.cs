@@ -2,10 +2,9 @@
 using MediatR;
 using System.Collections.Generic;
 
-namespace Contract.Queries
+namespace Contract.Queries;
+
+public abstract class LookupQuery<V> : IRequest<IEnumerable<TextValue<V>>>
 {
-  public abstract class LookupQuery<V> : IRequest<IEnumerable<TextValue<V>>>
-  {
-      
-  }  
-}
+    
+}  

@@ -1,6 +1,5 @@
-﻿namespace Contract.Queries
+﻿namespace Contract.Queries;
+
+public class CountriesLookupQuery : LookupQuery<string>
 {
-  public class CountriesLookupQuery : LookupQuery<string>
-  {
-  }
 }

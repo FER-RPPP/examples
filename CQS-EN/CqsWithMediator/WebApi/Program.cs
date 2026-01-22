@@ -1,13 +1,12 @@
-using AutoMapper;
+using System.Reflection;
 using Contract;
 using Contract.Validation;
+using Contract.Validation.CommandValidators;
 using DAL.Models;
 using FluentValidation;
-using FluentValidation.AspNetCore;
 using MediatR;
 using Microsoft.EntityFrameworkCore;
-using Microsoft.OpenApi.Models;
-using System.Reflection;
+using Microsoft.OpenApi;
 using WebApi;
 using WebApi.Controllers;
 using WebApi.Util;
@@ -21,9 +20,8 @@ builder.Services
        .AddControllers()
        .AddJsonOptions(configure => configure.JsonSerializerOptions.PropertyNamingPolicy = null);
 
-builder.Services
-       .AddFluentValidationAutoValidation()       
-       .AddValidatorsFromAssemblyContaining<Contract.DTOs.City>();
+builder.Services  
+       .AddValidatorsFromAssemblyContaining<AddCityValidator>();
 
 builder.Services.AddDbContext<FirmContext>(options => options.UseSqlServer(builder.Configuration.GetConnectionString("Firm")));
 builder.Services.AddTransient<CitiesController>();
@@ -41,11 +39,12 @@ builder.Services.AddSwaggerGen(c =>
   c.IncludeXmlComments(xmlPath);
 });
 
-builder.Services.AddAutoMapper(typeof(ApiModelsMappingProfile));
+builder.Services.AddAutoMapper(cfg => { }, typeof(ApiModelsMappingProfile));
 
 #region Register handlers
 builder.Services.AddMediatR(cfg => cfg.RegisterServicesFromAssemblyContaining<DAL.CommandHandlers.CitiesCommandHandler>());
 builder.Services.AddTransient(typeof(IPipelineBehavior<,>), typeof(ValidationPipeline<,>));
+builder.Services.AddTransient(typeof(IPipelineBehavior<,>), typeof(PrintPipeline<,>));
 #endregion
 
 #endregion

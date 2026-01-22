@@ -38,10 +38,7 @@ namespace WebApi.Controllers
     [HttpGet("count", Name = "CitiesNumber")]
     public async Task<int> Count([FromQuery] string filter)
     {
-      var query = new CitiesCountQuery()
-      {
-        SearchText = filter
-      };
+      var query = new CitiesCountQuery(filter);
       int count = await mediator.Send(query);
       return count;
     }
@@ -81,10 +78,7 @@ namespace WebApi.Controllers
     [ProducesResponseType(StatusCodes.Status404NotFound)]
     public async Task<ActionResult<City>> Get(int id)
     {
-      var query = new CityQuery
-      {
-        Id = id
-      };
+      var query = new CityQuery(id);
       var city = await mediator.Send(query);
       if (city == null)
       {
@@ -109,10 +103,7 @@ namespace WebApi.Controllers
     [ProducesResponseType(StatusCodes.Status404NotFound)]
     public async Task<IActionResult> Delete(int id)
     {
-      var city = await mediator.Send(new CityQuery
-      {
-        Id = id
-      });
+      var city = await mediator.Send(new CityQuery(id));
 
       if (city == null)
       {
@@ -143,10 +134,7 @@ namespace WebApi.Controllers
       }
       else
       {
-        var city = await mediator.Send(new CityQuery
-        {
-          Id = id
-        });
+        var city = await mediator.Send(new CityQuery(id));
         if (city == null)
         {
           return Problem(statusCode: StatusCodes.Status404NotFound, detail: $"Invalid id = {id}");
@@ -172,10 +160,7 @@ namespace WebApi.Controllers
       AddCity command = mapper.Map<AddCity>(model);
       int id = await mediator.Send(command);
 
-      var addedItem = await mediator.Send(new CityQuery
-      {
-        Id = id
-      });
+      var addedItem = await mediator.Send(new CityQuery(id));
 
       return CreatedAtAction(nameof(Get), new { id }, addedItem);
     }
