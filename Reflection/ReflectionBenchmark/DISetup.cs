@@ -22,6 +22,7 @@ namespace ReflectionBenchmark
                                 configure.AddConfiguration(configuration.GetSection("Logging"));
                                 configure.AddConsole();
                               })
+                              .AddSingleton<IConfiguration>(configuration)
                               .AddDbContext<FirmContext>(options => {
                                 options.UseSqlServer(configuration.GetConnectionString("Firm"));
                               }, contextLifetime: ServiceLifetime.Transient)

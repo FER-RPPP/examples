@@ -23,9 +23,9 @@ public partial class Document
 
     public decimal Amount { get; set; }
 
-    public virtual ICollection<Document> InversePreviousDocument { get; } = new List<Document>();
+    public virtual ICollection<Document> InversePreviousDocument { get; set; } = new List<Document>();
 
-    public virtual ICollection<Item> Items { get; } = new List<Item>();
+    public virtual ICollection<Item> Items { get; set; } = new List<Item>();
 
     public virtual Partner Partner { get; set; }
 

@@ -60,7 +60,24 @@ BenchmarkDotNet v0.13.11, Windows 11 (10.0.22621.2861/22H2/2022Update/SunValley2
 | MapWithAutoMapper | 10       | 424.24 ns |  6.710 ns | 5.603 ns |  5.26 |    0.08 |
 
 
+
+BenchmarkDotNet v0.14.0, Windows 11 (10.0.22631.4460/23H2/2023Update/SunValley3)
+13th Gen Intel Core i5-1340P, 1 CPU, 16 logical and 12 physical cores
+.NET SDK 8.0.404
+  [Host]     : .NET 8.0.11 (8.0.1124.51707), X64 RyuJIT AVX2
+  DefaultJob : .NET 8.0.11 (8.0.1124.51707), X64 RyuJIT AVX2
+
+
+| Method            | ListSize | Mean      | Error    | StdDev   | Ratio | RatioSD |
+|------------------ |--------- |----------:|---------:|---------:|------:|--------:|
+| MapForeach        | 10       |  78.10 ns | 0.764 ns | 0.715 ns |  1.00 |    0.01 |
+| MapLinq           | 10       | 108.61 ns | 0.945 ns | 0.838 ns |  1.39 |    0.02 |
+| MapWithReflection | 10       | 641.86 ns | 6.721 ns | 6.287 ns |  8.22 |    0.11 |
+| MapWithAutoMapper | 10       | 418.63 ns | 2.366 ns | 2.098 ns |  5.36 |    0.05 |
+
+
 --------------------------
+Database in local container:
 
   BenchmarkDotNet v0.13.11, Windows 11 (10.0.22621.2861/22H2/2022Update/SunValley2)
 13th Gen Intel Core i5-1340P, 1 CPU, 16 logical and 12 physical cores
@@ -86,3 +103,42 @@ BenchmarkDotNet v0.13.11, Windows 11 (10.0.22621.2861/22H2/2022Update/SunValley2
 |-------------- |---- |---------:|----------:|----------:|------:|--------:|
 | MapManually   | 10  | 3.283 ms | 0.3443 ms | 1.0044 ms |  1.00 |    0.00 |
 | MapAutoMapper | 10  | 2.824 ms | 0.3019 ms | 0.8757 ms |  0.95 |    0.43 |
+
+BenchmarkDotNet v0.14.0, Windows 11 (10.0.22631.4460/23H2/2023Update/SunValley3)
+13th Gen Intel Core i5-1340P, 1 CPU, 16 logical and 12 physical cores
+.NET SDK 8.0.404
+  [Host]     : .NET 8.0.11 (8.0.1124.51707), X64 RyuJIT AVX2
+  DefaultJob : .NET 8.0.11 (8.0.1124.51707), X64 RyuJIT AVX2
+
+
+| Method        | Top | Mean     | Error     | StdDev    | Ratio | RatioSD |
+|-------------- |---- |---------:|----------:|----------:|------:|--------:|
+| MapManually   | 10  | 1.143 ms | 0.0227 ms | 0.0651 ms |  1.00 |    0.08 |
+| MapAutoMapper | 10  | 1.077 ms | 0.0213 ms | 0.0351 ms |  0.95 |    0.06 |
+
+
+
+BenchmarkDotNet v0.14.0, Windows 11 (10.0.26200.7171)
+13th Gen Intel Core i5-1340P, 1 CPU, 16 logical and 12 physical cores
+.NET SDK 9.0.308
+  [Host]     : .NET 8.0.22 (8.0.2225.52707), X64 RyuJIT AVX2
+  DefaultJob : .NET 8.0.22 (8.0.2225.52707), X64 RyuJIT AVX2
+
+
+| Method        | Top   | Mean       | Error    | StdDev    | Median     | Ratio | RatioSD | Gen0    | Gen1   | Allocated | Alloc Ratio |
+|-------------- |------ |-----------:|---------:|----------:|-----------:|------:|--------:|--------:|-------:|----------:|------------:|
+| MapManually   | 1     | 1,562.0 us | 89.21 us | 261.63 us | 1,530.7 us |  1.94 |    0.39 | 11.7188 | 3.9063 |  90.31 KB |       31.23 |
+| AdoNet        | 1     |   818.2 us | 37.96 us | 103.93 us |   802.5 us |  1.01 |    0.17 |       - |      - |   2.89 KB |        1.00 |
+| MapAutoMapper | 1     | 1,258.5 us | 29.91 us |  82.87 us | 1,234.8 us |  1.56 |    0.20 | 13.6719 | 3.9063 |  88.38 KB |       30.57 |
+|               |       |            |          |           |            |       |         |         |        |           |             |
+| MapManually   | 10    | 1,313.9 us | 48.35 us | 132.35 us | 1,294.8 us |  1.65 |    0.18 | 11.7188 | 3.9063 |   93.7 KB |       19.69 |
+| AdoNet        | 10    |   796.4 us | 15.77 us |  39.57 us |   788.2 us |  1.00 |    0.07 |       - |      - |   4.76 KB |        1.00 |
+| MapAutoMapper | 10    | 1,335.9 us | 44.21 us | 122.50 us | 1,317.6 us |  1.68 |    0.17 | 11.7188 | 3.9063 |  92.04 KB |       19.34 |
+|               |       |            |          |           |            |       |         |         |        |           |             |
+| MapManually   | 1000  | 1,750.7 us | 66.48 us | 186.41 us | 1,716.0 us |  1.27 |    0.15 | 23.4375 | 3.9063 | 157.96 KB |        4.15 |
+| AdoNet        | 1000  | 1,387.4 us | 30.22 us |  82.72 us | 1,374.0 us |  1.00 |    0.08 |  5.8594 |      - |  38.09 KB |        1.00 |
+| MapAutoMapper | 1000  | 1,746.5 us | 49.52 us | 134.71 us | 1,729.9 us |  1.26 |    0.12 | 23.4375 | 3.9063 | 156.25 KB |        4.10 |
+|               |       |            |          |           |            |       |         |         |        |           |             |
+| MapManually   | 10000 | 1,750.1 us | 70.01 us | 198.61 us | 1,707.3 us |  1.28 |    0.17 | 23.4375 | 3.9063 | 157.95 KB |        4.15 |
+| AdoNet        | 10000 | 1,374.6 us | 33.90 us |  95.63 us | 1,366.8 us |  1.00 |    0.10 |  5.8594 |      - |  38.09 KB |        1.00 |
+| MapAutoMapper | 10000 | 1,736.7 us | 42.34 us | 116.63 us | 1,726.7 us |  1.27 |    0.12 | 23.4375 | 3.9063 | 156.24 KB |        4.10 |

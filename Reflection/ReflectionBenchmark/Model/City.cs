@@ -19,7 +19,7 @@ public partial class City
 
     public virtual Country CountryCodeNavigation { get; set; }
 
-    public virtual ICollection<Partner> PartnerResidenceCities { get; } = new List<Partner>();
+    public virtual ICollection<Partner> PartnerResidenceCities { get; set; } = new List<Partner>();
 
-    public virtual ICollection<Partner> PartnerShipmentCities { get; } = new List<Partner>();
+    public virtual ICollection<Partner> PartnerShipmentCities { get; set; } = new List<Partner>();
 }

@@ -23,7 +23,7 @@ public partial class Partner
 
     public virtual Company Company { get; set; }
 
-    public virtual ICollection<Document> Documents { get; } = new List<Document>();
+    public virtual ICollection<Document> Documents { get; set; } = new List<Document>();
 
     public virtual Person Person { get; set; }
 

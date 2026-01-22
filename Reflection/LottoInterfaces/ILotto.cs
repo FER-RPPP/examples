@@ -1,9 +1,8 @@
 ﻿using System.Collections.Generic;
 
-namespace LottoInterfaces
+namespace LottoInterfaces;
+
+public interface ILotto
 {
-  public interface ILotto
-  {
-    List<int> DrawNumbers(bool sort);
-  }
+  List<int> DrawNumbers(bool sort);
 }

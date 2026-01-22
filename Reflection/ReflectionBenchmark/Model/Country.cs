@@ -13,5 +13,5 @@ public partial class Country
 
     public string CountryIso3 { get; set; }
 
-    public virtual ICollection<City> Cities { get; } = new List<City>();
+    public virtual ICollection<City> Cities { get; set; } = new List<City>();
 }

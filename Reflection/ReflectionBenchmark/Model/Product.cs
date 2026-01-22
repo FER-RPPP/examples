@@ -23,5 +23,5 @@ public partial class Product
 
     public int? PhotoChecksum { get; set; }
 
-    public virtual ICollection<Item> Items { get; } = new List<Item>();
+    public virtual ICollection<Item> Items { get; set; } = new List<Item>();
 }
