@@ -9,7 +9,7 @@ var builder = WebApplication.CreateBuilder(args);
 
 // add/configure services
 
-builder.Services.AddDbContext<FirmaContext>(options => options.UseSqlServer(builder.Configuration.GetConnectionString("Firm")));
+builder.Services.AddDbContext<FirmaContext>(options => options.UseSqlServer(builder.Configuration.GetConnectionString("Firma")));
 builder.Services.AddGraphQLServer()
                 .ModifyRequestOptions(opt => opt.IncludeExceptionDetails = builder.Environment.IsDevelopment())
                 .ModifyPagingOptions(options =>

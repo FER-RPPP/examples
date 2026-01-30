@@ -8,7 +8,7 @@ namespace ConsoleODataClient;
 
 class Program
 {
-  const string url = "https://localhost:59226/odata";
+  const string url = "https://localhost:59926/odata";
   static async Task Main(string[] args)
   {
     ODataClientSettings settings = new ODataClientSettings(new Uri(url));
@@ -17,9 +17,9 @@ class Program
 
     var client = new ODataClient(settings);
 
-    await DemoTraziMjesta(client);
+    //await DemoTraziMjesta(client);
     await DemoMjesto(client);
-    await DemoDokumenti(client);
+    //await DemoDokumenti(client);
   }
 
   private static async Task DemoTraziMjesta(ODataClient client)
