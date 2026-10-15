@@ -20,11 +20,18 @@ Console.WriteLine("t1 = " + t1);
 Console.WriteLine("t2 = " + t2);
 Console.WriteLine("t3 = " + t3);
 
-Console.WriteLine(t1["A", 1]);
-Console.WriteLine(t1["B", 2]);
-Console.WriteLine(t1["B", 3]);
+Console.WriteLine($"t1[A, 1] = {t1["A", 1]}");
+Console.WriteLine($"t1[B, 2] = {t1["B", 2]}");
+Console.WriteLine($"t1[B, 3] = {t1["B", 3]}");
 
 PrintTriples(t1, t2, t3);
+
+var t4 = new Triple { First = 123, Second = 456 };
+Console.WriteLine("t4 before: " + t4);
+t4["A", 5] = 9;
+Console.WriteLine("t4 after set A pos 5 = 9: " + t4);
+t4["B", 3] = 1;
+Console.WriteLine("t4 after set B pos 3 = 1: " + t4);
 
 void PrintTriples(params Triple[] triples)
 {

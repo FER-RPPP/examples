@@ -28,32 +28,70 @@ public class Triple
   {      
     get
     {        
-      int num;
+      if (position <= 0)
+      {
+        throw new ArgumentException("Position must be a positive integer");
+      }
+      int num = s switch
+      {
+        "A" => this.First,
+        "B" => this.Second,
+        "C" => this.Third,
+        _ => throw new ArgumentException("Invalid position in triple (should be A, B, or C)")
+      };
+      // position is 1-based from the left (1 = most significant digit).
+      string digits = Math.Abs(num).ToString();
+      if (position > digits.Length)
+      {
+        return 0;
+      }
+      return digits[position - 1] - '0';
+    }
+    set
+    {
+      // value should be a digit (0-9), and the position should be a positive integer
+      // Positions are 1-based from the left (1 = most significant digit).
+      // Example: for number 123, position 5 and value 9 -> new number 12309 (zeros appended on the right to reach position)
+      if (position <= 0)
+      {
+        throw new ArgumentException("Position must be a positive integer");
+      }
+      if (value < 0 || value > 9)
+      {
+        throw new ArgumentException("Value must be a digit (0-9)");
+      }
+      // Only A and B can be set; C is derived (First + Second)
       switch (s)
       {
         case "A":
-          num = this.First;
+          this.First = SetDigit(this.First, position, value);
           break;
         case "B":
-          num = this.Second;
+          this.Second = SetDigit(this.Second, position, value);
           break;
         case "C":
-          num = this.Third;
-          break;
+          throw new ArgumentException("Cannot set C because it is a derived value (First + Second)");
         default:
-          throw new ArgumentException("Invalid position in triple (should be A, B, or C)");
+          throw new ArgumentException("Invalid position in triple (should be A or B)");
       }
-      int digit = 0;
-      while(num > 0 && position > 0)
-      {
-        digit = num % 10;
-        num /= 10;
-        position--;
-      }
-      return digit;
     }
   }
   #endregion
+
+  private static int SetDigit(int num, int position, int digit)
+  {
+    // position is 1-based from the left (1 = most significant digit).
+    string sign = num < 0 ? "-" : "";
+    string digits = Math.Abs(num).ToString();
+    if (position > digits.Length)
+    {
+      digits = digits + new string('0', position - digits.Length);
+    }
+    char[] chars = digits.ToCharArray();
+    chars[position - 1] = (char)('0' + digit);
+    string result = new string(chars);
+    return int.Parse(sign + result);
+  }
 
 
   #region Operator overloading

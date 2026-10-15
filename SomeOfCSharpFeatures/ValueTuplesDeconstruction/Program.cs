@@ -1,4 +1,4 @@
-﻿//ValueTuples https://docs.microsoft.com/en-us/dotnet/csharp/fundamentals/functional/deconstruct
+﻿//ValueTuples https://learn.microsoft.com/en-us/dotnet/csharp/fundamentals/patterns/deconstruct
 
 (int a, int b, int _) t1 = CreateRandomTriple();
 Console.WriteLine(t1);

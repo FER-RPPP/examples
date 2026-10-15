@@ -1,0 +1,8 @@
+<Solution>
+  <Project Path="CovarianceContravariance/CovarianceContravariance.csproj" />
+  <Project Path="Delegates/Delegates.csproj" />
+  <Project Path="Extensions/Extensions.csproj" />
+  <Project Path="Inheritance/Inheritance.csproj" />
+  <Project Path="PropertiesIndexersRefOut/PropertiesIndexersRefOut.csproj" />
+  <Project Path="ValueTuplesDeconstruction/ValueTuplesDeconstruction.csproj" />
+</Solution>

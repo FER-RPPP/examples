@@ -2,8 +2,7 @@
 
 public enum Days
 {
-  Monday, Tuesday, Wednesday,
-  Thursday, Friday, Saturday, Sunday
+  Monday, Tuesday, Wednesday, Thursday, Friday, Saturday, Sunday
 }
 
 class Program
