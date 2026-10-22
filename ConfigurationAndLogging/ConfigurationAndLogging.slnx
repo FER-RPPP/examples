@@ -1,0 +1,6 @@
+<Solution>
+  <Project Path="Conditional/Conditional.csproj" />
+  <Project Path="ConsoleHost/ConsoleHost.csproj" />
+  <Project Path="Logging/Logging.csproj" />
+  <Project Path="Secrets/Secrets.csproj" />
+</Solution>

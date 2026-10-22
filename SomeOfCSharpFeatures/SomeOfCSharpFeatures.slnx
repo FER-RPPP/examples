@@ -4,5 +4,6 @@
   <Project Path="Extensions/Extensions.csproj" />
   <Project Path="Inheritance/Inheritance.csproj" />
   <Project Path="PropertiesIndexersRefOut/PropertiesIndexersRefOut.csproj" />
+  <Project Path="Using/Using.csproj" />
   <Project Path="ValueTuplesDeconstruction/ValueTuplesDeconstruction.csproj" />
 </Solution>
