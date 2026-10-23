@@ -16,11 +16,11 @@ public class MathTool
 
   public static void PrintSquare(int x)
   {
-    Console.WriteLine("x^2 = " + x * x);
+    Console.WriteLine($"{x}^2 = " + x * x);
   }
 
   public static void PrintSquareRoot(int x)
   {
-    Console.WriteLine("sqrt(x) = " + Math.Sqrt(x));
+    Console.WriteLine($"sqrt({x}) = " + Math.Sqrt(x));
   }
 }
