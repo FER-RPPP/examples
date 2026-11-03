@@ -91,3 +91,4 @@ Default services:
 ## Troubleshooting
 
 - If the database is not initialized as expected, remove the Docker volume and recreate the container so the init scripts run again
+- Important note: sh files on Windows must be with LF instead of CRLF

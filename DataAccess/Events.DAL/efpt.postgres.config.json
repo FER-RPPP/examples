@@ -5,15 +5,15 @@
    "FilterSchemas": false,
    "IncludeConnectionString": false,
    "IrregularWords": null,
-   "MinimumProductVersion": "2.6.1465",
+   "MinimumProductVersion": "2.6.1777",
    "ModelNamespace": null,
    "OutputContextPath": "Data\/Postgres",
    "OutputPath": "Models",
    "PluralRules": null,
    "PreserveCasingWithRegex": true,
-   "ProjectRootNamespace": "EF_Demo",
+   "ProjectRootNamespace": "Events.DAL",
    "Schemas": null,
-   "SelectedHandlebarsLanguage": 2,
+   "SelectedHandlebarsLanguage": 4,
    "SelectedToBeGenerated": 0,
    "SingularRules": null,
    "T4TemplatePath": null,
@@ -37,12 +37,16 @@
       {
          "Name": "public.sport",
          "ObjectType": 0
+      },
+      {
+         "Name": "public.vw_event_registrations",
+         "ObjectType": 3
       }
    ],
    "UiHint": null,
    "UncountableWords": null,
    "UseAsyncStoredProcedureCalls": true,
-   "UseBoolPropertiesWithoutDefaultSql": false,
+   "UseBoolPropertiesWithoutDefaultSql": true,
    "UseDatabaseNames": false,
    "UseDatabaseNamesForRoutines": true,
    "UseDateOnlyTimeOnly": true,
