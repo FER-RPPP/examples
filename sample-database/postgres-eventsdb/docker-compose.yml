@@ -1,0 +1,33 @@
+services:
+  postgres:
+    image: postgres:18
+    container_name: postgres_db
+    restart: unless-stopped
+
+    env_file:
+      - .env
+
+    environment:
+      # custom variables for init scripts (.sh)
+      APP_DB_USER: ${APP_DB_USER}
+      APP_DB_PASSWORD: ${APP_DB_PASSWORD}
+
+    ports:
+      - "${POSTGRES_PORT}:5432"
+
+    volumes:
+      - postgres_data:/var/lib/postgresql
+      - ./backup:/backup
+      #chmod +x init/01-roles.sh on linux?
+      - ./init:/docker-entrypoint-initdb.d
+      
+     # if we need periodic backup 
+     # entrypoint: >
+      # bash -c "while true; do
+        # pg_dump -h postgres -U ${POSTGRES_USER} ${POSTGRES_DB} > /backup/backup_$$(date +%Y%m%d_%H%M%S).sql;
+        # sleep 86400;
+      # done"
+
+
+volumes:
+  postgres_data:

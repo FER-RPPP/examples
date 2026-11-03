@@ -1,0 +1,26 @@
+services:
+  postgres:
+    image: postgres:18
+    container_name: postgres_db_test
+    restart: unless-stopped
+
+    env_file:
+      - .env
+
+    environment:
+      # custom varijable za init skripte (.sh)
+      APP_DB_USER: ${APP_DB_USER}
+      APP_DB_PASSWORD: ${APP_DB_PASSWORD}
+
+    ports:
+      - "${POSTGRES_PORT}:5432"
+
+    volumes:
+      - postgres_data:/var/lib/postgresql
+      - ./backup:/backup
+      #chmod +x init/01-roles.sh na linuxu
+      - ./init:/docker-entrypoint-initdb.d
+      
+
+volumes:
+  postgres_data:

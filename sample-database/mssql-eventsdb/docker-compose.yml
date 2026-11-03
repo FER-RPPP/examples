@@ -1,0 +1,21 @@
+services:
+  mssql:
+    build:
+      context: .
+      dockerfile: Dockerfile
+    container_name: mssql_db
+    restart: unless-stopped
+
+    env_file:
+      - .env
+
+    ports:
+      - "${MSSQL_PORT}:1433"
+
+    volumes:
+      - mssql_data:/var/opt/mssql
+      - ./backup:/var/opt/mssql/backup
+      - ./init:/docker-entrypoint-initdb.d
+
+volumes:
+  mssql_data:

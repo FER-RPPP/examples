@@ -1,0 +1,69 @@
+﻿{
+  "$schema": "https://raw.githubusercontent.com/ErikEJ/EFCorePowerTools/master/samples/efcpt-config.schema.json",
+  "code-generation": {
+    "enable-on-configuring": false,
+    "generate-mermaid-diagram": false,
+    "file-charset": "utf-8-bom",
+    "file-line-endings": "native",
+    "merge-dacpacs": false,
+    "refresh-object-lists": true,
+    "remove-defaultsql-from-bool-properties": false,
+    "soft-delete-obsolete-files": true,
+    "t4-template-path": null,
+    "type": "all",
+    "use-alternate-stored-procedure-resultset-discovery": false,
+    "use-stored-procedure-resultset-fallback": true,
+    "use-data-annotations": false,
+    "use-database-names": false,
+    "use-database-names-for-routines": true,
+    "use-decimal-data-annotation-for-sproc-results": true,
+    "use-inflector": true,
+    "use-internal-access-modifiers-for-sprocs-and-functions": false,
+    "use-legacy-inflector": false,
+    "use-many-to-many-entity": false,
+    "use-max-size-for-string-input-parameters": false,
+    "use-nullable-reference-types": true,
+    "use-prefix-navigation-naming": false,
+    "use-typed-tvp-parameters": true,
+    "use-t4": false,
+    "use-t4-split": true
+  },
+  "file-layout": {
+    "output-dbcontext-path": "Data/MSSQL",
+    "output-path": "Models"
+  },
+  "names": {
+    "dbcontext-name": "EventsContext",
+    "dbcontext-namespace": null,
+    "model-namespace": null,
+    "root-namespace": "Events.DAL"
+  },
+  "tables": [
+    {
+      "name": "[dbo].[Country]"
+    },
+    {
+      "name": "[dbo].[Event]"
+    },
+    {
+      "name": "[dbo].[Person]"
+    },
+    {
+      "name": "[dbo].[Registration]"
+    },
+    {
+      "name": "[dbo].[Sport]"
+    }
+  ],
+  "type-mappings": {
+    "use-DateOnly-TimeOnly": true,
+    "use-HierarchyId": false,
+    "use-NodaTime": false,
+    "use-spatial": false
+  },
+  "views": [
+    {
+      "name": "[dbo].[vw_EventRegistrations]"
+    }
+  ]
+}

@@ -1,0 +1,4 @@
+<Solution>
+  <Project Path="EF_Demo/EF_Demo.csproj" />
+  <Project Path="Events.DAL/Events.DAL.csproj" />
+</Solution>

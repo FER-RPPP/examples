@@ -723,3 +723,7 @@ FodyWeavers.xsd
 #bower and libman wwwroot/lib
 **/wwwroot/lib
 **/logs/internal-nlog.txt
+
+# environment variables
+**/.env.local
+**/.env
