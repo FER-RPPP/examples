@@ -1,0 +1,4 @@
+<Solution>
+  <Project Path="Events.EF/Events.EF.csproj" />
+  <Project Path="Events.WebAPI/Events.WebAPI.csproj" />
+</Solution>
