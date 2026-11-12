@@ -137,7 +137,8 @@ public class RegistrationsController : ControllerBase
     var registration = await ctx.Registrations.FindAsync(id, HttpContext.RequestAborted);
     if (registration == null)
     {
-      return NotFound();
+      //return NotFound();
+      return Problem(statusCode: StatusCodes.Status404NotFound, detail: $"Invalid id = {id}");
     }
     else
     {

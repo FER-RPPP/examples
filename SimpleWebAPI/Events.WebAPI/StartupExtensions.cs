@@ -32,7 +32,7 @@ public static class StartupExtensions
     {
       c.SwaggerDoc(apiVersion, new OpenApiInfo
       {
-        Title = "RPPP Homework API",
+        Title = "RPPP/DoSA Simple Web API",
         Version = apiVersion
       });
       Assembly[] assemblies = { 
@@ -68,13 +68,15 @@ public static class StartupExtensions
     });
 
     app.UseRouting();
-    app.UseCors(builder =>
-    {
-      builder
-       .AllowAnyOrigin()
-       .AllowAnyMethod()
-       .AllowAnyHeader();
-    });
+
+    //set CORS if you want to allow cross-origin requests (e.g. from a different port or domain, from a SPA application, etc.)
+    //app.UseCors(builder =>
+    //{
+    //  builder
+    //   .AllowAnyOrigin()
+    //   .AllowAnyMethod()
+    //   .AllowAnyHeader();
+    //});
 
     app.MapControllers();
 

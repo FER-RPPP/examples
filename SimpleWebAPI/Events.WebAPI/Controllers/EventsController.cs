@@ -128,7 +128,8 @@ public class EventsController : ControllerBase
     var @event = await ctx.Events.FindAsync(id, HttpContext.RequestAborted);
     if (@event == null)
     {
-      return NotFound();
+      //return NotFound();
+      return Problem(statusCode: StatusCodes.Status404NotFound, detail: $"Invalid id = {id}");
     }
     else
     {

@@ -124,7 +124,8 @@ public class SportsController : ControllerBase
     var sport = await ctx.Sports.FindAsync(id, HttpContext.RequestAborted);
     if (sport == null)
     {
-      return NotFound();
+      //return NotFound();
+      return Problem(statusCode: StatusCodes.Status404NotFound, detail: $"Invalid id = {id}");
     }
     else
     {
