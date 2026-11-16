@@ -59,7 +59,10 @@ public static class StartupExtensions
       app.UseDeveloperExceptionPage();
     }
 
-    app.UseSwagger();
+    app.UseSwagger(options =>
+    {
+      options.OpenApiVersion = OpenApiSpecVersion.OpenApi3_2;
+    });
     app.UseSwaggerUI(c =>
     {
       c.RoutePrefix = "docs";

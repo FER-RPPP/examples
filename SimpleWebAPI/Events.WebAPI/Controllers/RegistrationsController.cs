@@ -107,7 +107,7 @@ public class RegistrationsController : ControllerBase
   [ProducesResponseType(StatusCodes.Status404NotFound)]
   public async Task<ActionResult<RegistrationDTO>> Get(int id)
   {   
-    var @registration = await ctx.Registrations                            
+    var registration = await ctx.Registrations                            
                         .Where(m => m.Id == id)
                         .Select(projection)
                         .FirstOrDefaultAsync(HttpContext.RequestAborted);
