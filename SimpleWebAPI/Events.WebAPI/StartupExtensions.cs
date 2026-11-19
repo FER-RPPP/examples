@@ -1,12 +1,13 @@
 using Events.EF.Data;
 using Events.WebAPI.Models;
+using Events.WebAPI.Models.Configuration;
 using FluentValidation;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.OpenApi;
 using Sieve.Models;
 using Sieve.Services;
 using System.Reflection;
-using System.Xml.Linq;
+
 
 namespace Events.WebAPI;
 
@@ -24,6 +25,11 @@ public static class StartupExtensions
 
     builder.Services.Configure<SieveOptions>(builder.Configuration.GetSection("Sieve"));
     builder.Services.AddScoped<ISieveProcessor, SieveProcessor>();
+    
+    builder.Services.AddOptions<EventSettings>()
+                .Bind(builder.Configuration.GetSection(nameof(EventSettings)))
+                .ValidateDataAnnotations() //for complex validation use Validate method or IValidateOptions<EventSettings>
+                .ValidateOnStart();
 
     builder.Services.AddValidatorsFromAssemblyContaining(typeof(RegistrationDTOValidator));
 
