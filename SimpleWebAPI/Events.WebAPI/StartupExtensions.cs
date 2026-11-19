@@ -1,6 +1,7 @@
 using Events.EF.Data;
 using Events.WebAPI.Models;
 using Events.WebAPI.Models.Configuration;
+using Events.WebAPI.Util.Swagger;
 using FluentValidation;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.OpenApi;
@@ -52,6 +53,7 @@ public static class StartupExtensions
         if (File.Exists(xmlPath))
           c.IncludeXmlComments(xmlPath);
       }
+      c.OperationFilter<JsonPatchOperationFilter>(); //RFC 6902 schema and example for JsonPatchDocument<T>
     });
     #endregion
 

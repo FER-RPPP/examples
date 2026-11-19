@@ -165,6 +165,7 @@ public class PeopleController : ControllerBase
   /// <response code="404">if there is no item with sent id, or if a user does not have a permission to update the item</response>
   /// <response code="400">If the patched model is not valid</response>
   [HttpPatch("{id}")]
+  [Consumes("application/json-patch+json")]
   [ProducesResponseType(StatusCodes.Status204NoContent)]
   [ProducesResponseType(StatusCodes.Status404NotFound)]
   [ProducesResponseType(StatusCodes.Status400BadRequest)]
