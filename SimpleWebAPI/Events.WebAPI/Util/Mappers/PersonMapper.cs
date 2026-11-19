@@ -10,7 +10,7 @@ public static partial class PersonMapper
 {   
   [MapPropertyFromSource(nameof(PersonDTO.FullNameTranscription), Use = nameof(MapFullNameTranscription))]
   [MapProperty(nameof(Person.CountryCodeNavigation.Name), nameof(PersonDTO.CountryName))]
-  public static partial PersonDTO PersonToPersonDTO(Person person);
+  public static partial PersonDTO MapToPersonDTO(this Person person);
 
   private static string MapFullNameTranscription(Person person) => person.FirstNameTranscription + " " + person.LastNameTranscription;
 
